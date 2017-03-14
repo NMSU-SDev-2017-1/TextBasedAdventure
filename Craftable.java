@@ -2,7 +2,7 @@ public class Craftable extends Item{
    public String compatableWith;
    //Constructors
    public Craftable(){
-      this.itemName = "":
+      this.itemName = "";
       this.size = 1;
       this.coinValue = 1;
       this.compatableWith = "";
