@@ -59,7 +59,7 @@ public class TestObjects {
                         player.equipment[4] = skeletonSword;
                         System.out.println();
                         System.out.println("You added the Sword. You now have the following items equiped: ");
-                        System.out.println(player.getEquipmentList());
+                        player.getEquipmentList();
                         System.out.println();
                      }
                      else
@@ -105,7 +105,7 @@ public class TestObjects {
                      }
                   }
                   else if(itemOption == 2){
-                     return;
+                     System.out.println();
                   }       
                }
                else if(engagedAction == 3){
@@ -151,7 +151,7 @@ public class TestObjects {
          }
          else if(playerAction == 3){
             System.out.print("You currently have the following items equipped:");
-            System.out.println(player.getEquipmentList());
+            player.getEquipmentList();
          }
          else if(playerAction == 4){
             System.out.println(player.toString());

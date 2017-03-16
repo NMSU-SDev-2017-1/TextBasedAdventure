@@ -64,30 +64,70 @@ public class Character{
       }
       return list;
    }
-   public String getEquipmentList(){
-      String list = "";
+   public void getEquipmentList(){
       String empty = "Empty Slot";
-      for(int i = 0; i < equipment.length ; i++){
+      for(int i = 0; i < equipment.length; i++){
          if(i == 0){
             if(equipment[i] == null)
-               list = list + empty;
-            else 
-               list = equipment[i].getItemName();
+               System.out.println("Head - " + empty);
+            else
+               System.out.println("Head - " + equipment[i].getItemName());
          }
-         else if(i == equipment.length-1){
+         if(i == 1){
             if(equipment[i] == null)
-               list = list + ", " + empty;
-            else 
-               list = list + ", " + equipment[i].getItemName();
+               System.out.println("Torso - " + empty);
+            else
+               System.out.println("Torso - " + equipment[i].getItemName());
          }
-         else{
-           if(equipment[i] == null)
-               list = list + ", " + empty;
-            else 
-               list = list + ", " + equipment[i].getItemName();
+         if(i == 2){
+            if(equipment[i] == null)
+               System.out.println("Arms - " + empty);
+            else
+               System.out.println("Arms - " + equipment[i].getItemName());
+         }     
+         if(i == 3){
+            if(equipment[i] == null)
+               System.out.println("Legs - " + empty);
+            else
+               System.out.println("Legs - " + equipment[i].getItemName());
+         }
+         if(i == 4){
+            if(equipment[i] == null)
+               System.out.println("Primary Weapon - " + empty);
+            else
+               System.out.println("Primary Weapon - " + equipment[i].getItemName());
+         }
+         if(i == 5){
+            if(equipment[i] == null)
+               System.out.println("Secondary Weapon - " + empty);
+            else
+               System.out.println("Secondary Weapon - " + equipment[i].getItemName());
+         }
+         if(i == 6){
+            if(equipment[i] == null)
+               System.out.println("Charm #1 - " + empty);
+            else
+               System.out.println("Charm #1 - " + equipment[i].getItemName());
+         }
+         if(i == 7){
+            if(equipment[i] == null)
+               System.out.println("Charm #2 - " + empty);
+            else
+               System.out.println("Charm #2 - " + equipment[i].getItemName());
+         }
+         if(i == 8){
+            if(equipment[i] == null)
+               System.out.println("Bag - " + "Beginner's Bag");
+            else
+               System.out.println("Bag - " + equipment[i].getItemName());
+         }
+         if(i == 9){
+            if(equipment[i] == null)
+               System.out.println("Wallet - " + "Beginner's Wallet");
+            else
+               System.out.println("Head - " + equipment[i].getItemName());
          }
       }
-      return list;
    }
    //Mutators
    public void setID(String newID){
