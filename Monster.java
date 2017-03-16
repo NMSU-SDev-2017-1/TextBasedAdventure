@@ -1,7 +1,9 @@
 public class Monster
 {
 	private String name;
-	private int hp;
+   //hp changed to public by Greg De La Torre for Demo 1
+	public int hp;
+   //Variable was originally private
 	private int attack;
 	
 	//Constructor
