@@ -38,7 +38,14 @@ public class Monster
 	{
 		this.hp = hp;
 	}
-	
+   
+	//takeDamage Written in by Greg De La Torre for Combat Demo
+   public void takeDamage(int damage){
+      this.hp = hp - damage;
+   }
+   //End takeDamage mutator
+   
+   
 	public void setAttack(int attack)
 	{
 		this.attack = attack;
