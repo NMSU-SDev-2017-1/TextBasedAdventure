@@ -24,7 +24,7 @@ public class TestObjects {
       }
       else
          System.out.println("You chose to leave the bread behind.");
-         System.out.println();
+      System.out.println();
       while(player.healthpoints != 0){
          System.out.println("What is your next action?");
          System.out.println("1. Move");
@@ -50,6 +50,22 @@ public class TestObjects {
                   System.out.println("You deal " + player.getAttack() + " damage.");
                   if(testSkeleton.hp == 0){
                      System.out.println("Your attack destroys the skeleton. It turns to dust, leaving only it's weapon.");
+                     Equipment skeletonSword = new Equipment("Skeleton Sword", 1, 10, 0, 2, 0, 0, 'P');
+                     System.out.println("Do you take the skeleton sword?");
+                     System.out.println("1. Yes");
+                     System.out.println("2. No");
+                     int swordResponse = scan.nextInt();
+                     if(swordResponse == 1){    
+                        player.equipment[4] = skeletonSword;
+                        System.out.println();
+                        System.out.println("You added the Sword. You now have the following items equiped: ");
+                        System.out.println(player.getEquipmentList());
+                        System.out.println();
+                     }
+                     else
+                        System.out.println("You chose to leave the sword behind.");
+                        System.out.println();
+
                      return;
                   }
                   System.out.println("The Skeleton strikes back.");

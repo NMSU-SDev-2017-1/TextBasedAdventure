@@ -65,16 +65,27 @@ public class Character{
       return list;
    }
    public String getEquipmentList(){
-      int i = 0;
       String list = "";
-      while(equipment[i] != null){
-         if(i == 0)
-            list = equipment[i].getItemName();
-         else if(i == equipment.length-1)
-            list = list + equipment[i].getItemName();
-         else 
-            list = list + ", " + equipment[i].getItemName();
-         i++;
+      String empty = "Empty Slot";
+      for(int i = 0; i < equipment.length ; i++){
+         if(i == 0){
+            if(equipment[i] == null)
+               list = list + empty;
+            else 
+               list = equipment[i].getItemName();
+         }
+         else if(i == equipment.length-1){
+            if(equipment[i] == null)
+               list = list + ", " + empty;
+            else 
+               list = list + ", " + equipment[i].getItemName();
+         }
+         else{
+           if(equipment[i] == null)
+               list = list + ", " + empty;
+            else 
+               list = list + ", " + equipment[i].getItemName();
+         }
       }
       return list;
    }
