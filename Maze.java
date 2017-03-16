@@ -1,3 +1,5 @@
+//3/13/2017 - Adjust Nodes to not take input for roomData through their constructor.
+//  This will herald the change to only allow room data to be set through modifier methods.
 import java.util.Scanner;
 
 public class Maze {
@@ -6,6 +8,12 @@ public class Maze {
 private class Node {
    private int[] roomData;
    private int direction;
+   private int X_Axis;
+   private int Y_Axis;
+   private boolean ConstructNorth;
+   private boolean ConstructEast;
+   private boolean ConstructSouth;
+   private boolean ConstructWest;
    private Node north;
    private Node south;
    private Node east;
@@ -18,10 +26,15 @@ private class Node {
       east = newEast;
       west = newWest;
       direction = 1;
+      X_Axis = 50;
+      Y_Axis = 50;
+      ConstructNorth = false;
+      ConstructEast = false;
+      ConstructSouth = false;
+      ConstructWest = false;
    }//End Node constructor
    
 }//End private class
-
    public Maze() {
       entrance = null;
       exit = null;
@@ -31,13 +44,97 @@ private class Node {
       return M.entrance;
    }//End Method getStart
    
-   public static int getDirection(Node C) {
-      return C.direction;
-   }//End Method getDirection
-   
    public static Node getExit(Maze M) {
       return M.exit;
    }//End Method getExit
+   
+   public static int getDirection(Node C) {
+      if(C == null)
+         return -1;
+      return C.direction;
+   }//End Method getDirection
+   
+   public static boolean getConstructionPointNorth(Node C) {
+      return C.ConstructNorth;
+   }//End Method getConstructionPointNorth
+   
+   public static boolean getConstructionPointEast(Node C) {
+      return C.ConstructEast;
+   }//End Method getConstructionPointEast
+   
+   public static boolean getConstructionPointSouth(Node C) {
+      return C.ConstructSouth;
+   }//End Method getConstructionPointSouth
+   
+   public static boolean getConstructionPointWest(Node C) {
+      return C.ConstructSouth;
+   }//End Method getConstructionPointWest
+   
+   public static int getRoomNumber(Node C) {
+      if(C == null)
+         return -1;
+      return C.roomData[0];
+   }//End method getRoomNumber
+   
+   public static int getSpacialCoordinateY(Node C) {
+      if(C == null)
+         return -1;
+      return C.Y_Axis;
+   }//End method getSpacialCoordinatesY
+   
+   public static int getSpacialCoordinateX(Node C) {
+      if(C == null)
+         return -1;
+      return C.X_Axis;
+   }//End method getSpacialCoordinatesX
+   
+   public static int[] getSpacialCoordinates(Node C) {
+      if(C == null)
+         System.exit(0);
+      int SpaceCoordinates [] = new int[2];
+      SpaceCoordinates[0] = getSpacialCoordinateX(C);
+      SpaceCoordinates[1] = getSpacialCoordinateY(C);
+      return SpaceCoordinates;
+   }//End Method getSpacialCoordinates
+   
+   public static void setConstructionPointNorth(Node C, boolean B) {
+      C.ConstructNorth = B;
+   }//End method setConstructionPointNorth
+   
+   public static void setConstructionPointEast(Node C, boolean B) {
+      C.ConstructEast = B;
+   }//End method setConstructionPointEast
+   
+   public static void setConstructionPointSouth(Node C, boolean B) {
+      C.ConstructSouth = B;
+   }//End method setConstructionPointSouth
+   
+   public static void setConstructionPointWest(Node C, boolean B) {
+      C.ConstructWest = B;
+   }//End method setConstructionPointWest
+   
+   public static void SpacialCoordinateModifierY(Node C, int y) {
+      C.Y_Axis = y;
+   }//End method SpacialCoordinateModifierY
+   
+   public static void SpacialCoordinateModifierX(Node C, int x) {
+      C.X_Axis = x;
+   }//End method SpacialCoordinateModifierX
+   
+   //Use this method to change a rooms data.
+   //This method is the ONLY WAY ROOM DATA SHOULD BE CHANGED.
+   public static int[] setRoomData(int a) {
+      final int newRoomData[] = new int[10];
+      newRoomData[0] = a;
+      return newRoomData;
+   }//End method setRoomData
+   
+   public static boolean isEqual(Node C, Node C2) {
+      if(getSpacialCoordinateX(C) == getSpacialCoordinateX(C2) && getSpacialCoordinateY(C) == getSpacialCoordinateY(C2))
+         return true;
+      else
+       return false;
+   }//End Method isEqual
    
    public void addEntrance(int[] newData) {
       entrance = new Node(newData, null, null, null, null);
@@ -58,45 +155,6 @@ private class Node {
    public void addWesternCorridor(int[] newData, Node C) {
       C.west = new Node(newData, null, null, C, null);
    }
-   
-   //Use this method to change a rooms data.
-   //This method is the ONLY WAY ROOM DATA SHOULD BE CHANGED.
-   public static int[] setRoomData(int a) {
-      final int newRoomData[] = new int[1];
-      newRoomData[0] = a;
-      return newRoomData;
-   }//End method setRoomData
-   
-   public static void roomChecker(int i, Node C) {
-      if(i == 1) {
-         if(C.north == null)
-            System.out.println("Northern path does not exist.");
-         else
-            System.out.println("Northern path exists.");
-      }//End north check
-      
-      if(i == 2) {
-         if(C.east == null)
-            System.out.println("Eastern path does not exist.");
-         else
-            System.out.println("Eastern path exists.");
-      }//End east check
-      
-      if(i == 3) {
-         if(C.south == null)
-            System.out.println("Southern path does not exist.");
-         else
-            System.out.println("Southern path exists.");
-      }//End South check
-      
-      if(i == 4) {
-         if(C.west == null)
-            System.out.println("Western path does not exist.");
-         else
-            System.out.println("Western path exists.");
-      }
-      
-   }//End method roomChecker
    
    public static Node moveNorth(Node C) {
       if(C.north != null) {
@@ -137,6 +195,37 @@ private class Node {
          return C;
       } 
    }//End method move west
+   
+   public static void roomChecker(int i, Node C) {
+      if(i == 1) {
+         if(C.north == null)
+            System.out.println("Northern path does not exist.");
+         else
+            System.out.println("Northern path exists.");
+      }//End north check
+      
+      if(i == 2) {
+         if(C.east == null)
+            System.out.println("Eastern path does not exist.");
+         else
+            System.out.println("Eastern path exists.");
+      }//End east check
+      
+      if(i == 3) {
+         if(C.south == null)
+            System.out.println("Southern path does not exist.");
+         else
+            System.out.println("Southern path exists.");
+      }//End South check
+      
+      if(i == 4) {
+         if(C.west == null)
+            System.out.println("Western path does not exist.");
+         else
+            System.out.println("Western path exists.");
+      }
+      
+   }//End method roomChecker
 
    public static Maze GenerateBasicMaze() {
       Maze Tutorial = new Maze();
@@ -236,7 +325,314 @@ private class Node {
       
       return Tutorial;
    }//End method GenerateBasicMaze
-
+   
+   public static Maze TMM(int Level) {
+      Maze TM = new Maze();
+      TM = GenerateEntrance((int)(Math.random()*(28-1)+1));
+      Node Position;
+      Node T;
+      Position = FindStartRoom(TM);
+      Node Start;
+      Start = getStart(TM);
+      int stop = 0;
+      int RoomNumber;
+      int RNG;
+      int X;
+      int Y;
+      
+      while(stop < Level) {
+         RNG = (int)(Math.random()*(5-1)+1);
+         X = getSpacialCoordinateX(Position);
+         Y = getSpacialCoordinateY(Position);
+         RoomNumber = getRoomNumber(Position);
+         T = Position;
+         if(RNG == 1) {
+         if(Position.ConstructNorth == true) {
+            GenerateBlock_StraightNorth(T, RoomNumber, X, Y);
+            if(ParadoxAvoidance(Start, T) == 0) {
+               GenerateBlock_StraightNorth(Position, RoomNumber, X, Y);
+               stop++;
+               continue; }
+            else
+               continue;
+         }
+         }//End northbuild
+         if(RNG == 2) {
+            if(Position.ConstructEast == true) {
+               GenerateBlock_StraightEast(T, RoomNumber, X, Y);
+               if(ParadoxAvoidance(Start, T) == 0){
+                  GenerateBlock_StraightEast(Position, RoomNumber, X, Y);
+                  stop++;
+                  continue; }
+            }
+         }//End eastbuild
+         if(RNG == 3) {
+            if(Position.ConstructSouth == true) {
+               GenerateBlock_StraightSouth(T, RoomNumber, X, Y);
+               if(ParadoxAvoidance(Start, T) == 0) {
+                  GenerateBlock_StraightSouth(Position, RoomNumber, X, Y);
+                  stop++;
+                  continue; }
+            }
+         }//End southbuild
+         if(RNG == 4) {
+            if(Position.ConstructWest == true) {
+               GenerateBlock_StraightWest(T, RoomNumber, X, Y);
+               if(ParadoxAvoidance(Start, T) == 0) {
+                  GenerateBlock_StraightWest(Position, RoomNumber, X, Y);
+                  stop++;
+                  continue; }
+            }
+         }//End westbuild
+      }//End While Loope
+      return TM;
+   }//End Method TMM
+   
+   public static Maze MazeCreation(int Level) {
+      Maze GeneratedMaze = new Maze();
+      GeneratedMaze = GenerateEntrance((int)(Math.random()*(28-1)+1));
+      Node Position;
+      Position = FindStartRoom(GeneratedMaze);
+      
+      int stop = 0;
+      
+      while(stop < Level) {
+         RandomMazeGenerator(GeneratedMaze, Position, 0, getStart(GeneratedMaze));
+         stop++;
+      }//End maze generating
+      
+      return GeneratedMaze;
+      
+   }//End Method MazeCreation
+   
+   
+   public static int RandomMazeGenerator(Maze M, Node C, int tracker, Node Start) {
+      if(tracker > 10) {
+         return 0;
+      }
+      
+      Node Position;
+      Position = M.entrance;
+      int RoomNumber = 10;//TrackHighRoom(Position, getRoomNumber(Position)); 
+      
+      int x = getRoomNumber(Position);
+      if(C.north != null) {
+         if(getRoomNumber(Position.north) > x) {
+            RandomMazeGenerator(M, Position.north, tracker, Start);
+         }
+      }
+      if(C.east != null) {
+         if(getRoomNumber(Position.east) > x) {
+            RandomMazeGenerator(M, Position.east, tracker, Start);
+         }
+      }
+      if(C.south != null) {
+         if(getRoomNumber(C.south) > x) {
+            RandomMazeGenerator(M, C.south, tracker, Start);
+         }
+      }
+      
+      if(C.west != null) {
+         if(getRoomNumber(C.west) > x) {
+            RandomMazeGenerator(M, C.west, tracker, Start);
+         }
+      }
+      tracker++;
+      int RNG = (int)(Math.random() * (5-1)+1);
+      BlockGenerator(C, RNG, RoomNumber, getSpacialCoordinateX(C), getSpacialCoordinateY(C), Start);
+      return 0;
+   }//End method RandomMazeGenerator
+   
+   public static int[] TrackHighRoom(Node C, int N, int i) {
+      int array[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+      int x = getRoomNumber(C);
+      if(N < x)
+         N = x;
+      if(C.north != null) {
+         if(getRoomNumber(C.north) > x) {
+            TrackHighRoom(C.north, N, i); 
+         }
+      }  
+      if(C.east != null) {
+         if(getRoomNumber(C.east) > x) {
+           TrackHighRoom(C.east, N, i);
+         }
+      }
+      if(C.south != null) {
+         if(getRoomNumber(C.south) > x) {
+           TrackHighRoom(C.south, N, i);
+         }
+      }
+      if(C.west != null) {
+         if(getRoomNumber(C.west) > x) {
+            TrackHighRoom(C.west, N, i);
+         }
+      }
+      array[i] = N;
+      i++;
+      return array;
+   }//End method TrackHighRoom
+   
+   public static int ArrayRoom(int[] a) {
+      return a[1];
+   }
+   
+   public static Node BlockGenerator(Node C, int RNG, int RoomNumber, int X, int Y, Node Start) {
+      Node T;
+      T = C;
+      
+      if(RNG == 1) {
+         if(C.ConstructNorth == true) {
+            GenerateBlock_StraightNorth(T, RoomNumber, X, Y);
+            if(ParadoxAvoidance(Start, T) == 0) {
+               GenerateBlock_StraightNorth(C, RoomNumber, X, Y);
+               return C;
+            }
+         }
+      }//End northbuild
+      if(RNG == 2) {
+         if(C.ConstructEast == true) {
+            GenerateBlock_StraightEast(T, RoomNumber, X, Y);
+            if(ParadoxAvoidance(Start, T) == 0)
+               GenerateBlock_StraightEast(C, RoomNumber, X, Y);
+               return C;
+         }
+      }//End eastbuild
+      if(RNG == 3) {
+         if(C.ConstructSouth == true) {
+            GenerateBlock_StraightSouth(T, RoomNumber, X, Y);
+            if(ParadoxAvoidance(Start, T) == 0)
+               GenerateBlock_StraightSouth(C, RoomNumber, X, Y);
+               return C;
+         }
+      }//End southbuild
+      if(RNG == 4) {
+         if(C.ConstructWest == true) {
+            GenerateBlock_StraightWest(T, RoomNumber, X, Y);
+            if(ParadoxAvoidance(Start, T) == 0)
+               GenerateBlock_StraightWest(C, RoomNumber, X, Y);
+               return C;
+         }
+      }//End westbuild
+      return C;
+   }//End Method BlockGenerator 
+   
+   //*************************************************************
+   //This block of code represents maze generation blocks start.
+   //*************************************************************
+   
+   private static Node GenerateBlock_StraightNorth(Node C, int RoomNumber, int CoordinateX, int CoordinateY) {
+      setConstructionPointNorth(C, false);     
+      Maze AttachPoint = new Maze();
+      
+      AttachPoint.entrance = C;      
+      Node Position = AttachPoint.entrance;
+      
+      AttachPoint.addNorthernCorridor(setRoomData(RoomNumber+1), Position);
+      Position = moveNorth(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX);
+      SpacialCoordinateModifierY(Position, CoordinateY+1);
+      AttachPoint.addNorthernCorridor(setRoomData(RoomNumber+2), Position);
+      Position = moveNorth(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX);
+      SpacialCoordinateModifierY(Position, CoordinateY+2);
+      AttachPoint.addNorthernCorridor(setRoomData(RoomNumber+3), Position);
+      Position = moveNorth(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX);
+      SpacialCoordinateModifierY(Position, CoordinateY+3);
+      setConstructionPointNorth(Position, true);
+      setConstructionPointEast(Position, true);
+      setConstructionPointWest(Position, true);
+      
+      return Position;
+      
+   }//End Method GenerateBlock_StraightNorth
+   
+   private static Node GenerateBlock_StraightEast(Node C, int RoomNumber, int CoordinateX, int CoordinateY) {
+      setConstructionPointEast(C, false);
+      Maze AttachPoint = new Maze();
+      
+      AttachPoint.entrance = C;      
+      Node Position = AttachPoint.entrance;
+      
+      AttachPoint.addEasternCorridor(setRoomData(RoomNumber+1), Position);
+      Position = moveEast(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX+1);
+      SpacialCoordinateModifierY(Position, CoordinateY);
+      AttachPoint.addEasternCorridor(setRoomData(RoomNumber+2), Position);
+      Position = moveEast(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX+2);
+      SpacialCoordinateModifierY(Position, CoordinateY);
+      AttachPoint.addEasternCorridor(setRoomData(RoomNumber+3), Position);
+      Position = moveEast(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX+3);
+      SpacialCoordinateModifierY(Position, CoordinateY);
+      setConstructionPointNorth(Position, true);
+      setConstructionPointEast(Position, true);
+      setConstructionPointSouth(Position, true);
+      
+      return Position;
+      
+   }//End Method GenerateBlock_StraightEast
+   
+   private static Node GenerateBlock_StraightSouth(Node C, int RoomNumber, int CoordinateX, int CoordinateY) {
+      setConstructionPointSouth(C, false);
+      Maze AttachPoint = new Maze();
+      
+      AttachPoint.entrance = C;      
+      Node Position = AttachPoint.entrance;
+      
+      AttachPoint.addSouthernCorridor(setRoomData(RoomNumber+1), Position);
+      Position = moveSouth(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX);
+      SpacialCoordinateModifierY(Position, CoordinateY-1);
+      AttachPoint.addSouthernCorridor(setRoomData(RoomNumber+2), Position);
+      Position = moveSouth(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX);
+      SpacialCoordinateModifierY(Position, CoordinateY-2);
+      AttachPoint.addSouthernCorridor(setRoomData(RoomNumber+3), Position);
+      Position = moveSouth(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX);
+      SpacialCoordinateModifierY(Position, CoordinateY-3);
+      setConstructionPointEast(Position, true);
+      setConstructionPointSouth(Position, true);
+      setConstructionPointWest(Position, true);
+      
+      return Position;
+      
+   }//End Method GenerateBlock_StraightSouth
+   
+   private static Node GenerateBlock_StraightWest(Node C, int RoomNumber, int CoordinateX, int CoordinateY) {
+      setConstructionPointWest(C, false);
+      Maze AttachPoint = new Maze();
+      
+      AttachPoint.entrance = C;      
+      Node Position = AttachPoint.entrance;
+      
+      AttachPoint.addWesternCorridor(setRoomData(RoomNumber+1), Position);
+      Position = moveWest(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX-1);
+      SpacialCoordinateModifierY(Position, CoordinateY);
+      AttachPoint.addWesternCorridor(setRoomData(RoomNumber+2), Position);
+      Position = moveWest(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX-2);
+      SpacialCoordinateModifierY(Position, CoordinateY);
+      AttachPoint.addWesternCorridor(setRoomData(RoomNumber+3), Position);
+      Position = moveWest(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX-3);
+      SpacialCoordinateModifierY(Position, CoordinateY);
+      setConstructionPointNorth(Position, true);
+      setConstructionPointSouth(Position, true);
+      setConstructionPointWest(Position, true);
+      
+      return Position;
+      
+   }//End Method GenerateBlock_StraightWest
+   
+   //*************************************************************
+   //This block of code represents maze generation blocks end.
+   //*************************************************************
+   
    public static void CheckRoom(Node C) {
       if(C.north != null) {
          if(C.direction == 1)  
@@ -286,6 +682,25 @@ private class Node {
       System.out.println("The room number is: " + C.roomData[0]);
          
    }//End method CheckRoom
+   
+   public static int ParadoxAvoidance(Node C, Node Paradox) {
+      int x = getRoomNumber(C);
+      if(isEqual(C, Paradox) == true)
+         return 100;
+      if(C.north != null) 
+         if(getRoomNumber(C.north) > x)
+            return ParadoxAvoidance(C.north, Paradox);
+      if(C.east != null)
+         if(getRoomNumber(C.east) > x)
+            return ParadoxAvoidance(C.east, Paradox);
+      if(C.south != null) 
+         if(getRoomNumber(C.south) > x) 
+            return ParadoxAvoidance(C.south, Paradox);
+      if(C.west != null)
+         if(getRoomNumber(C.west) > x)
+            return ParadoxAvoidance(C.west, Paradox);
+       return 0;
+   }//End Method ParadoxAvoidance
    
    public void TraverseMaze(Node C) {
       if(C.roomData[0] == this.exit.roomData[0]) {
@@ -374,10 +789,6 @@ private class Node {
       }         
    }//End method TraverseMaze
    
-   public static int getRoomNumber(Node C) {
-      return C.roomData[0];
-   }//End method getRoomNumber
-   
    public static void mazeDiagnostics(Node C) {
       int x = getRoomNumber(C);
       if(C.north != null) {
@@ -413,6 +824,10 @@ private class Node {
    
    public static void Interperator(Node C) {
       System.out.println("Room number is: " + getRoomNumber(C));
+      System.out.println("The rooms Northern construction point is: " + getConstructionPointNorth(C));
+      System.out.println("The rooms Eastern construction point is: " + getConstructionPointEast(C));
+      System.out.println("The rooms Southern construction point is: " + getConstructionPointSouth(C));
+      System.out.println("The rooms Western construction point is: " + getConstructionPointWest(C));
    }//End Method Interperator
    
    public static Maze GenerateEntrance(int Type) {
@@ -421,338 +836,298 @@ private class Node {
       
       MazeStart.addEntrance(setRoomData(0));
       Node Position = MazeStart.entrance;
+      SpacialCoordinateModifierX(Position, 0);
+      SpacialCoordinateModifierY(Position, 0);
+      
+      int X = Position.X_Axis;
+      int Y = Position.Y_Axis;
+      
+      //Directions North and South are modified with the Y modifier method.
+      //Directions East and West are modified with the X modifier method.
+      //When moving North use a positive modification, when moving South use a negative modification.
+      //When moving East use a positive modification, when moving West use a negative modification.
       
       if(Type == 1) {//If Type == 1, direction entered into the maze is North with 3 corridors leading deeper into the maze.
          MazeStart.entrance.direction = 1;
-         MazeStart.addNorthernCorridor(setRoomData(1), Position);
+         MazeStart.addNorthernCorridor(setRoomData(1), Position);         
          MazeStart.addEasternCorridor(setRoomData(2), Position);
          MazeStart.addWesternCorridor(setRoomData(3), Position);
+         SpacialCoordinateModifierY(Position.north, Y+1);
+         SpacialCoordinateModifierX(Position.east, X+1);
+         SpacialCoordinateModifierX(Position.west, X-1);
+         Position.north.ConstructNorth = true;
+         Position.east.ConstructEast = true;
+         Position.west.ConstructWest = true;
       }
-      
       if(Type == 2) {//If Type == 2, direction entered into the maze is East with 3 corridors leading deeper into the maze.
          MazeStart.entrance.direction = 2;
          MazeStart.addEasternCorridor(setRoomData(1), Position);
          MazeStart.addSouthernCorridor(setRoomData(2), Position);
          MazeStart.addNorthernCorridor(setRoomData(3), Position);
+         SpacialCoordinateModifierY(Position.north, Y+1);
+         SpacialCoordinateModifierX(Position.east, X+1);
+         SpacialCoordinateModifierY(Position.south, Y-1);
+         Position.north.ConstructNorth = true;
+         Position.east.ConstructEast = true;
+         Position.south.ConstructSouth = true;
       }   
-      
       if(Type == 3) {//If Type == 3, direction entered into the maze is South with 3 corridors leading deeper into the maze.
          MazeStart.entrance.direction = 3;
          MazeStart.addSouthernCorridor(setRoomData(1), Position);
          MazeStart.addWesternCorridor(setRoomData(2), Position);
          MazeStart.addEasternCorridor(setRoomData(3), Position);
+         SpacialCoordinateModifierX(Position.east, X+1);
+         SpacialCoordinateModifierY(Position.south, Y-1);
+         SpacialCoordinateModifierX(Position.west, X-1);
+         Position.south.ConstructSouth = true;
+         Position.east.ConstructEast = true;
+         Position.west.ConstructWest = true;
       }
-      
       if(Type == 4) {//If Type == 4, direction entered into the maze is West with 3 corridors leading deeper into the maze.
          MazeStart.entrance.direction = 4;
          MazeStart.addWesternCorridor(setRoomData(1), Position);
          MazeStart.addNorthernCorridor(setRoomData(2), Position);
          MazeStart.addSouthernCorridor(setRoomData(3), Position);
+         SpacialCoordinateModifierY(Position.north, Y+1);
+         SpacialCoordinateModifierY(Position.south, Y-1);
+         SpacialCoordinateModifierX(Position.west, X-1);
+         Position.north.ConstructNorth = true;
+         Position.south.ConstructSouth = true;
+         Position.west.ConstructWest = true;
       }
-      
       if(Type == 5) {//If Type == 5, direction entered into the maze is North with East and West corridors leading deeper into the maze.
          MazeStart.entrance.direction = 1;
          MazeStart.addEasternCorridor(setRoomData(1), Position);
          MazeStart.addWesternCorridor(setRoomData(2), Position);
+         SpacialCoordinateModifierX(Position.east, X+1);
+         SpacialCoordinateModifierX(Position.west, X-1);
+         Position.east.ConstructEast = true;
+         Position.west.ConstructWest = true;
       }
-      
       if(Type == 6) {//If Type == 6, direction entered into the maze is North with East and North corridors leading deeper into the maze.
          MazeStart.entrance.direction = 1;
          MazeStart.addNorthernCorridor(setRoomData(1), Position);
          MazeStart.addEasternCorridor(setRoomData(2), Position);
+         SpacialCoordinateModifierY(Position.north, Y+1);
+         SpacialCoordinateModifierX(Position.east, X+1);
+         Position.north.ConstructNorth = true;
+         Position.east.ConstructEast = true;
       }  
-      
       if(Type == 7) {//If Type == 7, direction entered into the maze is North with North and West corridors leading deeper into the maze.
          MazeStart.entrance.direction = 1;
          MazeStart.addNorthernCorridor(setRoomData(1), Position);
          MazeStart.addWesternCorridor(setRoomData(2), Position);
+         SpacialCoordinateModifierY(Position.north, Y+1);
+         SpacialCoordinateModifierX(Position.west, X-1);
+         Position.north.ConstructNorth = true;
+         Position.west.ConstructWest = true;
       }
-      
       if(Type == 8) {//If Type == 8, direction entered into the maze is East with East and South corridors leading deeper into the maze.
          MazeStart.entrance.direction = 2;
          MazeStart.addEasternCorridor(setRoomData(1), Position);
          MazeStart.addSouthernCorridor(setRoomData(2), Position);
+         SpacialCoordinateModifierX(Position.east, X+1);
+         SpacialCoordinateModifierY(Position.south, Y-1);
+         Position.south.ConstructSouth = true;
+         Position.east.ConstructEast = true;
       }
-      
       if(Type == 9) {//If Type == 9, direction entered into the maze is East with East and North corridors leading deeper into the maze.
          MazeStart.entrance.direction = 2;
          MazeStart.addEasternCorridor(setRoomData(1), Position);
          MazeStart.addNorthernCorridor(setRoomData(2), Position);
+         SpacialCoordinateModifierY(Position.north, Y+1);
+         SpacialCoordinateModifierX(Position.east, X+1);
+         Position.north.ConstructNorth = true;
+         Position.east.ConstructEast = true;
       }    
-      
       if(Type == 10) {//If Type == 10, direction entered into the maze is East with South and North corridors leading deeper into the maze.
          MazeStart.entrance.direction = 2;
          MazeStart.addSouthernCorridor(setRoomData(1), Position);
          MazeStart.addNorthernCorridor(setRoomData(2), Position);
+         SpacialCoordinateModifierY(Position.north, Y+1);
+         SpacialCoordinateModifierY(Position.south, Y-1);
+         Position.north.ConstructNorth = true;
+         Position.south.ConstructSouth = true;
       }  
-      
       if(Type == 11) {//If Type == 11, direction entered into the maze is South with South and West corridors leading deeper into the maze.
          MazeStart.entrance.direction = 3;
          MazeStart.addSouthernCorridor(setRoomData(1), Position);
          MazeStart.addWesternCorridor(setRoomData(2), Position);
+         SpacialCoordinateModifierY(Position.south, Y-1);
+         SpacialCoordinateModifierX(Position.west, X-1);
+         Position.south.ConstructSouth = true;
+         Position.west.ConstructWest = true;
       }
-      
       if(Type == 12) {//If Type == 12, direction entered into the maze is South with South and East corridors leading deeper into the maze.
          MazeStart.entrance.direction = 3;
          MazeStart.addSouthernCorridor(setRoomData(1), Position);
          MazeStart.addEasternCorridor(setRoomData(2), Position);
+         SpacialCoordinateModifierX(Position.east, X+1);
+         SpacialCoordinateModifierY(Position.south, Y-1);
+         Position.south.ConstructSouth = true;
+         Position.east.ConstructEast = true;
       }
-      
       if(Type == 13) {//If Type == 13, direction entered into the maze is South with West and East corridors leading deeper into the maze.
          MazeStart.entrance.direction = 3;
          MazeStart.addWesternCorridor(setRoomData(1), Position);
          MazeStart.addEasternCorridor(setRoomData(2), Position);
+         SpacialCoordinateModifierX(Position.east, X+1);
+         SpacialCoordinateModifierX(Position.west, X-1);
+         Position.east.ConstructEast = true;
+         Position.west.ConstructWest = true;
       }
-      
       if(Type == 14) {//If Type == 14, direction entered into the maze is West with West and North corridors leading deeper into the maze.
          MazeStart.entrance.direction = 4;
          MazeStart.addWesternCorridor(setRoomData(1), Position);
          MazeStart.addNorthernCorridor(setRoomData(2), Position);
+         SpacialCoordinateModifierY(Position.north, Y+1);
+         SpacialCoordinateModifierX(Position.west, X-1);
+         Position.north.ConstructNorth = true;
+         Position.west.ConstructWest = true;
       }
-      
       if(Type == 15) {//If Type == 15, direction entered into the maze is West with West and South corridors leading deeper into the maze.
          MazeStart.entrance.direction = 4;
          MazeStart.addWesternCorridor(setRoomData(1), Position);
          MazeStart.addSouthernCorridor(setRoomData(2), Position);
+         SpacialCoordinateModifierY(Position.south, Y-1);
+         SpacialCoordinateModifierX(Position.west, X-1);
+         Position.south.ConstructSouth = true;
+         Position.west.ConstructWest = true;
       }
-      
       if(Type == 16) {//If Type == 16, direction entered into the maze is West with North and South corridors leading deeper into the maze.
          MazeStart.entrance.direction = 4;
          MazeStart.addNorthernCorridor(setRoomData(1), Position);
          MazeStart.addSouthernCorridor(setRoomData(2), Position);
+         SpacialCoordinateModifierY(Position.north, Y+1);
+         SpacialCoordinateModifierY(Position.south, Y-1);
+         Position.north.ConstructNorth = true;
+         Position.south.ConstructSouth = true;
       }
-      
       if(Type == 17) {//If Type == 17, direction entered into the maze is North with a Northern corridor leading deeper into the maze.
          MazeStart.entrance.direction = 1;
          MazeStart.addNorthernCorridor(setRoomData(1), Position);
+         SpacialCoordinateModifierY(Position.north, Y+1);
+         Position.north.ConstructNorth = true;
       }
-      
       if(Type == 18) {//If Type == 18, direction entered into the maze is North with an Eastern corridor leading deeper into the maze.
          MazeStart.entrance.direction = 1;
          MazeStart.addEasternCorridor(setRoomData(1), Position);
+         SpacialCoordinateModifierX(Position.east, X+1);
+         Position.east.ConstructEast = true;
       }
-      
       if(Type == 19) {//If Type == 19, direction entered into the maze is North with a Western corridor leading deeper into the maze.
          MazeStart.entrance.direction = 1;
          MazeStart.addWesternCorridor(setRoomData(1), Position);
+         SpacialCoordinateModifierX(Position.west, X-1);
+         Position.west.ConstructWest = true;
       }
-      
       if(Type == 20) {//If Type == 20, direction entered into the maze is East with an Eastern corridor leading deeper into the maze.
          MazeStart.entrance.direction = 2;
          MazeStart.addEasternCorridor(setRoomData(1), Position);
+         SpacialCoordinateModifierX(Position.east, X+1);
+         Position.east.ConstructEast = true;
       }
-      
       if(Type == 21) {//If Type == 21, direction entered into the maze is East with a Southern corridor leading deeper into the maze.
          MazeStart.entrance.direction = 2;
          MazeStart.addSouthernCorridor(setRoomData(1), Position);
+         SpacialCoordinateModifierY(Position.south, Y-1);
+         Position.south.ConstructSouth = true;
       }
-      
       if(Type == 22) {//If Type == 22, direction entered into the maze is East with a Northern corridor leading deeper into the maze.
          MazeStart.entrance.direction = 2;
          MazeStart.addNorthernCorridor(setRoomData(1), Position);
+         SpacialCoordinateModifierY(Position.north, Y+1);
+         Position.north.ConstructNorth = true;
       }
-      
       if(Type == 23) {//If Type == 23, direction entered into the maze is South with a Southern corridor leading deeper into the maze.
          MazeStart.entrance.direction = 3;
          MazeStart.addSouthernCorridor(setRoomData(1), Position);
+         SpacialCoordinateModifierY(Position.south, Y-1);
+         Position.south.ConstructSouth = true;
       }
-      
       if(Type == 24) {//If Type == 24, direction entered into the maze is South with a Western corridor leading deeper into the maze.
          MazeStart.entrance.direction = 3;
          MazeStart.addWesternCorridor(setRoomData(1), Position);
+         SpacialCoordinateModifierX(Position.west, X-1);
+         Position.west.ConstructWest = true;
       }
-      
       if(Type == 25) {//If Type == 25, direction entered into the maze is South with an Eastern corridor leading deeper into the maze.
          MazeStart.entrance.direction = 3;
          MazeStart.addEasternCorridor(setRoomData(1), Position);
+         SpacialCoordinateModifierX(Position.east, X+1);
+         Position.east.ConstructEast = true;
       }
-      
       if(Type == 26) {//If Type == 26, direction entered into the maze is West with a Western corridor leading deeper into the maze.
          MazeStart.entrance.direction = 4;
          MazeStart.addWesternCorridor(setRoomData(1), Position);
+         SpacialCoordinateModifierX(Position.west, X-1);
+         Position.west.ConstructWest = true;
       }
-      
       if(Type == 27) {//If Type == 27, direction entered into the maze is West with a Northern corridor leading deeper into the maze.
          MazeStart.entrance.direction = 4;
          MazeStart.addNorthernCorridor(setRoomData(1), Position);
+         SpacialCoordinateModifierY(Position.north, Y+1);
+         Position.north.ConstructNorth = true;
       }
-      
       if(Type == 28) {//If Type == 28, direction entered into the maze is West with a Southern corridor leading deeper into the maze.
          MazeStart.entrance.direction = 4;
          MazeStart.addSouthernCorridor(setRoomData(1), Position);
+         SpacialCoordinateModifierY(Position.south, Y-1);
+         Position.south.ConstructSouth = true;
       }
-      
-      return MazeStart;
-      
+      return MazeStart;  
    }//End Method GenerateEntrance
    
-   public static Maze GenerateRandomMaze() {
-      Maze RandomMaze = new Maze();
-      
-      RandomMaze = GenerateEntrance((int)(Math.random() * (29-1) + 1));
-      RandomMaze.addEntrance(setRoomData(0));    
-      
-      Node Position = RandomMaze.entrance;
-      
-      
-      
-      return RandomMaze;
-   }//End Method GenerateRandomMaze
-   
-   public static Maze StartToFinish(int range) {
-      
-      Maze Beeline = new Maze();
-      
-      Beeline = GenerateEntrance((int)(Math.random() * (29 - 1) + 1));
-      Beeline.addEntrance(setRoomData(0));
-      
-      Node Position = Beeline.entrance;
-      
-      boolean wentNorth, wentEast, wentSouth, wentWest;
-      wentNorth = wentEast = wentSouth = wentWest = false; 
+   public static Node FindStartRoom(Maze M) {
+      Node Position = M.entrance;
       
       int a, b, c, d;
       a = b = c = d = 0;
-      
-      if(Position.north != null)//a = north
+      if(Position.north != null)
          a = getRoomNumber(Position.north);
-      if(Position.east != null)//b = east
+      if(Position.east != null)
          b = getRoomNumber(Position.east);
-      if(Position.south != null)//c = south
+      if(Position.south != null)
          c = getRoomNumber(Position.south);
-      if(Position.west != null)//d = west
+      if(Position.west != null)
          d = getRoomNumber(Position.west);
       
-      int rN = 0;
-      if(a > b) {
-         if(a > c) {
-            if(a > d) {//a is the highest room number
-               Position = moveNorth(Position);
-               wentNorth = true;
-               rN = a;
-            }//End if a>d
+      if(a>b) {//a is higher than b
+         if(a>c) {//a is higher than c and b
+            if(a>d) {//a is the highest room number; 
+               return Position.north;
+            }//end a>d
+            else {//d is the highest room number;
+               return Position.west;
+            }//end d>a
+         }//end a>c
+         else {//c is higher than a and b
+            if(c>d) {//c is the highest room number
+               return Position.south;
+            }//end c>d
             else {//d is the highest room number
-               Position = moveWest(Position);
-               wentWest = true;
-               rN = d;
-            }//End else
-         }//End if a>c
-         else {
-            if(c > d) {//c is the highest room number
-               Position = moveSouth(Position);
-               wentSouth = true;
-               rN = c;
-            }//End if c>d
+               return Position.west;
+            }//end d>c
+         }//end c>a
+      }//end a>b
+      else {//b is higher than a
+         if(b>c) {//b is higher than c and a
+            if(b>d) {//b is the highest room number
+               return Position.east;
+            }//end b>d
             else {//d is the highest room number
-               Position = moveWest(Position);
-               wentWest = true;
-               rN = d;
-            }//End else
-         }//End else
-      }//End if a>b
-      else {
-         if(b > c) {
-            if(b > d) {//b is the highest room number
-               Position = moveEast(Position);
-               wentEast = true;
-               rN = b;
-            }//End if b>d
+               return Position.west;
+            }//end d>b
+         }//end b>c
+         else {//c is higher than b and a
+            if(c>d) {//c is the highest room number
+               return Position.south;
+            }//end c>d
             else {//d is the highest room number
-               Position = moveWest(Position);
-               wentWest = true;
-               rN = d;
-            }//End else
-         }//End if b>c
-         else {
-            if(c > d) {//c is the highest room number
-               Position = moveSouth(Position);
-               wentWest = true;
-               rN = c;
-            }//End if c>d
-            else {//d is the highest room number
-               Position = moveWest(Position);
-               wentWest = true;
-               rN = d;
-            }//End else
-         }//End else
-      }//End else
-      
-      int stop = 0;
-      int tracker = 0;      
-      boolean wentRight, wentLeft, twiceRight, twiceLeft; 
-      wentRight = wentLeft = twiceRight = twiceLeft = false;
-      
-      
-      while(stop < range) {
-         if(wentNorth == true) {//If you are starting facing North
-            int room = (int)(Math.random() * (range - (range/2)) + (range/2));
-            int path = 0;
-            while(tracker < room) {
-               path = (int)(Math.random() * (4 - 1) + 1);//1 = north, 2 = east, 3 = west.
-               if(path == 1) {//path is north facing
-                  rN++;
-                  Beeline.addNorthernCorridor(setRoomData(rN), Position);
-                  moveNorth(Position);
-                  wentNorth = true;
-                  wentEast = false;
-                  wentSouth = false;
-                  wentWest = false;
-                  tracker++;
-                  break;
-               }
-               if(path == 2) {//path is east facing
-                  if(wentRight == true)
-                     twiceRight = true;
-                  if(twiceRight == true) {
-                     twiceRight = false;
-                     continue;   
-                  }//End double right error
-                  wentRight = true;
-                  rN++;
-                  Beeline.addEasternCorridor(setRoomData(rN), Position);
-                  moveEast(Position);
-                  wentEast = true;
-                  wentNorth = false;
-                  wentSouth = false;
-                  wentWest = false;
-                  tracker++;
-                  break;
-               }
-               if(path == 3) {//path is west facing
-                  if(wentLeft == true)
-                     twiceLeft = true;
-                  if(twiceLeft == true) {
-                     twiceLeft = false;
-                     continue;   
-                  }//End double right error
-                  wentLeft = true;
-                  rN++;
-                  Beeline.addWesternCorridor(setRoomData(rN), Position);
-                  moveWest(Position);
-                  wentEast = false;
-                  wentNorth = false;
-                  wentSouth = false;
-                  wentWest = true;
-                  tracker++;
-                  break;
-               }
-            }//End while: beeline generator north
-         }//End wentNorth check
-         
-         if(wentEast == true) {//If you are starting facing East
-         
-         }//End wentEast check
-         
-         if(wentSouth == true) {//If you are starting facing South
-         
-         }//End wentSouth check
-         
-         if(wentWest == true) {//If you are starting facing West
-         
-         }//End wentWest check
-      }//End while loop
-      
-      return Beeline;
-   }//End Method StartToFinish
+               return Position.west;
+            }//end d>c
+         }//end c>b
+      }//end b>a
+   }//End method FindStartRoom
    
 }//End class Maze
