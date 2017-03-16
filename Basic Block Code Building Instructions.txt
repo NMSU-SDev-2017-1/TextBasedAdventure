@@ -1,0 +1,11 @@
+Website link: http://craftdesignonline.com/pattern-grid/
+
+Red = Room, this indicates a single room.
+
+Black = Room connector, this represents the link between rooms.
+
+Blue = Construction point, this is where the block code is built from, in other words it is where you attach THIS block code to the maze.
+          Treat these points as links, not rooms.
+
+Green = Build point, this is where you can continue to build from, in other words, it is where you can OTHER block codes to this piece.
+          Treat these points as links, not rooms.
