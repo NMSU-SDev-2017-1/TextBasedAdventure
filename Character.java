@@ -14,7 +14,7 @@ public class Character{
    //Constructor
    public Character(String playerID){
       this.playerID = playerID;
-      this.attack = 10;
+      this.attack = 5;
       this.defense = 10;
       this.luck = 5;
       this.healthpoints = 10;
