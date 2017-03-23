@@ -9,3 +9,5 @@ Blue = Construction point, this is where the block code is built from, in other 
 
 Green = Build point, this is where you can continue to build from, in other words, it is where you can OTHER block codes to this piece.
           Treat these points as links, not rooms.
+
+Cyan = Build Point and Construction Point Fusion, this is where you can continue to build from AND where this block code is built from.

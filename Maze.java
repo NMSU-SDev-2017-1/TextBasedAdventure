@@ -5,6 +5,8 @@ import java.util.Scanner;
 public class Maze {
    private Node entrance;
    private Node exit;
+   private Node grabPoint;
+   private MazeVar MazeVariables;
 private class Node {
    private int[] roomData;
    private int direction;
@@ -14,6 +16,7 @@ private class Node {
    private boolean ConstructEast;
    private boolean ConstructSouth;
    private boolean ConstructWest;
+   private boolean ConstructionExists;
    private Node north;
    private Node south;
    private Node east;
@@ -26,8 +29,8 @@ private class Node {
       east = newEast;
       west = newWest;
       direction = 1;
-      X_Axis = 50;
-      Y_Axis = 50;
+      X_Axis = 0;
+      Y_Axis = 0;
       ConstructNorth = false;
       ConstructEast = false;
       ConstructSouth = false;
@@ -35,10 +38,36 @@ private class Node {
    }//End Node constructor
    
 }//End private class
+
+private class MazeVar {
+   private boolean Paradox;
+   private int MaxMazeRoom;
+   
+   public MazeVar() {
+      Paradox = false;
+      MaxMazeRoom = 0;
+   }//End MazeVar Constructor   
+}//End private class MazeVar
+
+   //Maze Constructor
    public Maze() {
       entrance = null;
       exit = null;
+      grabPoint = null;
+      MazeVariables = new MazeVar();
    }
+   
+   public static MazeVar getMazeVar(Maze M) {
+      return M.MazeVariables;
+   }//End Method getMazeVar
+   
+   public static boolean getParadox(MazeVar MV) {
+      return MV.Paradox;
+   }//End Method getParadox
+   
+   public static int getMaxMazeRoom(MazeVar MV) {
+      return MV.MaxMazeRoom;
+   }//End Method getParadox
    
    public static Node getStart(Maze M) {
       return M.entrance;
@@ -74,7 +103,21 @@ private class Node {
       if(C == null)
          return -1;
       return C.roomData[0];
-   }//End method getRoomNumber
+   }//End Method getRoomNumber
+   
+   public static Node getGrabPoint(Maze M) {
+     if(M.grabPoint != null) {
+        return M.grabPoint;
+     }
+     else {
+        System.out.println("ERROR: NULL POINTER EXCEPTION IN METHOD getGrabPoint.");
+         return M.entrance;  
+     }
+   }//End Method
+   
+   public static void setGrabPoint(Maze M, Node C) {
+      M.grabPoint = C;
+   }//End Method setGrabPoint
    
    public static int getSpacialCoordinateY(Node C) {
       if(C == null)
@@ -113,6 +156,14 @@ private class Node {
       C.ConstructWest = B;
    }//End method setConstructionPointWest
    
+   public static void setParadox(MazeVar MV, boolean b) {
+      MV.Paradox = b; 
+   }//End Method setParadox
+   
+   public static void setMaxMazeRoom(MazeVar MV, int i) {
+      MV.MaxMazeRoom = i;
+   }//End Method setMaxMazeRoom
+   
    public static void SpacialCoordinateModifierY(Node C, int y) {
       C.Y_Axis = y;
    }//End method SpacialCoordinateModifierY
@@ -128,6 +179,13 @@ private class Node {
       newRoomData[0] = a;
       return newRoomData;
    }//End method setRoomData
+   
+   public static boolean isConstructionPoint(Node C) {
+      if(C.ConstructNorth == true || C.ConstructEast == true || C.ConstructSouth == true || C.ConstructWest == true)
+         return true;
+      else
+         return false;
+   }//End Method checkConstructionPoint
    
    public static boolean isEqual(Node C, Node C2) {
       if(getSpacialCoordinateX(C) == getSpacialCoordinateX(C2) && getSpacialCoordinateY(C) == getSpacialCoordinateY(C2))
@@ -233,68 +291,160 @@ private class Node {
       Tutorial.addEntrance(setRoomData(0));
       Tutorial.entrance.direction = 3;      
       Node Position = Tutorial.entrance;
+      SpacialCoordinateModifierX(Position, 0);
+      SpacialCoordinateModifierY(Position, 0);
       
-      Tutorial.addSouthernCorridor(setRoomData(1), Position);
+      Tutorial.addSouthernCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 1
       Position = moveSouth(Position);
-      Tutorial.addSouthernCorridor(setRoomData(2), Position);
+      SpacialCoordinateModifierX(Position, 0);
+      SpacialCoordinateModifierY(Position, -1);
+      
+      Tutorial.addSouthernCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 2
       Position = moveSouth(Position);
-      Tutorial.addSouthernCorridor(setRoomData(3), Position);
+      SpacialCoordinateModifierX(Position, 0);
+      SpacialCoordinateModifierY(Position, -2);
+      
+      Tutorial.addSouthernCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 3
       Position = moveSouth(Position);
-      Tutorial.addSouthernCorridor(setRoomData(4), Position);
-      Tutorial.addEasternCorridor(setRoomData(5), Position);
+      SpacialCoordinateModifierX(Position, 0);
+      SpacialCoordinateModifierY(Position, -3);
+      
+      Tutorial.addSouthernCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 4
+      SpacialCoordinateModifierX(Position.south, 0);
+      SpacialCoordinateModifierY(Position.south, -4);
+      
+      Tutorial.addEasternCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 5
       Position = moveEast(Position);
-      Tutorial.addEasternCorridor(setRoomData(6), Position);
+      SpacialCoordinateModifierX(Position, 1);
+      SpacialCoordinateModifierY(Position, -3);
+      
+      Tutorial.addEasternCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 6 
       Position = moveEast(Position);
-      Tutorial.addSouthernCorridor(setRoomData(7), Position);
+      SpacialCoordinateModifierX(Position, 2);
+      SpacialCoordinateModifierY(Position, -3);
+      
+      Tutorial.addSouthernCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 7
       Position = moveSouth(Position);
-      Tutorial.addSouthernCorridor(setRoomData(8), Position);
+      SpacialCoordinateModifierX(Position, 2);
+      SpacialCoordinateModifierY(Position, -4);
+      
+      Tutorial.addSouthernCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 8
+      SpacialCoordinateModifierX(Position.south, 2);
+      SpacialCoordinateModifierY(Position.south, -5);
+      
       Position = moveNorth(Position);
-      Tutorial.addNorthernCorridor(setRoomData(9), Position);
+      Tutorial.addNorthernCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 9
       Position = moveNorth(Position);
-      Tutorial.addEasternCorridor(setRoomData(10), Position);
+      SpacialCoordinateModifierX(Position, 2);
+      SpacialCoordinateModifierY(Position, -2);
+      
+      Tutorial.addEasternCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 10
       Position = moveEast(Position);
-      Tutorial.addNorthernCorridor(setRoomData(11), Position);
+      SpacialCoordinateModifierX(Position, 3);
+      SpacialCoordinateModifierY(Position, -2);
+      
+      Tutorial.addNorthernCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 11
       Position = moveNorth(Position);
-      Tutorial.addNorthernCorridor(setRoomData(12), Position);
+      SpacialCoordinateModifierX(Position, 3);
+      SpacialCoordinateModifierY(Position, -1);
+      
+      Tutorial.addNorthernCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 12
       Position = moveNorth(Position);
-      Tutorial.addWesternCorridor(setRoomData(13), Position);
-      Tutorial.addEasternCorridor(setRoomData(14), Position);
+      SpacialCoordinateModifierX(Position, 3);
+      SpacialCoordinateModifierY(Position, 0);
+      
+      Tutorial.addWesternCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 13
+      SpacialCoordinateModifierX(Position.west, 2);
+      SpacialCoordinateModifierY(Position.west, 0);
+      
+      Tutorial.addEasternCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 14
       Position = moveEast(Position);
-      Tutorial.addEasternCorridor(setRoomData(15), Position);
+      SpacialCoordinateModifierX(Position, 4);
+      SpacialCoordinateModifierY(Position, 0);
+      
+      Tutorial.addEasternCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 15
       Position = moveEast(Position);
-      Tutorial.addEasternCorridor(setRoomData(16), Position);
+      SpacialCoordinateModifierX(Position, 5);
+      SpacialCoordinateModifierY(Position, 0);
+         
+      Tutorial.addEasternCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 16
       Position = moveEast(Position);
-      Tutorial.addEasternCorridor(setRoomData(17), Position);
+      SpacialCoordinateModifierX(Position, 6);
+      SpacialCoordinateModifierY(Position, 0);
+      
+      Tutorial.addEasternCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 17
+      SpacialCoordinateModifierX(Position.east, 7);
+      SpacialCoordinateModifierY(Position.east, 0);
+      
       Position = moveWest(Position);
       Position = moveWest(Position);
       Position = moveWest(Position);
       Position = moveSouth(Position);
       Position = moveSouth(Position);
-      Tutorial.addEasternCorridor(setRoomData(18), Position);
+      Tutorial.addEasternCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 18
       Position = moveEast(Position);
-      Tutorial.addEasternCorridor(setRoomData(19), Position);
+      SpacialCoordinateModifierX(Position, 4);
+      SpacialCoordinateModifierY(Position, -2);
+      
+      Tutorial.addEasternCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 19
       Position = moveEast(Position);
-      Tutorial.addSouthernCorridor(setRoomData(20), Position);
+      SpacialCoordinateModifierX(Position, 5);
+      SpacialCoordinateModifierY(Position, -2);
+      
+      Tutorial.addSouthernCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 20
       Position = moveSouth(Position);
-      Tutorial.addSouthernCorridor(setRoomData(21), Position);
+      SpacialCoordinateModifierX(Position, 5);
+      SpacialCoordinateModifierY(Position, -3);
+      
+      Tutorial.addSouthernCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 21
       Position = moveSouth(Position);
-      Tutorial.addWesternCorridor(setRoomData(22), Position);
+      SpacialCoordinateModifierX(Position, 5);
+      SpacialCoordinateModifierY(Position, -4);
+      
+      Tutorial.addWesternCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 22
       Position = moveWest(Position);
-      Tutorial.addSouthernCorridor(setRoomData(23), Position);
+      SpacialCoordinateModifierX(Position, 4);
+      SpacialCoordinateModifierY(Position, -4);
+      
+      Tutorial.addSouthernCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 23
       Position = moveSouth(Position);
-      Tutorial.addSouthernCorridor(setRoomData(24), Position);
+      SpacialCoordinateModifierX(Position, 4);
+      SpacialCoordinateModifierY(Position, -5);
+      
+      Tutorial.addSouthernCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 24
       Position = moveSouth(Position);
-      Tutorial.addSouthernCorridor(setRoomData(25), Position);
+      SpacialCoordinateModifierX(Position, 4);
+      SpacialCoordinateModifierY(Position, -6);
+      
+      Tutorial.addSouthernCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 25
       Position = moveSouth(Position);
-      Tutorial.addWesternCorridor(setRoomData(26), Position);
+      SpacialCoordinateModifierX(Position, 4);
+      SpacialCoordinateModifierY(Position, -7);
+      
+      Tutorial.addWesternCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 26
       Position = moveWest(Position);
-      Tutorial.addWesternCorridor(setRoomData(27), Position);
+      SpacialCoordinateModifierX(Position, 3);
+      SpacialCoordinateModifierY(Position, -7);
+      
+      Tutorial.addWesternCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 27
       Position = moveWest(Position);
-      Tutorial.addWesternCorridor(setRoomData(28), Position);
+      SpacialCoordinateModifierX(Position, 2);
+      SpacialCoordinateModifierY(Position, -7);
+      
+      Tutorial.addWesternCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 28
       Position = moveWest(Position);
-      Tutorial.addWesternCorridor(setRoomData(29), Position);
+      SpacialCoordinateModifierX(Position, 1);
+      SpacialCoordinateModifierY(Position, -7);
+      
+      Tutorial.addWesternCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 29
       Position = moveWest(Position);
-      Tutorial.addNorthernCorridor(setRoomData(30), Position);
+      SpacialCoordinateModifierX(Position, 0);
+      SpacialCoordinateModifierY(Position, -7);
+      
+      Tutorial.addNorthernCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 30
+      SpacialCoordinateModifierX(Position.north, 0);
+      SpacialCoordinateModifierY(Position.north, -6);
+      
       Position = moveEast(Position);
       Position = moveEast(Position);
       Position = moveEast(Position);
@@ -303,222 +453,632 @@ private class Node {
       Position = moveNorth(Position);
       Position = moveNorth(Position);
       Position = moveEast(Position);
-      Tutorial.addEasternCorridor(setRoomData(31), Position);
+      Tutorial.addEasternCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 31
       Position = moveEast(Position);
-      Tutorial.addEasternCorridor(setRoomData(32), Position);
+      SpacialCoordinateModifierX(Position, 6);
+      SpacialCoordinateModifierY(Position, -4);
+      
+      //GenerateBlock_StraightNorth(Position, getRoomNumber(Position), getSpacialCoordinateX(Position), getSpacialCoordinateY(Position));
+      //ParadoxAvoidance_3Block(Tutorial, getStart(Tutorial), Position.north, Position.north.north, Position.north.north.north);
+      //System.out.println(getParadox(Tutorial.MazeVariables));
+      
+      Tutorial.addEasternCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 32
       Position = moveEast(Position);
-      Tutorial.addNorthernCorridor(setRoomData(33), Position);
+      SpacialCoordinateModifierX(Position, 7);
+      SpacialCoordinateModifierY(Position, -4);
+      
+      Tutorial.addNorthernCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 33
       Position = moveNorth(Position);
-      Tutorial.addNorthernCorridor(setRoomData(34), Position);
+      SpacialCoordinateModifierX(Position, 7);
+      SpacialCoordinateModifierY(Position, -3);
+      
+      Tutorial.addNorthernCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 34
+      SpacialCoordinateModifierX(Position.north, 7);
+      SpacialCoordinateModifierY(Position.north, -2);
+      
       Position = moveSouth(Position);
       Position = moveWest(Position);
-      Tutorial.addSouthernCorridor(setRoomData(35), Position);
+      Tutorial.addSouthernCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 35
       Position = moveSouth(Position);
-      Tutorial.addSouthernCorridor(setRoomData(36), Position);
+      SpacialCoordinateModifierX(Position, 6);
+      SpacialCoordinateModifierY(Position, -5);
+      
+      Tutorial.addSouthernCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 36
       Position = moveSouth(Position);
-      Tutorial.addEasternCorridor(setRoomData(37), Position);
+      SpacialCoordinateModifierX(Position, 6);
+      SpacialCoordinateModifierY(Position, -6);
+      
+      Tutorial.addEasternCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 37
       Position = moveEast(Position);
-      Tutorial.addSouthernCorridor(setRoomData(38), Position);
+      SpacialCoordinateModifierX(Position, 7);
+      SpacialCoordinateModifierY(Position, -6);
+      
+      Tutorial.addSouthernCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 38
       Position = moveSouth(Position);
-    
+      SpacialCoordinateModifierX(Position, 7);
+      SpacialCoordinateModifierY(Position, -7);
+      
       Tutorial.exit = Position;
       
       return Tutorial;
    }//End method GenerateBasicMaze
    
-   public static Maze TMM(int Level) {
-      Maze TM = new Maze();
-      TM = GenerateEntrance((int)(Math.random()*(28-1)+1));
-      Node Position;
-      Node T;
-      Position = FindStartRoom(TM);
-      Node Start;
-      Start = getStart(TM);
-      int stop = 0;
-      int RoomNumber;
-      int RNG;
-      int X;
-      int Y;
+   public static Maze RandomMazeGeneration() {
+      Maze M = new Maze();
+      Node Position, Insert;
+      Node NodeTracker[] = new Node[15];
+      M = GenerateEntrance((int)(Math.random()*(29-1)+1));
+      Position = M.entrance;
+      for(int x = 0; x < NodeTracker.length; x++) {
+         NodeTracker[x] = Position;
+      }
+      int RNG, MaxRoomNumber, i;
+      i = 0;
       
-      while(stop < Level) {
-         RNG = (int)(Math.random()*(5-1)+1);
-         X = getSpacialCoordinateX(Position);
-         Y = getSpacialCoordinateY(Position);
-         RoomNumber = getRoomNumber(Position);
-         T = Position;
+      while(i < 15) {
+         RNG = (int)(Math.random()*(5-1)+1);   
+         if(isConstructionPoint(Position) == true) {
+            TrackMaxRoom (getStart(M), M);
+            MaxRoomNumber = getMaxMazeRoom(getMazeVar(M));
+            Insert = BlockGenerator(Position, RNG, MaxRoomNumber, getSpacialCoordinateX(Position), getSpacialCoordinateY(Position), M);
+            NodeTracker[i] = Insert;
+            i++;
+         }
          if(RNG == 1) {
-         if(Position.ConstructNorth == true) {
-            GenerateBlock_StraightNorth(T, RoomNumber, X, Y);
-            if(ParadoxAvoidance(Start, T) == 0) {
-               GenerateBlock_StraightNorth(Position, RoomNumber, X, Y);
-               stop++;
-               continue; }
+            if(Position.north != null) {
+               Position = Position.north;
+               continue;
+            }
             else
                continue;
-         }
-         }//End northbuild
+         }//End North if
          if(RNG == 2) {
-            if(Position.ConstructEast == true) {
-               GenerateBlock_StraightEast(T, RoomNumber, X, Y);
-               if(ParadoxAvoidance(Start, T) == 0){
-                  GenerateBlock_StraightEast(Position, RoomNumber, X, Y);
-                  stop++;
-                  continue; }
+            if(Position.east != null) {
+               Position = Position.east;
+               continue;
             }
-         }//End eastbuild
+            else
+               continue;
+         }//End East if
          if(RNG == 3) {
-            if(Position.ConstructSouth == true) {
-               GenerateBlock_StraightSouth(T, RoomNumber, X, Y);
-               if(ParadoxAvoidance(Start, T) == 0) {
-                  GenerateBlock_StraightSouth(Position, RoomNumber, X, Y);
-                  stop++;
-                  continue; }
+            if(Position.south != null) {
+               Position = Position.south;
+               continue;
             }
-         }//End southbuild
+            else
+               continue;
+         }//End South if
          if(RNG == 4) {
-            if(Position.ConstructWest == true) {
-               GenerateBlock_StraightWest(T, RoomNumber, X, Y);
-               if(ParadoxAvoidance(Start, T) == 0) {
-                  GenerateBlock_StraightWest(Position, RoomNumber, X, Y);
-                  stop++;
-                  continue; }
+            if(Position.west != null) {
+               Position = Position.west;
+               continue;
             }
-         }//End westbuild
-      }//End While Loope
-      return TM;
-   }//End Method TMM
+            else
+               continue;
+         }//End West if
+         Position = RandomNodeSelection(NodeTracker);
+      }//End Loop
+      
+      return M;
+   }//End Method RandomMazeGeneration
    
-   public static Maze MazeCreation(int Level) {
-      Maze GeneratedMaze = new Maze();
-      GeneratedMaze = GenerateEntrance((int)(Math.random()*(28-1)+1));
+   public static Node RandomNodeSelection(Node[] A) {
+   Node NValue;
+   NValue = A[0];
+   int RNG;
+   boolean FoundNode;
+   FoundNode = false;
+   
+   while(FoundNode == false) {
+      RNG = (int)(Math.random()*(A.length-1));
+      if(A[RNG] != null) {
+         NValue = A[RNG];
+         FoundNode = true;
+      }
+      else
+         continue;
+   }//End loop
+   return NValue;
+   }//End Method RandomNodeSelection
+   
+   public static Maze CreateMaze() {
+      Maze Dungeon = new Maze();
+      Dungeon = GenerateMazeStartPoint(Dungeon);
+      Dungeon = GenerateLevelOne(Dungeon, FindStartRoom(Dungeon));
+      return Dungeon;
+   }//End Method CreateMaze
+   
+   public static Maze GenerateLevelOne(Maze M, Node C) {
+      Maze MM = new Maze();
+      MM = M;
+      int count;
+      count = 0;
+      while(count < 10) {
+         MM = GenerateMaze(MM, C, 0, 0);
+         count++;
+      }
+      return MM;
+   }//End Method GenerateLevelOne
+   
+   public static Maze GenerateMaze(Maze M, Node C, int FailSafe, int MAX) {
+      if(FailSafe >= 15) {
+         return M;
+      }
       Node Position;
-      Position = FindStartRoom(GeneratedMaze);
+      int x, MaxRoom, RNG, stop;
+      stop = 0;
+      Position = C;
+      MaxRoom = getMaxMazeRoom(M.MazeVariables);
+      RNG = (int)(Math.random()*(5-1)+1);
       
-      int stop = 0;
+      while(stop <= MaxRoom) {
+         x = (int)(Math.random()*(5-1)+1);
+         if(x==1) {
+            if(Position.north != null) {
+               FailSafe++;
+               GenerateMaze(M, Position.north, FailSafe, MaxRoom);
+               break;
+            }
+            else
+               continue;
+         }//End North if
+         if(x==2) {
+            if(Position.east != null) {
+               FailSafe++;
+               GenerateMaze(M, Position.east, FailSafe, MaxRoom);
+               break;
+            }
+            else
+               continue;
+         }//End East if
+         if(x==3) {   
+            if(Position.south != null) {
+               FailSafe++;
+               GenerateMaze(M, Position.south, FailSafe, MaxRoom);
+               break;
+            }
+            else
+               continue;
+         }//End South check
+         if(x==4) {   
+            if(Position.west != null) {
+               FailSafe++;
+               GenerateMaze(M, Position.west, FailSafe, MaxRoom);
+               break;
+            }
+            else
+               continue;
+         }//End West if
+      }//End Loop
+      if(isConstructionPoint(Position) == true) {
+         Position = BlockGenerator(Position, RNG, MaxRoom, getSpacialCoordinateX(Position), getSpacialCoordinateY(Position), M);
+      }//End construction Check
       
-      while(stop < Level) {
-         RandomMazeGenerator(GeneratedMaze, Position, 0, getStart(GeneratedMaze));
-         stop++;
-      }//End maze generating
+      M.exit = Position;
+      return M;
       
-      return GeneratedMaze;
-      
-   }//End Method MazeCreation
+   }//End Method GenerateMaze
    
-   
-   public static int RandomMazeGenerator(Maze M, Node C, int tracker, Node Start) {
-      if(tracker > 10) {
-         return 0;
-      }
-      
-      Node Position;
-      Position = M.entrance;
-      int RoomNumber = 10;//TrackHighRoom(Position, getRoomNumber(Position)); 
-      
-      int x = getRoomNumber(Position);
-      if(C.north != null) {
-         if(getRoomNumber(Position.north) > x) {
-            RandomMazeGenerator(M, Position.north, tracker, Start);
-         }
-      }
-      if(C.east != null) {
-         if(getRoomNumber(Position.east) > x) {
-            RandomMazeGenerator(M, Position.east, tracker, Start);
-         }
-      }
-      if(C.south != null) {
-         if(getRoomNumber(C.south) > x) {
-            RandomMazeGenerator(M, C.south, tracker, Start);
-         }
-      }
-      
-      if(C.west != null) {
-         if(getRoomNumber(C.west) > x) {
-            RandomMazeGenerator(M, C.west, tracker, Start);
-         }
-      }
-      tracker++;
-      int RNG = (int)(Math.random() * (5-1)+1);
-      BlockGenerator(C, RNG, RoomNumber, getSpacialCoordinateX(C), getSpacialCoordinateY(C), Start);
-      return 0;
-   }//End method RandomMazeGenerator
-   
-   public static int[] TrackHighRoom(Node C, int N, int i) {
-      int array[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-      int x = getRoomNumber(C);
-      if(N < x)
-         N = x;
-      if(C.north != null) {
-         if(getRoomNumber(C.north) > x) {
-            TrackHighRoom(C.north, N, i); 
-         }
-      }  
-      if(C.east != null) {
-         if(getRoomNumber(C.east) > x) {
-           TrackHighRoom(C.east, N, i);
-         }
-      }
-      if(C.south != null) {
-         if(getRoomNumber(C.south) > x) {
-           TrackHighRoom(C.south, N, i);
-         }
-      }
-      if(C.west != null) {
-         if(getRoomNumber(C.west) > x) {
-            TrackHighRoom(C.west, N, i);
-         }
-      }
-      array[i] = N;
-      i++;
-      return array;
-   }//End method TrackHighRoom
-   
-   public static int ArrayRoom(int[] a) {
-      return a[1];
+   public static Maze GenerateMazeStartPoint(Maze M) {
+      M = GenerateEntrance((int)(Math.random() *(29-1)+1));
+      return M;
    }
    
-   public static Node BlockGenerator(Node C, int RNG, int RoomNumber, int X, int Y, Node Start) {
+   public static int TrackHighRoom(Node C) {
+      int N = getRoomNumber(C);
+      int a, b, c, d;
+      a = b = c = d = 0;
+      if(C.north != null)
+         a = getRoomNumber(C.north);
+      if(C.east != null)
+         b = getRoomNumber(C.east);
+      if(C.south != null)
+         c = getRoomNumber(C.south);
+      if(C.west != null)
+         d = getRoomNumber(C.west);
+      
+      if(a>b) {//a is higher than b
+         if(a>c) {//a is higher than c and b
+            if(a>d) {//a is the highest room number; 
+               if(N >= a)
+                  return N;
+               else
+                  return TrackHighRoom(C.north);
+            }//end a>d
+            else {//d is the highest room number;
+               if(N >= d)
+                  return N;
+               else    
+                  return TrackHighRoom(C.west);
+            }//end d>a
+         }//end a>c
+         else {//c is higher than a and b
+            if(c>d) {//c is the highest room number
+               if(N >= c)
+                  return N;
+               else
+                  return TrackHighRoom(C.south);
+            }//end c>d
+            else {//d is the highest room number
+               if(N >= d)
+                  return N;
+               else   
+                  return TrackHighRoom(C.west);
+            }//end d>c
+         }//end c>a
+      }//end a>b
+      else {//b is higher than a
+         if(b>c) {//b is higher than c and a
+            if(b>d) {//b is the highest room number
+               if(N >= b)
+                  return N;
+               else   
+                  return TrackHighRoom(C.east);
+            }//end b>d
+            else {//d is the highest room number
+               if(N >= d)
+                  return N;
+               else   
+                  return TrackHighRoom(C.west);
+            }//end d>b
+         }//end b>c
+         else {//c is higher than b and a
+            if(c>d) {//c is the highest room number
+               if(N >= c)
+                  return N;
+               else   
+                  return TrackHighRoom(C.south);
+            }//end c>d
+            else {//d is the highest room number
+               if(N >= d)
+                  return N;
+               else   
+                  return TrackHighRoom(C.west);
+            }//end d>c
+         }//end c>b
+      }//end b>a
+      
+   }//End method TrackHighRoom
+   
+   public static void TrackMaxRoom (Node C, Maze M) {
+      int x;
+      x = getRoomNumber(C);
+      if(C.north != null) {
+         if(x < getRoomNumber(C.north)) {
+            TrackMaxRoom(C.north, M);
+         }
+      }
+      if(C.east != null) {
+         if(x < getRoomNumber(C.east)) {
+            TrackMaxRoom(C.east, M);
+         }
+      }
+      if(C.south != null) {
+         if(x < getRoomNumber(C.south)) {
+            TrackMaxRoom(C.south, M);
+         }
+      }
+      if(C.west != null) {
+         if(x < getRoomNumber(C.west)) {
+            TrackMaxRoom(C.west, M);
+         }
+      }
+      if(x >= getMaxMazeRoom(M.MazeVariables))
+         setMaxMazeRoom(M.MazeVariables, x);
+   }//End Method TrackMaxRoom
+   
+   public static void MatchRoom(Node MatchNode, int MatchNumber, Maze M) {
+      
+      if(getRoomNumber(MatchNode) == MatchNumber) {
+          setGrabPoint(M, MatchNode);
+          return;
+      }
+      if(MatchNode.north != null) {
+         if(getRoomNumber(MatchNode) < getRoomNumber(MatchNode.north)) {
+            MatchRoom(MatchNode.north, MatchNumber, M);
+         }
+      }//End North check
+      
+      if(MatchNode.east != null) {
+         if(getRoomNumber(MatchNode) < getRoomNumber(MatchNode.east)) {
+            MatchRoom(MatchNode.east, MatchNumber, M);
+         }
+      }//End East check
+      
+      if(MatchNode.south != null) {
+         if(getRoomNumber(MatchNode) < getRoomNumber(MatchNode.south)) {
+            MatchRoom(MatchNode.south, MatchNumber, M);
+         }
+      }//End South check
+      
+      if(MatchNode.west != null) {
+         if(getRoomNumber(MatchNode) < getRoomNumber(MatchNode.west)) {
+            MatchRoom(MatchNode.west, MatchNumber, M);
+         }
+      }//End West check
+      
+   }//End Method MatchRoom
+   
+   public static void TestVarious() {
+      Maze basic = new Maze();
+      Maze clone = new Maze();
+      clone.addEntrance(Maze.setRoomData(0));
+      basic = Maze.GenerateBasicMaze();
+      clone = Maze.Clone(basic);
+      
       Node T;
-      T = C;
+      T = getStart(clone);
+      MatchRoom(T, 50, clone);
+      
+      System.out.println(getRoomNumber(getGrabPoint(clone)));
+      
+   }//End Method TestVarious
+   
+   
+   public static Node BlockGenerator(Node C, int RNG, int RoomNumber, int X, int Y, Maze M) {
+      Maze clone = new Maze();
+      clone = Clone(M);
+      setParadox(clone.MazeVariables, false);
+      Node T, S, Match;
+      S = getStart(clone);
+      Match = getStart(clone);      
+      MatchRoom(Match, RoomNumber, clone);
+      T = getGrabPoint(clone);
+      int Path;
       
       if(RNG == 1) {
          if(C.ConstructNorth == true) {
-            GenerateBlock_StraightNorth(T, RoomNumber, X, Y);
-            if(ParadoxAvoidance(Start, T) == 0) {
-               GenerateBlock_StraightNorth(C, RoomNumber, X, Y);
-               return C;
+            Path = (int)(Math.random()*(8-1)+1);
+            if(Path == 1) {
+               GenerateBlock_StraightNorth(T, RoomNumber, X, Y);
+               ParadoxAvoidance_3Block(clone, S, T.north, T.north.north, T.north.north.north); 
+               if(getParadox(clone.MazeVariables)==false) {
+                  C = GenerateBlock_StraightNorth(C, RoomNumber, X, Y);
+                  return C;
+               }
             }
-         }
+            if(Path == 2) {
+               GenerateBlock_NorthEast_Elbow_NorthBuilt(T, RoomNumber, X, Y);
+               ParadoxAvoidance_3Block(clone, S, T.north, T.north.north, T.north.north.east);
+               if(getParadox(clone.MazeVariables)==false) {
+                  C = GenerateBlock_NorthEast_Elbow_NorthBuilt(C, RoomNumber, X, Y);
+                  return C;
+               }
+            }
+            if(Path == 3) {
+               GenerateBlock_NorthWest_Elbow_NorthBuilt(T, RoomNumber, X, Y);
+               ParadoxAvoidance_3Block(clone, S, T.north, T.north.north, T.north.north.west);
+               if(getParadox(clone.MazeVariables)==false) {
+                  C = GenerateBlock_NorthWest_Elbow_NorthBuilt(C, RoomNumber, X, Y);
+                  return C;
+               }
+            }
+            if(Path == 4) {
+               GenerateBlock_EastNorth_Elbow_NorthBuilt(T, RoomNumber, X, Y);
+               ParadoxAvoidance_3Block(clone, S, T.north, T.north.east, T.north.east.north);
+               if(getParadox(clone.MazeVariables)==false) {
+                  C = GenerateBlock_EastNorth_Elbow_NorthBuilt(C, RoomNumber, X, Y);
+                  return C;
+               }
+            }
+            if(Path == 5) {
+               GenerateBlock_EastSouth_Elbow_NorthBuilt(T, RoomNumber, X, Y);
+               ParadoxAvoidance_3Block(clone, S, T.north, T.north.east, T.north.east.south);
+               if(getParadox(clone.MazeVariables)==false) {
+                  C = GenerateBlock_EastSouth_Elbow_NorthBuilt(C, RoomNumber, X, Y);
+                  return C;
+               }
+            }
+            if(Path == 6) {
+               GenerateBlock_WestNorth_Elbow_NorthBuilt(T, RoomNumber, X, Y);
+               ParadoxAvoidance_3Block(clone, S, T.north, T.north.west, T.north.west.north);
+               if(getParadox(clone.MazeVariables)==false) {
+                  C = GenerateBlock_WestNorth_Elbow_NorthBuilt(C, RoomNumber, X, Y);
+                  return C;
+               }
+            }
+            if(Path == 7) {
+               GenerateBlock_WestSouth_Elbow_NorthBuilt(T, RoomNumber, X, Y);
+               ParadoxAvoidance_3Block(clone, S, T.north, T.north.west, T.north.west.south);
+               if(getParadox(clone.MazeVariables)==false) {
+                  C = GenerateBlock_WestSouth_Elbow_NorthBuilt(C, RoomNumber, X, Y);
+                  return C;
+               }
+            }
+         }//End ConstructNorth
       }//End northbuild
       if(RNG == 2) {
          if(C.ConstructEast == true) {
-            GenerateBlock_StraightEast(T, RoomNumber, X, Y);
-            if(ParadoxAvoidance(Start, T) == 0)
-               GenerateBlock_StraightEast(C, RoomNumber, X, Y);
-               return C;
-         }
+            Path = (int)(Math.random()*(8-1)+1);
+            if(Path == 1) {
+               GenerateBlock_StraightEast(T, RoomNumber, X, Y);
+               ParadoxAvoidance_3Block(clone, S, T.east, T.east.east, T.east.east.east);
+               if(getParadox(clone.MazeVariables)==false) {
+                  C = GenerateBlock_StraightEast(C, RoomNumber, X, Y);
+                  return C;
+               }
+            }
+            if(Path == 2) {
+               GenerateBlock_NorthEast_Elbow_EastBuilt(T, RoomNumber, X, Y);
+               ParadoxAvoidance_3Block(clone, S, T.east, T.east.north, T.east.north.east);
+               if(getParadox(clone.MazeVariables)==false) {
+                  C = GenerateBlock_NorthEast_Elbow_EastBuilt(C, RoomNumber, X, Y);
+                  return C;
+               }
+            }
+            if(Path == 3) {
+               GenerateBlock_NorthWest_Elbow_EastBuilt(T, RoomNumber, X, Y);
+               ParadoxAvoidance_3Block(clone, S, T.east, T.east.north, T.east.north.west);
+               if(getParadox(clone.MazeVariables)==false) {
+                  C = GenerateBlock_NorthWest_Elbow_EastBuilt(C, RoomNumber, X, Y);
+                  return C;
+               }
+            }
+            if(Path == 4) {
+               GenerateBlock_EastNorth_Elbow_EastBuilt(T, RoomNumber, X, Y);
+               ParadoxAvoidance_3Block(clone, S, T.east, T.east.east, T.east.east.north);
+               if(getParadox(clone.MazeVariables)==false) {
+                  C = GenerateBlock_EastNorth_Elbow_EastBuilt(C, RoomNumber, X, Y);
+                  return C;
+               }
+            }
+            if(Path == 5) {
+               GenerateBlock_EastSouth_Elbow_EastBuilt(T, RoomNumber, X, Y);
+               ParadoxAvoidance_3Block(clone, S, T.east, T.east.east, T.east.east.south);
+               if(getParadox(clone.MazeVariables)==false) {
+                  C = GenerateBlock_EastSouth_Elbow_EastBuilt(C, RoomNumber, X, Y);
+                  return C;
+               }
+            }
+            if(Path == 6) {
+               GenerateBlock_SouthEast_Elbow_EastBuilt(T, RoomNumber, X, Y);
+               ParadoxAvoidance_3Block(clone, S, T.east, T.east.south, T.east.south.east);
+               if(getParadox(clone.MazeVariables)==false) {
+                  C = GenerateBlock_SouthEast_Elbow_EastBuilt(C, RoomNumber, X, Y);
+                  return C;
+               }
+            }
+            if(Path == 7) {
+               GenerateBlock_SouthWest_Elbow_EastBuilt(T, RoomNumber, X, Y);
+               ParadoxAvoidance_3Block(clone, S, T.east, T.east.south, T.east.south.west);
+               if(getParadox(clone.MazeVariables)==false) {
+                  C = GenerateBlock_SouthWest_Elbow_EastBuilt(C, RoomNumber, X, Y);
+                  return C;
+               }
+            }
+         }//End ConstructEast
       }//End eastbuild
       if(RNG == 3) {
          if(C.ConstructSouth == true) {
-            GenerateBlock_StraightSouth(T, RoomNumber, X, Y);
-            if(ParadoxAvoidance(Start, T) == 0)
-               GenerateBlock_StraightSouth(C, RoomNumber, X, Y);
-               return C;
-         }
+            Path = (int)(Math.random()*(8-1)+1);
+            if(Path == 1) {   
+               GenerateBlock_StraightSouth(T, RoomNumber, X, Y);
+               ParadoxAvoidance_3Block(clone, S, T.south, T.south.south, T.south.south.south);
+               if(getParadox(clone.MazeVariables)==false) {
+                  C = GenerateBlock_StraightSouth(C, RoomNumber, X, Y);
+                  return C;
+               }
+            }
+            if(Path == 2) {   
+               GenerateBlock_EastNorth_Elbow_SouthBuilt(T, RoomNumber, X, Y);
+               ParadoxAvoidance_3Block(clone, S, T.south, T.south.east, T.south.east.north);
+               if(getParadox(clone.MazeVariables)==false) {
+                  C = GenerateBlock_EastNorth_Elbow_SouthBuilt(C, RoomNumber, X, Y);
+                  return C;
+               }
+            }
+            if(Path == 3) {   
+               GenerateBlock_EastSouth_Elbow_SouthBuilt(T, RoomNumber, X, Y);
+               ParadoxAvoidance_3Block(clone, S, T.south, T.south.east, T.south.east.south);
+               if(getParadox(clone.MazeVariables)==false) {
+                  C = GenerateBlock_EastSouth_Elbow_SouthBuilt(C, RoomNumber, X, Y);
+                  return C;
+               }
+            }
+            if(Path == 4) {   
+               GenerateBlock_SouthEast_Elbow_SouthBuilt(T, RoomNumber, X, Y);
+               ParadoxAvoidance_3Block(clone, S, T.south, T.south.south, T.south.south.east);
+               if(getParadox(clone.MazeVariables)==false) {
+                  C = GenerateBlock_SouthEast_Elbow_SouthBuilt(C, RoomNumber, X, Y);
+                  return C;
+               }
+            }
+            if(Path == 5) {   
+               GenerateBlock_SouthWest_Elbow_SouthBuilt(T, RoomNumber, X, Y);
+               ParadoxAvoidance_3Block(clone, S, T.south, T.south.south, T.south.south.west);
+               if(getParadox(clone.MazeVariables)==false) {
+                  C = GenerateBlock_SouthWest_Elbow_SouthBuilt(C, RoomNumber, X, Y);
+                  return C;
+               }
+            }
+            if(Path == 6) {   
+               GenerateBlock_WestNorth_Elbow_SouthBuilt(T, RoomNumber, X, Y);
+               ParadoxAvoidance_3Block(clone, S, T.south, T.south.west, T.south.west.north);
+               if(getParadox(clone.MazeVariables)==false) {
+                  C = GenerateBlock_WestNorth_Elbow_SouthBuilt(C, RoomNumber, X, Y);
+                  return C;
+               }
+            }
+            if(Path == 7) {   
+               GenerateBlock_WestSouth_Elbow_SouthBuilt(T, RoomNumber, X, Y);
+               ParadoxAvoidance_3Block(clone, S, T.south, T.south.west, T.south.west.south);
+               if(getParadox(clone.MazeVariables)==false) {
+                  C = GenerateBlock_WestSouth_Elbow_SouthBuilt(C, RoomNumber, X, Y);
+                  return C;
+               }
+            }
+         }//End ConstructEast
       }//End southbuild
       if(RNG == 4) {
          if(C.ConstructWest == true) {
-            GenerateBlock_StraightWest(T, RoomNumber, X, Y);
-            if(ParadoxAvoidance(Start, T) == 0)
-               GenerateBlock_StraightWest(C, RoomNumber, X, Y);
-               return C;
-         }
+            Path = (int)(Math.random()*(8-1)+1);
+            if(Path == 1) {
+               GenerateBlock_StraightWest(T, RoomNumber, X, Y);
+               ParadoxAvoidance_3Block(clone, S, T.west, T.west.west, T.west.west.west);
+               if(getParadox(clone.MazeVariables)==false) {
+                  C = GenerateBlock_StraightWest(C, RoomNumber, X, Y);
+                  return C;
+               }
+            }
+            if(Path == 2) {
+               GenerateBlock_NorthEast_Elbow_WestBuilt(T, RoomNumber, X, Y);
+               ParadoxAvoidance_3Block(clone, S, T.west, T.west.north, T.west.north.east);
+               if(getParadox(clone.MazeVariables)==false) {
+                  C = GenerateBlock_NorthEast_Elbow_WestBuilt(C, RoomNumber, X, Y);
+                  return C;
+               }
+            }
+            if(Path == 3) {
+               GenerateBlock_NorthWest_Elbow_WestBuilt(T, RoomNumber, X, Y);
+               ParadoxAvoidance_3Block(clone, S, T.west, T.west.north, T.west.north.west);
+               if(getParadox(clone.MazeVariables)==false) {
+                  C = GenerateBlock_NorthWest_Elbow_WestBuilt(C, RoomNumber, X, Y);
+                  return C;
+               }
+            }
+            if(Path == 4) {
+               GenerateBlock_SouthEast_Elbow_WestBuilt(T, RoomNumber, X, Y);
+               ParadoxAvoidance_3Block(clone, S, T.west, T.west.south, T.west.south.east);
+               if(getParadox(clone.MazeVariables)==false) {
+                  C = GenerateBlock_SouthEast_Elbow_WestBuilt(C, RoomNumber, X, Y);
+                  return C;
+               }
+            }
+            if(Path == 5) {
+               GenerateBlock_SouthWest_Elbow_WestBuilt(T, RoomNumber, X, Y);
+               ParadoxAvoidance_3Block(clone, S, T.west, T.west.south, T.west.south.west);
+               if(getParadox(clone.MazeVariables)==false) {
+                  C = GenerateBlock_SouthWest_Elbow_WestBuilt(C, RoomNumber, X, Y);
+                  return C;
+               }
+            }
+            if(Path == 6) {
+               GenerateBlock_WestNorth_Elbow_WestBuilt(T, RoomNumber, X, Y);
+               ParadoxAvoidance_3Block(clone, S, T.west, T.west.west, T.west.west.north);
+               if(getParadox(clone.MazeVariables)==false) {
+                  C = GenerateBlock_WestNorth_Elbow_WestBuilt(C, RoomNumber, X, Y);
+                  return C;
+               }
+            }
+            if(Path == 7) {
+               GenerateBlock_WestSouth_Elbow_WestBuilt(T, RoomNumber, X, Y);
+               ParadoxAvoidance_3Block(clone, S, T.west, T.west.west, T.west.west.south);
+               if(getParadox(clone.MazeVariables)==false) {
+                  C = GenerateBlock_WestSouth_Elbow_WestBuilt(C, RoomNumber, X, Y);
+                  return C;
+               }
+            }
+         }//End ConstructWest
       }//End westbuild
       return C;
    }//End Method BlockGenerator 
    
    //*************************************************************
    //This block of code represents maze generation blocks start.
+   //*************************************************************
+   
+   //*************************************************************
+   //Start straight block code.
    //*************************************************************
    
    private static Node GenerateBlock_StraightNorth(Node C, int RoomNumber, int CoordinateX, int CoordinateY) {
@@ -629,6 +1189,696 @@ private class Node {
       
    }//End Method GenerateBlock_StraightWest
    
+   //************************************************************
+   //End straight block code.
+   //************************************************************
+   
+   //************************************************************
+   //Start elbow block code.
+   //************************************************************
+   
+   private static Node GenerateBlock_EastNorth_Elbow_EastBuilt(Node C, int RoomNumber, int CoordinateX, int CoordinateY) {
+      setConstructionPointEast(C, false);
+      Maze AttachPoint = new Maze();
+      
+      AttachPoint.entrance = C;      
+      Node Position = AttachPoint.entrance;
+      
+      AttachPoint.addEasternCorridor(setRoomData(RoomNumber+1), Position);
+      Position = moveEast(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX+1);
+      SpacialCoordinateModifierY(Position, CoordinateY);
+      AttachPoint.addEasternCorridor(setRoomData(RoomNumber+2), Position);
+      Position = moveEast(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX+2);
+      SpacialCoordinateModifierY(Position, CoordinateY);
+      AttachPoint.addNorthernCorridor(setRoomData(RoomNumber+3), Position);
+      Position = moveNorth(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX+2);
+      SpacialCoordinateModifierY(Position, CoordinateY+1);
+      setConstructionPointNorth(Position, true);
+      setConstructionPointEast(Position, true);
+      setConstructionPointWest(Position, true);
+      
+      return Position;
+      
+   }//End Method GenerateBlock_EastNorth_Elbow_EastBuilt
+   
+   private static Node GenerateBlock_EastNorth_Elbow_NorthBuilt(Node C, int RoomNumber, int CoordinateX, int CoordinateY) {
+      setConstructionPointNorth(C, false);
+      Maze AttachPoint = new Maze();
+      
+      AttachPoint.entrance = C;      
+      Node Position = AttachPoint.entrance;
+      
+      AttachPoint.addNorthernCorridor(setRoomData(RoomNumber+1), Position);
+      Position = moveNorth(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX);
+      SpacialCoordinateModifierY(Position, CoordinateY+1);
+      AttachPoint.addEasternCorridor(setRoomData(RoomNumber+2), Position);
+      Position = moveEast(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX+1);
+      SpacialCoordinateModifierY(Position, CoordinateY+1);
+      AttachPoint.addNorthernCorridor(setRoomData(RoomNumber+3), Position);
+      Position = moveNorth(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX+1);
+      SpacialCoordinateModifierY(Position, CoordinateY+2);
+      setConstructionPointNorth(Position, true);
+      setConstructionPointEast(Position, true);
+      setConstructionPointWest(Position, true);
+      
+      return Position;
+      
+   }//End Method GenerateBlock_EastNorth_Elbow_NorthBuilt
+   
+   private static Node GenerateBlock_EastNorth_Elbow_SouthBuilt(Node C, int RoomNumber, int CoordinateX, int CoordinateY) {
+      setConstructionPointSouth(C, false);
+      Maze AttachPoint = new Maze();
+      
+      AttachPoint.entrance = C;      
+      Node Position = AttachPoint.entrance;
+      
+      AttachPoint.addSouthernCorridor(setRoomData(RoomNumber+1), Position);
+      Position = moveSouth(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX);
+      SpacialCoordinateModifierY(Position, CoordinateY-1);
+      AttachPoint.addEasternCorridor(setRoomData(RoomNumber+2), Position);
+      Position = moveEast(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX+1);
+      SpacialCoordinateModifierY(Position, CoordinateY-1);
+      AttachPoint.addNorthernCorridor(setRoomData(RoomNumber+3), Position);
+      Position = moveNorth(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX+1);
+      SpacialCoordinateModifierY(Position, CoordinateY);
+      setConstructionPointNorth(Position, true);
+      setConstructionPointEast(Position, true);
+      setConstructionPointWest(Position, true);
+      
+      return Position;
+      
+   }//End Method GenerateBlock_EastNorth_Elbow_SouthBuilt
+   
+   private static Node GenerateBlock_EastSouth_Elbow_EastBuilt(Node C, int RoomNumber, int CoordinateX, int CoordinateY) {
+      setConstructionPointEast(C, false);
+      Maze AttachPoint = new Maze();
+      
+      AttachPoint.entrance = C;      
+      Node Position = AttachPoint.entrance;
+      
+      AttachPoint.addEasternCorridor(setRoomData(RoomNumber+1), Position);
+      Position = moveEast(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX+1);
+      SpacialCoordinateModifierY(Position, CoordinateY);
+      AttachPoint.addEasternCorridor(setRoomData(RoomNumber+2), Position);
+      Position = moveEast(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX+2);
+      SpacialCoordinateModifierY(Position, CoordinateY);
+      AttachPoint.addSouthernCorridor(setRoomData(RoomNumber+3), Position);
+      Position = moveSouth(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX+2);
+      SpacialCoordinateModifierY(Position, CoordinateY-1);
+      setConstructionPointSouth(Position, true);
+      setConstructionPointEast(Position, true);
+      setConstructionPointWest(Position, true);
+      
+      return Position;
+      
+   }//End Method GenerateBlock_EastSouth_Elbow_EastBuilt
+   
+   private static Node GenerateBlock_EastSouth_Elbow_NorthBuilt(Node C, int RoomNumber, int CoordinateX, int CoordinateY) {
+      setConstructionPointNorth(C, false);
+      Maze AttachPoint = new Maze();
+      
+      AttachPoint.entrance = C;      
+      Node Position = AttachPoint.entrance;
+      
+      AttachPoint.addNorthernCorridor(setRoomData(RoomNumber+1), Position);
+      Position = moveNorth(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX);
+      SpacialCoordinateModifierY(Position, CoordinateY+1);
+      AttachPoint.addEasternCorridor(setRoomData(RoomNumber+2), Position);
+      Position = moveEast(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX+1);
+      SpacialCoordinateModifierY(Position, CoordinateY+1);
+      AttachPoint.addSouthernCorridor(setRoomData(RoomNumber+3), Position);
+      Position = moveSouth(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX+1);
+      SpacialCoordinateModifierY(Position, CoordinateY);
+      setConstructionPointSouth(Position, true);
+      setConstructionPointEast(Position, true);
+      setConstructionPointWest(Position, true);
+      
+      return Position;
+      
+   }//End Method GenerateBlock_EastSouth_Elbow_NorthBuilt
+   
+   private static Node GenerateBlock_EastSouth_Elbow_SouthBuilt(Node C, int RoomNumber, int CoordinateX, int CoordinateY) {
+      setConstructionPointSouth(C, false);
+      Maze AttachPoint = new Maze();
+      
+      AttachPoint.entrance = C;      
+      Node Position = AttachPoint.entrance;
+      
+      AttachPoint.addSouthernCorridor(setRoomData(RoomNumber+1), Position);
+      Position = moveSouth(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX);
+      SpacialCoordinateModifierY(Position, CoordinateY-1);
+      AttachPoint.addEasternCorridor(setRoomData(RoomNumber+2), Position);
+      Position = moveEast(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX+1);
+      SpacialCoordinateModifierY(Position, CoordinateY-1);
+      AttachPoint.addSouthernCorridor(setRoomData(RoomNumber+3), Position);
+      Position = moveSouth(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX+1);
+      SpacialCoordinateModifierY(Position, CoordinateY-2);
+      setConstructionPointSouth(Position, true);
+      setConstructionPointEast(Position, true);
+      setConstructionPointWest(Position, true);
+      
+      return Position;
+      
+   }//End Method GenerateBlock_EastSouth_Elbow_SouthBuilt
+   
+   private static Node GenerateBlock_NorthEast_Elbow_NorthBuilt(Node C, int RoomNumber, int CoordinateX, int CoordinateY) {
+      setConstructionPointNorth(C, false);
+      Maze AttachPoint = new Maze();
+      
+      AttachPoint.entrance = C;      
+      Node Position = AttachPoint.entrance;
+      
+      AttachPoint.addNorthernCorridor(setRoomData(RoomNumber+1), Position);
+      Position = moveNorth(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX);
+      SpacialCoordinateModifierY(Position, CoordinateY+1);
+      AttachPoint.addNorthernCorridor(setRoomData(RoomNumber+2), Position);
+      Position = moveNorth(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX);
+      SpacialCoordinateModifierY(Position, CoordinateY+2);
+      AttachPoint.addEasternCorridor(setRoomData(RoomNumber+3), Position);
+      Position = moveEast(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX+1);
+      SpacialCoordinateModifierY(Position, CoordinateY+2);
+      setConstructionPointSouth(Position, true);
+      setConstructionPointEast(Position, true);
+      setConstructionPointNorth(Position, true);
+      
+      return Position;
+      
+   }//End Method GenerateBlock_NorthEast_Elbow_NorthBuilt
+   
+   private static Node GenerateBlock_NorthEast_Elbow_EastBuilt(Node C, int RoomNumber, int CoordinateX, int CoordinateY) {
+      setConstructionPointEast(C, false);
+      Maze AttachPoint = new Maze();
+      
+      AttachPoint.entrance = C;      
+      Node Position = AttachPoint.entrance;
+      
+      AttachPoint.addEasternCorridor(setRoomData(RoomNumber+1), Position);
+      Position = moveEast(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX+1);
+      SpacialCoordinateModifierY(Position, CoordinateY);
+      AttachPoint.addNorthernCorridor(setRoomData(RoomNumber+2), Position);
+      Position = moveNorth(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX+1);
+      SpacialCoordinateModifierY(Position, CoordinateY+1);
+      AttachPoint.addEasternCorridor(setRoomData(RoomNumber+3), Position);
+      Position = moveEast(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX+2);
+      SpacialCoordinateModifierY(Position, CoordinateY+1);
+      setConstructionPointSouth(Position, true);
+      setConstructionPointEast(Position, true);
+      setConstructionPointNorth(Position, true);
+      
+      return Position;
+      
+   }//End Method GenerateBlock_NorthEast_Elbow_EastBuilt
+   
+   private static Node GenerateBlock_NorthEast_Elbow_WestBuilt(Node C, int RoomNumber, int CoordinateX, int CoordinateY) {
+      setConstructionPointWest(C, false);
+      Maze AttachPoint = new Maze();
+      
+      AttachPoint.entrance = C;      
+      Node Position = AttachPoint.entrance;
+      
+      AttachPoint.addWesternCorridor(setRoomData(RoomNumber+1), Position);
+      Position = moveWest(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX-1);
+      SpacialCoordinateModifierY(Position, CoordinateY);
+      AttachPoint.addNorthernCorridor(setRoomData(RoomNumber+2), Position);
+      Position = moveNorth(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX-1);
+      SpacialCoordinateModifierY(Position, CoordinateY+1);
+      AttachPoint.addEasternCorridor(setRoomData(RoomNumber+3), Position);
+      Position = moveEast(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX);
+      SpacialCoordinateModifierY(Position, CoordinateY+1);
+      setConstructionPointSouth(Position, true);
+      setConstructionPointEast(Position, true);
+      setConstructionPointNorth(Position, true);
+      
+      return Position;
+      
+   }//End Method GenerateBlock_NorthEast_Elbow_WestBuilt
+   
+   private static Node GenerateBlock_NorthWest_Elbow_NorthBuilt(Node C, int RoomNumber, int CoordinateX, int CoordinateY) {
+      setConstructionPointNorth(C, false);
+      Maze AttachPoint = new Maze();
+      
+      AttachPoint.entrance = C;      
+      Node Position = AttachPoint.entrance;
+      
+      AttachPoint.addNorthernCorridor(setRoomData(RoomNumber+1), Position);
+      Position = moveNorth(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX);
+      SpacialCoordinateModifierY(Position, CoordinateY+1);
+      AttachPoint.addNorthernCorridor(setRoomData(RoomNumber+2), Position);
+      Position = moveNorth(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX);
+      SpacialCoordinateModifierY(Position, CoordinateY+2);
+      AttachPoint.addWesternCorridor(setRoomData(RoomNumber+3), Position);
+      Position = moveWest(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX-1);
+      SpacialCoordinateModifierY(Position, CoordinateY+2);
+      setConstructionPointSouth(Position, true);
+      setConstructionPointWest(Position, true);
+      setConstructionPointNorth(Position, true);
+      
+      return Position;
+      
+   }//End Method GenerateBlock_NorthWest_Elbow_NorthBuilt
+   
+   private static Node GenerateBlock_NorthWest_Elbow_EastBuilt(Node C, int RoomNumber, int CoordinateX, int CoordinateY) {
+      setConstructionPointEast(C, false);
+      Maze AttachPoint = new Maze();
+      
+      AttachPoint.entrance = C;      
+      Node Position = AttachPoint.entrance;
+      
+      AttachPoint.addEasternCorridor(setRoomData(RoomNumber+1), Position);
+      Position = moveEast(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX+1);
+      SpacialCoordinateModifierY(Position, CoordinateY);
+      AttachPoint.addNorthernCorridor(setRoomData(RoomNumber+2), Position);
+      Position = moveNorth(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX+1);
+      SpacialCoordinateModifierY(Position, CoordinateY+1);
+      AttachPoint.addWesternCorridor(setRoomData(RoomNumber+3), Position);
+      Position = moveWest(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX);
+      SpacialCoordinateModifierY(Position, CoordinateY+1);
+      setConstructionPointSouth(Position, true);
+      setConstructionPointWest(Position, true);
+      setConstructionPointNorth(Position, true);
+      
+      return Position;
+      
+   }//End Method GenerateBlock_NorthWest_Elbow_EastBuilt
+   
+   private static Node GenerateBlock_NorthWest_Elbow_WestBuilt(Node C, int RoomNumber, int CoordinateX, int CoordinateY) {
+      setConstructionPointWest(C, false);
+      Maze AttachPoint = new Maze();
+      
+      AttachPoint.entrance = C;      
+      Node Position = AttachPoint.entrance;
+      
+      AttachPoint.addWesternCorridor(setRoomData(RoomNumber+1), Position);
+      Position = moveWest(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX-1);
+      SpacialCoordinateModifierY(Position, CoordinateY);
+      AttachPoint.addNorthernCorridor(setRoomData(RoomNumber+2), Position);
+      Position = moveNorth(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX-1);
+      SpacialCoordinateModifierY(Position, CoordinateY+1);
+      AttachPoint.addWesternCorridor(setRoomData(RoomNumber+3), Position);
+      Position = moveWest(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX-2);
+      SpacialCoordinateModifierY(Position, CoordinateY+1);
+      setConstructionPointSouth(Position, true);
+      setConstructionPointWest(Position, true);
+      setConstructionPointNorth(Position, true);
+      
+      return Position;
+      
+   }//End Method GenerateBlock_NorthWest_Elbow_WestBuilt
+   
+   private static Node GenerateBlock_SouthEast_Elbow(Node C, int RoomNumber, int CoordinateX, int CoordinateY) {
+      setConstructionPointSouth(C, false);
+      setConstructionPointEast(C, false);
+      setConstructionPointWest(C, false);
+      Maze AttachPoint = new Maze();
+      
+      AttachPoint.entrance = C;      
+      Node Position = AttachPoint.entrance;
+      
+      AttachPoint.addSouthernCorridor(setRoomData(RoomNumber+1), Position);
+      Position = moveSouth(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX);
+      SpacialCoordinateModifierY(Position, CoordinateY-1);
+      AttachPoint.addSouthernCorridor(setRoomData(RoomNumber+2), Position);
+      Position = moveSouth(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX);
+      SpacialCoordinateModifierY(Position, CoordinateY-2);
+      AttachPoint.addEasternCorridor(setRoomData(RoomNumber+3), Position);
+      Position = moveEast(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX+1);
+      SpacialCoordinateModifierY(Position, CoordinateY-2);
+      setConstructionPointSouth(Position, true);
+      setConstructionPointEast(Position, true);
+      setConstructionPointNorth(Position, true);
+      
+      return Position;
+      
+   }//End Method GenerateBlock_SouthEast_Elbow
+   
+   private static Node GenerateBlock_SouthEast_Elbow_SouthBuilt(Node C, int RoomNumber, int CoordinateX, int CoordinateY) {
+      setConstructionPointSouth(C, false);
+      Maze AttachPoint = new Maze();
+      
+      AttachPoint.entrance = C;      
+      Node Position = AttachPoint.entrance;
+      
+      AttachPoint.addSouthernCorridor(setRoomData(RoomNumber+1), Position);
+      Position = moveSouth(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX);
+      SpacialCoordinateModifierY(Position, CoordinateY-1);
+      AttachPoint.addSouthernCorridor(setRoomData(RoomNumber+2), Position);
+      Position = moveSouth(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX);
+      SpacialCoordinateModifierY(Position, CoordinateY-2);
+      AttachPoint.addEasternCorridor(setRoomData(RoomNumber+3), Position);
+      Position = moveEast(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX+1);
+      SpacialCoordinateModifierY(Position, CoordinateY-2);
+      setConstructionPointSouth(Position, true);
+      setConstructionPointEast(Position, true);
+      setConstructionPointNorth(Position, true);
+      
+      return Position;
+      
+   }//End Method GenerateBlock_SouthEast_Elbow_SouthBuilt
+   
+   private static Node GenerateBlock_SouthEast_Elbow_WestBuilt(Node C, int RoomNumber, int CoordinateX, int CoordinateY) {
+      setConstructionPointWest(C, false);
+      Maze AttachPoint = new Maze();
+      
+      AttachPoint.entrance = C;      
+      Node Position = AttachPoint.entrance;
+      
+      AttachPoint.addWesternCorridor(setRoomData(RoomNumber+1), Position);
+      Position = moveWest(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX-1);
+      SpacialCoordinateModifierY(Position, CoordinateY);
+      AttachPoint.addSouthernCorridor(setRoomData(RoomNumber+2), Position);
+      Position = moveSouth(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX-1);
+      SpacialCoordinateModifierY(Position, CoordinateY-1);
+      AttachPoint.addEasternCorridor(setRoomData(RoomNumber+3), Position);
+      Position = moveEast(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX);
+      SpacialCoordinateModifierY(Position, CoordinateY-1);
+      setConstructionPointSouth(Position, true);
+      setConstructionPointEast(Position, true);
+      setConstructionPointNorth(Position, true);
+      
+      return Position;
+      
+   }//End Method GenerateBlock_SouthEast_Elbow_WestBuilt
+   
+   private static Node GenerateBlock_SouthEast_Elbow_EastBuilt(Node C, int RoomNumber, int CoordinateX, int CoordinateY) {
+      setConstructionPointEast(C, false);
+      Maze AttachPoint = new Maze();
+      
+      AttachPoint.entrance = C;      
+      Node Position = AttachPoint.entrance;
+      
+      AttachPoint.addEasternCorridor(setRoomData(RoomNumber+1), Position);
+      Position = moveEast(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX+1);
+      SpacialCoordinateModifierY(Position, CoordinateY);
+      AttachPoint.addSouthernCorridor(setRoomData(RoomNumber+2), Position);
+      Position = moveSouth(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX+1);
+      SpacialCoordinateModifierY(Position, CoordinateY-1);
+      AttachPoint.addEasternCorridor(setRoomData(RoomNumber+3), Position);
+      Position = moveEast(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX+2);
+      SpacialCoordinateModifierY(Position, CoordinateY-1);
+      setConstructionPointSouth(Position, true);
+      setConstructionPointEast(Position, true);
+      setConstructionPointNorth(Position, true);
+      
+      return Position;
+      
+   }//End Method GenerateBlock_SouthEast_Elbow_EastBuilt
+   
+   private static Node GenerateBlock_SouthWest_Elbow_SouthBuilt(Node C, int RoomNumber, int CoordinateX, int CoordinateY) {
+      setConstructionPointSouth(C, false);
+      Maze AttachPoint = new Maze();
+      
+      AttachPoint.entrance = C;      
+      Node Position = AttachPoint.entrance;
+      
+      AttachPoint.addSouthernCorridor(setRoomData(RoomNumber+1), Position);
+      Position = moveSouth(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX);
+      SpacialCoordinateModifierY(Position, CoordinateY-1);
+      AttachPoint.addSouthernCorridor(setRoomData(RoomNumber+2), Position);
+      Position = moveSouth(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX);
+      SpacialCoordinateModifierY(Position, CoordinateY-2);
+      AttachPoint.addWesternCorridor(setRoomData(RoomNumber+3), Position);
+      Position = moveWest(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX-1);
+      SpacialCoordinateModifierY(Position, CoordinateY-2);
+      setConstructionPointSouth(Position, true);
+      setConstructionPointWest(Position, true);
+      setConstructionPointNorth(Position, true);
+      
+      return Position;
+      
+   }//End Method GenerateBlock_SouthWest_Elbow_SouthBuilt
+   
+   private static Node GenerateBlock_SouthWest_Elbow_WestBuilt(Node C, int RoomNumber, int CoordinateX, int CoordinateY) {
+      setConstructionPointWest(C, false);
+      Maze AttachPoint = new Maze();
+      
+      AttachPoint.entrance = C;      
+      Node Position = AttachPoint.entrance;
+      
+      AttachPoint.addWesternCorridor(setRoomData(RoomNumber+1), Position);
+      Position = moveWest(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX-1);
+      SpacialCoordinateModifierY(Position, CoordinateY);
+      AttachPoint.addSouthernCorridor(setRoomData(RoomNumber+2), Position);
+      Position = moveSouth(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX-1);
+      SpacialCoordinateModifierY(Position, CoordinateY-1);
+      AttachPoint.addWesternCorridor(setRoomData(RoomNumber+3), Position);
+      Position = moveWest(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX-2);
+      SpacialCoordinateModifierY(Position, CoordinateY-1);
+      setConstructionPointSouth(Position, true);
+      setConstructionPointWest(Position, true);
+      setConstructionPointNorth(Position, true);
+      
+      return Position;
+      
+   }//End Method GenerateBlock_SouthWest_Elbow_WestBuilt
+   
+   private static Node GenerateBlock_SouthWest_Elbow_EastBuilt(Node C, int RoomNumber, int CoordinateX, int CoordinateY) {
+      setConstructionPointEast(C, false);
+      Maze AttachPoint = new Maze();
+      
+      AttachPoint.entrance = C;      
+      Node Position = AttachPoint.entrance;
+      
+      AttachPoint.addEasternCorridor(setRoomData(RoomNumber+1), Position);
+      Position = moveEast(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX+1);
+      SpacialCoordinateModifierY(Position, CoordinateY);
+      AttachPoint.addSouthernCorridor(setRoomData(RoomNumber+2), Position);
+      Position = moveSouth(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX+1);
+      SpacialCoordinateModifierY(Position, CoordinateY-1);
+      AttachPoint.addWesternCorridor(setRoomData(RoomNumber+3), Position);
+      Position = moveWest(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX);
+      SpacialCoordinateModifierY(Position, CoordinateY-1);
+      setConstructionPointSouth(Position, true);
+      setConstructionPointWest(Position, true);
+      setConstructionPointNorth(Position, true);
+      
+      return Position;
+      
+   }//End Method GenerateBlock_SouthWest_Elbow_EastBuilt
+   
+   private static Node GenerateBlock_WestNorth_Elbow_WestBuilt(Node C, int RoomNumber, int CoordinateX, int CoordinateY) {
+      setConstructionPointWest(C, false);
+      Maze AttachPoint = new Maze();
+      
+      AttachPoint.entrance = C;      
+      Node Position = AttachPoint.entrance;
+      
+      AttachPoint.addWesternCorridor(setRoomData(RoomNumber+1), Position);
+      Position = moveWest(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX-1);
+      SpacialCoordinateModifierY(Position, CoordinateY);
+      AttachPoint.addWesternCorridor(setRoomData(RoomNumber+2), Position);
+      Position = moveWest(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX-2);
+      SpacialCoordinateModifierY(Position, CoordinateY);
+      AttachPoint.addNorthernCorridor(setRoomData(RoomNumber+3), Position);
+      Position = moveNorth(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX-2);
+      SpacialCoordinateModifierY(Position, CoordinateY+1);
+      setConstructionPointEast(Position, true);
+      setConstructionPointWest(Position, true);
+      setConstructionPointNorth(Position, true);
+      
+      return Position;
+      
+   }//End Method GenerateBlock_WestNorth_Elbow_WestBuilt
+   
+   private static Node GenerateBlock_WestNorth_Elbow_NorthBuilt(Node C, int RoomNumber, int CoordinateX, int CoordinateY) {
+      setConstructionPointNorth(C, false);
+      Maze AttachPoint = new Maze();
+      
+      AttachPoint.entrance = C;      
+      Node Position = AttachPoint.entrance;
+      
+      AttachPoint.addNorthernCorridor(setRoomData(RoomNumber+1), Position);
+      Position = moveNorth(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX);
+      SpacialCoordinateModifierY(Position, CoordinateY+1);
+      AttachPoint.addWesternCorridor(setRoomData(RoomNumber+2), Position);
+      Position = moveWest(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX-1);
+      SpacialCoordinateModifierY(Position, CoordinateY+1);
+      AttachPoint.addNorthernCorridor(setRoomData(RoomNumber+3), Position);
+      Position = moveNorth(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX-1);
+      SpacialCoordinateModifierY(Position, CoordinateY+2);
+      setConstructionPointEast(Position, true);
+      setConstructionPointWest(Position, true);
+      setConstructionPointNorth(Position, true);
+      
+      return Position;
+      
+   }//End Method GenerateBlock_WestNorth_Elbow_NorthBuilt
+   
+   private static Node GenerateBlock_WestNorth_Elbow_SouthBuilt(Node C, int RoomNumber, int CoordinateX, int CoordinateY) {
+      setConstructionPointSouth(C, false);
+      Maze AttachPoint = new Maze();
+      
+      AttachPoint.entrance = C;      
+      Node Position = AttachPoint.entrance;
+      
+      AttachPoint.addSouthernCorridor(setRoomData(RoomNumber+1), Position);
+      Position = moveSouth(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX);
+      SpacialCoordinateModifierY(Position, CoordinateY-1);
+      AttachPoint.addWesternCorridor(setRoomData(RoomNumber+2), Position);
+      Position = moveWest(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX-1);
+      SpacialCoordinateModifierY(Position, CoordinateY-1);
+      AttachPoint.addNorthernCorridor(setRoomData(RoomNumber+3), Position);
+      Position = moveNorth(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX-1);
+      SpacialCoordinateModifierY(Position, CoordinateY);
+      setConstructionPointEast(Position, true);
+      setConstructionPointWest(Position, true);
+      setConstructionPointNorth(Position, true);
+      
+      return Position;
+      
+   }//End Method GenerateBlock_WestNorth_Elbow_SouthBuilt
+   
+   private static Node GenerateBlock_WestSouth_Elbow_WestBuilt(Node C, int RoomNumber, int CoordinateX, int CoordinateY) {
+      setConstructionPointWest(C, false);
+      Maze AttachPoint = new Maze();
+      
+      AttachPoint.entrance = C;      
+      Node Position = AttachPoint.entrance;
+      
+      AttachPoint.addWesternCorridor(setRoomData(RoomNumber+1), Position);
+      Position = moveWest(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX-1);
+      SpacialCoordinateModifierY(Position, CoordinateY);
+      AttachPoint.addWesternCorridor(setRoomData(RoomNumber+2), Position);
+      Position = moveWest(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX-2);
+      SpacialCoordinateModifierY(Position, CoordinateY);
+      AttachPoint.addSouthernCorridor(setRoomData(RoomNumber+3), Position);
+      Position = moveSouth(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX-2);
+      SpacialCoordinateModifierY(Position, CoordinateY-1);
+      setConstructionPointEast(Position, true);
+      setConstructionPointWest(Position, true);
+      setConstructionPointSouth(Position, true);
+      
+      return Position;
+      
+   }//End Method GenerateBlock_WestSouth_Elbow_WestBuilt
+   
+   private static Node GenerateBlock_WestSouth_Elbow_NorthBuilt(Node C, int RoomNumber, int CoordinateX, int CoordinateY) {
+      setConstructionPointNorth(C, false);
+      Maze AttachPoint = new Maze();
+      
+      AttachPoint.entrance = C;      
+      Node Position = AttachPoint.entrance;
+      
+      AttachPoint.addNorthernCorridor(setRoomData(RoomNumber+1), Position);
+      Position = moveNorth(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX);
+      SpacialCoordinateModifierY(Position, CoordinateY+1);
+      AttachPoint.addWesternCorridor(setRoomData(RoomNumber+2), Position);
+      Position = moveWest(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX-1);
+      SpacialCoordinateModifierY(Position, CoordinateY+1);
+      AttachPoint.addSouthernCorridor(setRoomData(RoomNumber+3), Position);
+      Position = moveSouth(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX-1);
+      SpacialCoordinateModifierY(Position, CoordinateY);
+      setConstructionPointEast(Position, true);
+      setConstructionPointWest(Position, true);
+      setConstructionPointSouth(Position, true);
+      
+      return Position;
+      
+   }//End Method GenerateBlock_WestSouth_Elbow_NorthBuilt
+   
+   private static Node GenerateBlock_WestSouth_Elbow_SouthBuilt(Node C, int RoomNumber, int CoordinateX, int CoordinateY) {
+      setConstructionPointSouth(C, false);
+      Maze AttachPoint = new Maze();
+      
+      AttachPoint.entrance = C;      
+      Node Position = AttachPoint.entrance;
+      
+      AttachPoint.addSouthernCorridor(setRoomData(RoomNumber+1), Position);
+      Position = moveSouth(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX);
+      SpacialCoordinateModifierY(Position, CoordinateY-1);
+      AttachPoint.addWesternCorridor(setRoomData(RoomNumber+2), Position);
+      Position = moveWest(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX-1);
+      SpacialCoordinateModifierY(Position, CoordinateY-1);
+      AttachPoint.addSouthernCorridor(setRoomData(RoomNumber+3), Position);
+      Position = moveSouth(Position);
+      SpacialCoordinateModifierX(Position, CoordinateX-1);
+      SpacialCoordinateModifierY(Position, CoordinateY-2);
+      setConstructionPointEast(Position, true);
+      setConstructionPointWest(Position, true);
+      setConstructionPointSouth(Position, true);
+      
+      return Position;
+      
+   }//End Method GenerateBlock_WestSouth_Elbow_SouthBuilt
+   
+   //************************************************************
+   //End elbow block code.
+   //************************************************************
+   
+   
    //*************************************************************
    //This block of code represents maze generation blocks end.
    //*************************************************************
@@ -683,24 +1933,35 @@ private class Node {
          
    }//End method CheckRoom
    
-   public static int ParadoxAvoidance(Node C, Node Paradox) {
+   public static void ParadoxAvoidance_3Block(Maze M, Node C, Node ParadoxOne, Node ParadoxTwo, Node ParadoxThree) {
       int x = getRoomNumber(C);
-      if(isEqual(C, Paradox) == true)
-         return 100;
+      if(x != getRoomNumber(ParadoxOne) && x != getRoomNumber(ParadoxTwo) && x != getRoomNumber(ParadoxThree)) { 
+         if(isEqual(C, ParadoxOne) == true) {
+            //System.out.println("PARADOX ONE COLLISON IN ROOM: " + x + " WITH ROOM: " + getRoomNumber(ParadoxOne));
+            setParadox(M.MazeVariables, true);
+         }
+         if(isEqual(C, ParadoxTwo) == true) {
+            //System.out.println("PARADOX TWO COLLISON IN ROOM: " + x + " WITH ROOM: " + getRoomNumber(ParadoxOne));
+            setParadox(M.MazeVariables, true);
+         }
+         if(isEqual(C, ParadoxThree) == true) {
+            //System.out.println("PARADOX THREE COLLISON IN ROOM: " + x + " WITH ROOM: " + getRoomNumber(ParadoxThree));
+            setParadox(M.MazeVariables, true);
+         }
+      }
       if(C.north != null) 
          if(getRoomNumber(C.north) > x)
-            return ParadoxAvoidance(C.north, Paradox);
+            ParadoxAvoidance_3Block(M, C.north, ParadoxOne, ParadoxTwo, ParadoxThree);
       if(C.east != null)
          if(getRoomNumber(C.east) > x)
-            return ParadoxAvoidance(C.east, Paradox);
+            ParadoxAvoidance_3Block(M, C.east, ParadoxOne, ParadoxTwo, ParadoxThree);
       if(C.south != null) 
          if(getRoomNumber(C.south) > x) 
-            return ParadoxAvoidance(C.south, Paradox);
+            ParadoxAvoidance_3Block(M, C.south, ParadoxOne, ParadoxTwo, ParadoxThree);
       if(C.west != null)
          if(getRoomNumber(C.west) > x)
-            return ParadoxAvoidance(C.west, Paradox);
-       return 0;
-   }//End Method ParadoxAvoidance
+            ParadoxAvoidance_3Block(M, C.west, ParadoxOne, ParadoxTwo, ParadoxThree);
+   }//End Method ParadoxAvoidance_3Block
    
    public void TraverseMaze(Node C) {
       if(C.roomData[0] == this.exit.roomData[0]) {
@@ -858,6 +2119,7 @@ private class Node {
          Position.north.ConstructNorth = true;
          Position.east.ConstructEast = true;
          Position.west.ConstructWest = true;
+         MazeStart.exit = Position.west;
       }
       if(Type == 2) {//If Type == 2, direction entered into the maze is East with 3 corridors leading deeper into the maze.
          MazeStart.entrance.direction = 2;
@@ -870,6 +2132,7 @@ private class Node {
          Position.north.ConstructNorth = true;
          Position.east.ConstructEast = true;
          Position.south.ConstructSouth = true;
+         MazeStart.exit = Position.north;
       }   
       if(Type == 3) {//If Type == 3, direction entered into the maze is South with 3 corridors leading deeper into the maze.
          MazeStart.entrance.direction = 3;
@@ -882,6 +2145,7 @@ private class Node {
          Position.south.ConstructSouth = true;
          Position.east.ConstructEast = true;
          Position.west.ConstructWest = true;
+         MazeStart.exit = Position.east;
       }
       if(Type == 4) {//If Type == 4, direction entered into the maze is West with 3 corridors leading deeper into the maze.
          MazeStart.entrance.direction = 4;
@@ -894,6 +2158,7 @@ private class Node {
          Position.north.ConstructNorth = true;
          Position.south.ConstructSouth = true;
          Position.west.ConstructWest = true;
+         MazeStart.exit = Position.south;
       }
       if(Type == 5) {//If Type == 5, direction entered into the maze is North with East and West corridors leading deeper into the maze.
          MazeStart.entrance.direction = 1;
@@ -903,6 +2168,7 @@ private class Node {
          SpacialCoordinateModifierX(Position.west, X-1);
          Position.east.ConstructEast = true;
          Position.west.ConstructWest = true;
+         MazeStart.exit = Position.west;
       }
       if(Type == 6) {//If Type == 6, direction entered into the maze is North with East and North corridors leading deeper into the maze.
          MazeStart.entrance.direction = 1;
@@ -912,6 +2178,7 @@ private class Node {
          SpacialCoordinateModifierX(Position.east, X+1);
          Position.north.ConstructNorth = true;
          Position.east.ConstructEast = true;
+         MazeStart.exit = Position.east;
       }  
       if(Type == 7) {//If Type == 7, direction entered into the maze is North with North and West corridors leading deeper into the maze.
          MazeStart.entrance.direction = 1;
@@ -921,6 +2188,7 @@ private class Node {
          SpacialCoordinateModifierX(Position.west, X-1);
          Position.north.ConstructNorth = true;
          Position.west.ConstructWest = true;
+         MazeStart.exit = Position.west;
       }
       if(Type == 8) {//If Type == 8, direction entered into the maze is East with East and South corridors leading deeper into the maze.
          MazeStart.entrance.direction = 2;
@@ -930,6 +2198,7 @@ private class Node {
          SpacialCoordinateModifierY(Position.south, Y-1);
          Position.south.ConstructSouth = true;
          Position.east.ConstructEast = true;
+         MazeStart.exit = Position.south;
       }
       if(Type == 9) {//If Type == 9, direction entered into the maze is East with East and North corridors leading deeper into the maze.
          MazeStart.entrance.direction = 2;
@@ -939,6 +2208,7 @@ private class Node {
          SpacialCoordinateModifierX(Position.east, X+1);
          Position.north.ConstructNorth = true;
          Position.east.ConstructEast = true;
+         MazeStart.exit = Position.north;
       }    
       if(Type == 10) {//If Type == 10, direction entered into the maze is East with South and North corridors leading deeper into the maze.
          MazeStart.entrance.direction = 2;
@@ -948,6 +2218,7 @@ private class Node {
          SpacialCoordinateModifierY(Position.south, Y-1);
          Position.north.ConstructNorth = true;
          Position.south.ConstructSouth = true;
+         MazeStart.exit = Position.north;
       }  
       if(Type == 11) {//If Type == 11, direction entered into the maze is South with South and West corridors leading deeper into the maze.
          MazeStart.entrance.direction = 3;
@@ -957,6 +2228,7 @@ private class Node {
          SpacialCoordinateModifierX(Position.west, X-1);
          Position.south.ConstructSouth = true;
          Position.west.ConstructWest = true;
+         MazeStart.exit = Position.west;
       }
       if(Type == 12) {//If Type == 12, direction entered into the maze is South with South and East corridors leading deeper into the maze.
          MazeStart.entrance.direction = 3;
@@ -966,6 +2238,7 @@ private class Node {
          SpacialCoordinateModifierY(Position.south, Y-1);
          Position.south.ConstructSouth = true;
          Position.east.ConstructEast = true;
+         MazeStart.exit = Position.east;
       }
       if(Type == 13) {//If Type == 13, direction entered into the maze is South with West and East corridors leading deeper into the maze.
          MazeStart.entrance.direction = 3;
@@ -975,6 +2248,7 @@ private class Node {
          SpacialCoordinateModifierX(Position.west, X-1);
          Position.east.ConstructEast = true;
          Position.west.ConstructWest = true;
+         MazeStart.exit = Position.east;
       }
       if(Type == 14) {//If Type == 14, direction entered into the maze is West with West and North corridors leading deeper into the maze.
          MazeStart.entrance.direction = 4;
@@ -984,6 +2258,7 @@ private class Node {
          SpacialCoordinateModifierX(Position.west, X-1);
          Position.north.ConstructNorth = true;
          Position.west.ConstructWest = true;
+         MazeStart.exit = Position.north;
       }
       if(Type == 15) {//If Type == 15, direction entered into the maze is West with West and South corridors leading deeper into the maze.
          MazeStart.entrance.direction = 4;
@@ -993,6 +2268,7 @@ private class Node {
          SpacialCoordinateModifierX(Position.west, X-1);
          Position.south.ConstructSouth = true;
          Position.west.ConstructWest = true;
+         MazeStart.exit = Position.south;
       }
       if(Type == 16) {//If Type == 16, direction entered into the maze is West with North and South corridors leading deeper into the maze.
          MazeStart.entrance.direction = 4;
@@ -1002,78 +2278,91 @@ private class Node {
          SpacialCoordinateModifierY(Position.south, Y-1);
          Position.north.ConstructNorth = true;
          Position.south.ConstructSouth = true;
+         MazeStart.exit = Position.south;
       }
       if(Type == 17) {//If Type == 17, direction entered into the maze is North with a Northern corridor leading deeper into the maze.
          MazeStart.entrance.direction = 1;
          MazeStart.addNorthernCorridor(setRoomData(1), Position);
          SpacialCoordinateModifierY(Position.north, Y+1);
          Position.north.ConstructNorth = true;
+         MazeStart.exit = Position.north;
       }
       if(Type == 18) {//If Type == 18, direction entered into the maze is North with an Eastern corridor leading deeper into the maze.
          MazeStart.entrance.direction = 1;
          MazeStart.addEasternCorridor(setRoomData(1), Position);
          SpacialCoordinateModifierX(Position.east, X+1);
          Position.east.ConstructEast = true;
+         MazeStart.exit = Position.east;
       }
       if(Type == 19) {//If Type == 19, direction entered into the maze is North with a Western corridor leading deeper into the maze.
          MazeStart.entrance.direction = 1;
          MazeStart.addWesternCorridor(setRoomData(1), Position);
          SpacialCoordinateModifierX(Position.west, X-1);
          Position.west.ConstructWest = true;
+         MazeStart.exit = Position.west;
       }
       if(Type == 20) {//If Type == 20, direction entered into the maze is East with an Eastern corridor leading deeper into the maze.
          MazeStart.entrance.direction = 2;
          MazeStart.addEasternCorridor(setRoomData(1), Position);
          SpacialCoordinateModifierX(Position.east, X+1);
          Position.east.ConstructEast = true;
+         MazeStart.exit = Position.east;
       }
       if(Type == 21) {//If Type == 21, direction entered into the maze is East with a Southern corridor leading deeper into the maze.
          MazeStart.entrance.direction = 2;
          MazeStart.addSouthernCorridor(setRoomData(1), Position);
          SpacialCoordinateModifierY(Position.south, Y-1);
          Position.south.ConstructSouth = true;
+         MazeStart.exit = Position.south;
       }
       if(Type == 22) {//If Type == 22, direction entered into the maze is East with a Northern corridor leading deeper into the maze.
          MazeStart.entrance.direction = 2;
          MazeStart.addNorthernCorridor(setRoomData(1), Position);
          SpacialCoordinateModifierY(Position.north, Y+1);
          Position.north.ConstructNorth = true;
+         MazeStart.exit = Position.north;
       }
       if(Type == 23) {//If Type == 23, direction entered into the maze is South with a Southern corridor leading deeper into the maze.
          MazeStart.entrance.direction = 3;
          MazeStart.addSouthernCorridor(setRoomData(1), Position);
          SpacialCoordinateModifierY(Position.south, Y-1);
          Position.south.ConstructSouth = true;
+         MazeStart.exit = Position.south;
       }
       if(Type == 24) {//If Type == 24, direction entered into the maze is South with a Western corridor leading deeper into the maze.
          MazeStart.entrance.direction = 3;
          MazeStart.addWesternCorridor(setRoomData(1), Position);
          SpacialCoordinateModifierX(Position.west, X-1);
          Position.west.ConstructWest = true;
+         MazeStart.exit = Position.west;
       }
       if(Type == 25) {//If Type == 25, direction entered into the maze is South with an Eastern corridor leading deeper into the maze.
          MazeStart.entrance.direction = 3;
          MazeStart.addEasternCorridor(setRoomData(1), Position);
          SpacialCoordinateModifierX(Position.east, X+1);
          Position.east.ConstructEast = true;
+         MazeStart.exit = Position.east;
       }
       if(Type == 26) {//If Type == 26, direction entered into the maze is West with a Western corridor leading deeper into the maze.
          MazeStart.entrance.direction = 4;
          MazeStart.addWesternCorridor(setRoomData(1), Position);
          SpacialCoordinateModifierX(Position.west, X-1);
          Position.west.ConstructWest = true;
+         MazeStart.exit = Position.west;
       }
       if(Type == 27) {//If Type == 27, direction entered into the maze is West with a Northern corridor leading deeper into the maze.
          MazeStart.entrance.direction = 4;
          MazeStart.addNorthernCorridor(setRoomData(1), Position);
          SpacialCoordinateModifierY(Position.north, Y+1);
          Position.north.ConstructNorth = true;
+         MazeStart.exit = Position.north;
       }
       if(Type == 28) {//If Type == 28, direction entered into the maze is West with a Southern corridor leading deeper into the maze.
          MazeStart.entrance.direction = 4;
          MazeStart.addSouthernCorridor(setRoomData(1), Position);
          SpacialCoordinateModifierY(Position.south, Y-1);
          Position.south.ConstructSouth = true;
+         MazeStart.exit = Position.south;
       }
       return MazeStart;  
    }//End Method GenerateEntrance
@@ -1129,5 +2418,52 @@ private class Node {
          }//end c>b
       }//end b>a
    }//End method FindStartRoom
+   
+   public static Maze Clone(Maze Target) {
+      Maze M;
+      M = new Maze();
+      M.addEntrance(setRoomData(0));
+      CloneMaze(getStart(Target), getStart(M), M);
+      return M;
+   }
+   
+   public static void CloneMaze(Node CloneTarget, Node Clone, Maze CloneMaze) {
+      Clone.roomData = setRoomData(getRoomNumber(CloneTarget));
+      Clone.X_Axis = getSpacialCoordinateX(CloneTarget);
+      Clone.Y_Axis = getSpacialCoordinateY(CloneTarget);
+      Clone.ConstructNorth = getConstructionPointNorth(CloneTarget);
+      Clone.ConstructEast = getConstructionPointNorth(CloneTarget);
+      Clone.ConstructSouth = getConstructionPointNorth(CloneTarget);
+      Clone.ConstructWest = getConstructionPointNorth(CloneTarget);
+      Clone.direction = getDirection(CloneTarget);
+      
+      if(CloneTarget.north != null) {
+         if(getRoomNumber(CloneTarget) < getRoomNumber(CloneTarget.north)) { 
+            CloneMaze.addNorthernCorridor(setRoomData(getRoomNumber(CloneTarget.north)), Clone);
+            CloneMaze(CloneTarget.north, Clone.north, CloneMaze);
+         }
+      }//End North check
+      
+      if(CloneTarget.east != null) {
+         if(getRoomNumber(CloneTarget) < getRoomNumber(CloneTarget.east)) {   
+            CloneMaze.addEasternCorridor(setRoomData(getRoomNumber(CloneTarget.east)), Clone);
+            CloneMaze(CloneTarget.east, Clone.east, CloneMaze);
+         }
+      }//End east check
+      
+      if(CloneTarget.south != null) {
+         if(getRoomNumber(CloneTarget) < getRoomNumber(CloneTarget.south)) {
+            CloneMaze.addSouthernCorridor(setRoomData(getRoomNumber(CloneTarget.south)), Clone);
+            CloneMaze(CloneTarget.south, Clone.south, CloneMaze);
+         }
+      }//End South check
+      
+      if(CloneTarget.west != null) {
+         if(getRoomNumber(CloneTarget) < getRoomNumber(CloneTarget.west)) {
+            CloneMaze.addWesternCorridor(setRoomData(getRoomNumber(CloneTarget.west)), Clone);
+            CloneMaze(CloneTarget.west, Clone.west, CloneMaze);
+         }
+      }//End west check
+   }//End Method CloneMaze
    
 }//End class Maze

@@ -1,25 +1,40 @@
 public class TestBasicMaze {
    public static void main (String args[]) {
    
+   //Maze.TestVarious();
+   
    Maze basic = new Maze();
+   
+   Maze clone = new Maze();
+   
+   clone.addEntrance(Maze.setRoomData(0));
    
    basic = Maze.GenerateBasicMaze();
    
-   System.out.println(Maze.ArrayRoom(Maze.TrackHighRoom(Maze.getStart(basic), 0, 0)));
+   //clone = Maze.Clone(basic);
+   
+   //clone.addNorthernCorridor(Maze.setRoomData(39), Maze.getStart(clone));
+   
+  // Maze.mazeDiagnostics(Maze.getStart(basic));
+   
+   //Maze.mazeDiagnostics(Maze.getStart(clone));
+   
+   //Maze.TrackMaxRoom(Maze.getStart(basic), basic);
+   
+   //System.out.println(Maze.getMaxMazeRoom(Maze.getMazeVar(basic)));
+   //System.out.println(Maze.TrackHighRoom(Maze.getStart(basic)));
    
    //System.out.println("1 = straight, 2 = right, 3 = back, 4 = left.");
    
    //basic.TraverseMaze(Maze.getStart(basic));
    
-   //Maze.mazeDiagnostics(Maze.getStart(basic));
+
    
-   Maze RandomTest = new Maze();
+   Maze Test = new Maze();
    
-   //RandomTest = Maze.MazeCreation(5);
+   Test = Maze.RandomMazeGeneration();//Maze.CreateMaze();
    
-   //RandomTest = Maze.TMM(3);
+   Maze.mazeDiagnostics(Maze.getStart(Test));
    
-   //Maze.mazeDiagnostics(Maze.getStart(RandomTest));
-  
    }//End main
 }//End class
