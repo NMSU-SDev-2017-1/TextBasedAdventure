@@ -15,7 +15,7 @@ public class TestBasicMaze {
    
    //clone.addNorthernCorridor(Maze.setRoomData(39), Maze.getStart(clone));
    
-  // Maze.mazeDiagnostics(Maze.getStart(basic));
+   Maze.mazeDiagnostics(Maze.getStart(basic));
    
    //Maze.mazeDiagnostics(Maze.getStart(clone));
    

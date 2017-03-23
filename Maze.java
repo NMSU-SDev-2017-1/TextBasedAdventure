@@ -42,10 +42,12 @@ private class Node {
 private class MazeVar {
    private boolean Paradox;
    private int MaxMazeRoom;
+   private int MazeEnvironment;
    
    public MazeVar() {
       Paradox = false;
       MaxMazeRoom = 0;
+      MazeEnvironment = 0;
    }//End MazeVar Constructor   
 }//End private class MazeVar
 
@@ -56,6 +58,10 @@ private class MazeVar {
       grabPoint = null;
       MazeVariables = new MazeVar();
    }
+   
+   public static int getMazeEnvironment(MazeVar MV) {
+      return MV.MazeEnvironment;
+   }//End Method getMazeEnvironment
    
    public static MazeVar getMazeVar(Maze M) {
       return M.MazeVariables;
@@ -115,10 +121,6 @@ private class MazeVar {
      }
    }//End Method
    
-   public static void setGrabPoint(Maze M, Node C) {
-      M.grabPoint = C;
-   }//End Method setGrabPoint
-   
    public static int getSpacialCoordinateY(Node C) {
       if(C == null)
          return -1;
@@ -163,6 +165,14 @@ private class MazeVar {
    public static void setMaxMazeRoom(MazeVar MV, int i) {
       MV.MaxMazeRoom = i;
    }//End Method setMaxMazeRoom
+   
+   public static void setMazeEnvironment(MazeVar MV, int i) {
+      MV.MazeEnvironment = i;
+   }//End Method setMazeEnvironment
+   
+   public static void setGrabPoint(Maze M, Node C) {
+      M.grabPoint = C;
+   }//End Method setGrabPoint
    
    public static void SpacialCoordinateModifierY(Node C, int y) {
       C.Y_Axis = y;
@@ -289,162 +299,194 @@ private class MazeVar {
       Maze Tutorial = new Maze();
       
       Tutorial.addEntrance(setRoomData(0));
-      Tutorial.entrance.direction = 3;      
+      Tutorial.entrance.direction = 3;
+      Node StartPoint = Tutorial.entrance;      
       Node Position = Tutorial.entrance;
       SpacialCoordinateModifierX(Position, 0);
       SpacialCoordinateModifierY(Position, 0);
       
-      Tutorial.addSouthernCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 1
+      TrackMaxRoom(StartPoint, Tutorial);
+      Tutorial.addSouthernCorridor(setRoomData(getMaxMazeRoom(getMazeVar(Tutorial))+1), Position);//Added room 1
       Position = moveSouth(Position);
       SpacialCoordinateModifierX(Position, 0);
       SpacialCoordinateModifierY(Position, -1);
       
-      Tutorial.addSouthernCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 2
+      TrackMaxRoom(StartPoint, Tutorial);
+      Tutorial.addSouthernCorridor(setRoomData(getMaxMazeRoom(getMazeVar(Tutorial))+1), Position);//Added room 2
       Position = moveSouth(Position);
       SpacialCoordinateModifierX(Position, 0);
       SpacialCoordinateModifierY(Position, -2);
       
-      Tutorial.addSouthernCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 3
+      TrackMaxRoom(StartPoint, Tutorial);
+      Tutorial.addSouthernCorridor(setRoomData(getMaxMazeRoom(getMazeVar(Tutorial))+1), Position);//Added room 3
       Position = moveSouth(Position);
       SpacialCoordinateModifierX(Position, 0);
       SpacialCoordinateModifierY(Position, -3);
       
-      Tutorial.addSouthernCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 4
+      TrackMaxRoom(StartPoint, Tutorial);
+      Tutorial.addSouthernCorridor(setRoomData(getMaxMazeRoom(getMazeVar(Tutorial))+1), Position);//Added room 4
       SpacialCoordinateModifierX(Position.south, 0);
       SpacialCoordinateModifierY(Position.south, -4);
       
-      Tutorial.addEasternCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 5
+      TrackMaxRoom(StartPoint, Tutorial);
+      Tutorial.addEasternCorridor(setRoomData(getMaxMazeRoom(getMazeVar(Tutorial))+1), Position);//Added room 5
       Position = moveEast(Position);
       SpacialCoordinateModifierX(Position, 1);
       SpacialCoordinateModifierY(Position, -3);
       
-      Tutorial.addEasternCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 6 
+      TrackMaxRoom(StartPoint, Tutorial);
+      Tutorial.addEasternCorridor(setRoomData(getMaxMazeRoom(getMazeVar(Tutorial))+1), Position);//Added room 6 
       Position = moveEast(Position);
       SpacialCoordinateModifierX(Position, 2);
       SpacialCoordinateModifierY(Position, -3);
       
-      Tutorial.addSouthernCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 7
+      TrackMaxRoom(StartPoint, Tutorial);
+      Tutorial.addSouthernCorridor(setRoomData(getMaxMazeRoom(getMazeVar(Tutorial))+1), Position);//Added room 7
       Position = moveSouth(Position);
       SpacialCoordinateModifierX(Position, 2);
       SpacialCoordinateModifierY(Position, -4);
       
-      Tutorial.addSouthernCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 8
+      TrackMaxRoom(StartPoint, Tutorial);
+      Tutorial.addSouthernCorridor(setRoomData(getMaxMazeRoom(getMazeVar(Tutorial))+1), Position);//Added room 8
       SpacialCoordinateModifierX(Position.south, 2);
       SpacialCoordinateModifierY(Position.south, -5);
       
+      TrackMaxRoom(StartPoint, Tutorial);
       Position = moveNorth(Position);
-      Tutorial.addNorthernCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 9
+      Tutorial.addNorthernCorridor(setRoomData(getMaxMazeRoom(getMazeVar(Tutorial))+1), Position);//Added room 9
       Position = moveNorth(Position);
       SpacialCoordinateModifierX(Position, 2);
       SpacialCoordinateModifierY(Position, -2);
       
-      Tutorial.addEasternCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 10
+      TrackMaxRoom(StartPoint, Tutorial);
+      Tutorial.addEasternCorridor(setRoomData(getMaxMazeRoom(getMazeVar(Tutorial))+1), Position);//Added room 10
       Position = moveEast(Position);
       SpacialCoordinateModifierX(Position, 3);
       SpacialCoordinateModifierY(Position, -2);
       
-      Tutorial.addNorthernCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 11
+      TrackMaxRoom(StartPoint, Tutorial);
+      Tutorial.addNorthernCorridor(setRoomData(getMaxMazeRoom(getMazeVar(Tutorial))+1), Position);//Added room 11
       Position = moveNorth(Position);
       SpacialCoordinateModifierX(Position, 3);
       SpacialCoordinateModifierY(Position, -1);
       
-      Tutorial.addNorthernCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 12
+      TrackMaxRoom(StartPoint, Tutorial);
+      Tutorial.addNorthernCorridor(setRoomData(getMaxMazeRoom(getMazeVar(Tutorial))+1), Position);//Added room 12
       Position = moveNorth(Position);
       SpacialCoordinateModifierX(Position, 3);
       SpacialCoordinateModifierY(Position, 0);
       
-      Tutorial.addWesternCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 13
+      TrackMaxRoom(StartPoint, Tutorial);
+      Tutorial.addWesternCorridor(setRoomData(getMaxMazeRoom(getMazeVar(Tutorial))+1), Position);//Added room 13
       SpacialCoordinateModifierX(Position.west, 2);
       SpacialCoordinateModifierY(Position.west, 0);
       
-      Tutorial.addEasternCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 14
+      TrackMaxRoom(StartPoint, Tutorial);
+      Tutorial.addEasternCorridor(setRoomData(getMaxMazeRoom(getMazeVar(Tutorial))+1), Position);//Added room 14
       Position = moveEast(Position);
       SpacialCoordinateModifierX(Position, 4);
       SpacialCoordinateModifierY(Position, 0);
       
-      Tutorial.addEasternCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 15
+      TrackMaxRoom(StartPoint, Tutorial);
+      Tutorial.addEasternCorridor(setRoomData(getMaxMazeRoom(getMazeVar(Tutorial))+1), Position);//Added room 15
       Position = moveEast(Position);
       SpacialCoordinateModifierX(Position, 5);
       SpacialCoordinateModifierY(Position, 0);
-         
-      Tutorial.addEasternCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 16
+      
+      TrackMaxRoom(StartPoint, Tutorial);   
+      Tutorial.addEasternCorridor(setRoomData(getMaxMazeRoom(getMazeVar(Tutorial))+1), Position);//Added room 16
       Position = moveEast(Position);
       SpacialCoordinateModifierX(Position, 6);
       SpacialCoordinateModifierY(Position, 0);
       
-      Tutorial.addEasternCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 17
+      TrackMaxRoom(StartPoint, Tutorial);
+      Tutorial.addEasternCorridor(setRoomData(getMaxMazeRoom(getMazeVar(Tutorial))+1), Position);//Added room 17
       SpacialCoordinateModifierX(Position.east, 7);
       SpacialCoordinateModifierY(Position.east, 0);
       
+      TrackMaxRoom(StartPoint, Tutorial);
       Position = moveWest(Position);
       Position = moveWest(Position);
       Position = moveWest(Position);
       Position = moveSouth(Position);
       Position = moveSouth(Position);
-      Tutorial.addEasternCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 18
+      Tutorial.addEasternCorridor(setRoomData(getMaxMazeRoom(getMazeVar(Tutorial))+1), Position);//Added room 18
       Position = moveEast(Position);
       SpacialCoordinateModifierX(Position, 4);
       SpacialCoordinateModifierY(Position, -2);
       
-      Tutorial.addEasternCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 19
+      TrackMaxRoom(StartPoint, Tutorial);
+      Tutorial.addEasternCorridor(setRoomData(getMaxMazeRoom(getMazeVar(Tutorial))+1), Position);//Added room 19
       Position = moveEast(Position);
       SpacialCoordinateModifierX(Position, 5);
       SpacialCoordinateModifierY(Position, -2);
       
-      Tutorial.addSouthernCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 20
+      TrackMaxRoom(StartPoint, Tutorial);
+      Tutorial.addSouthernCorridor(setRoomData(getMaxMazeRoom(getMazeVar(Tutorial))+1), Position);//Added room 20
       Position = moveSouth(Position);
       SpacialCoordinateModifierX(Position, 5);
       SpacialCoordinateModifierY(Position, -3);
       
-      Tutorial.addSouthernCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 21
+      TrackMaxRoom(StartPoint, Tutorial);
+      Tutorial.addSouthernCorridor(setRoomData(getMaxMazeRoom(getMazeVar(Tutorial))+1), Position);//Added room 21
       Position = moveSouth(Position);
       SpacialCoordinateModifierX(Position, 5);
       SpacialCoordinateModifierY(Position, -4);
       
-      Tutorial.addWesternCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 22
+      TrackMaxRoom(StartPoint, Tutorial);
+      Tutorial.addWesternCorridor(setRoomData(getMaxMazeRoom(getMazeVar(Tutorial))+1), Position);//Added room 22
       Position = moveWest(Position);
       SpacialCoordinateModifierX(Position, 4);
       SpacialCoordinateModifierY(Position, -4);
       
-      Tutorial.addSouthernCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 23
+      TrackMaxRoom(StartPoint, Tutorial);
+      Tutorial.addSouthernCorridor(setRoomData(getMaxMazeRoom(getMazeVar(Tutorial))+1), Position);//Added room 23
       Position = moveSouth(Position);
       SpacialCoordinateModifierX(Position, 4);
       SpacialCoordinateModifierY(Position, -5);
       
-      Tutorial.addSouthernCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 24
+      TrackMaxRoom(StartPoint, Tutorial);
+      Tutorial.addSouthernCorridor(setRoomData(getMaxMazeRoom(getMazeVar(Tutorial))+1), Position);//Added room 24
       Position = moveSouth(Position);
       SpacialCoordinateModifierX(Position, 4);
       SpacialCoordinateModifierY(Position, -6);
       
-      Tutorial.addSouthernCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 25
+      TrackMaxRoom(StartPoint, Tutorial);
+      Tutorial.addSouthernCorridor(setRoomData(getMaxMazeRoom(getMazeVar(Tutorial))+1), Position);//Added room 25
       Position = moveSouth(Position);
       SpacialCoordinateModifierX(Position, 4);
       SpacialCoordinateModifierY(Position, -7);
       
-      Tutorial.addWesternCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 26
+      TrackMaxRoom(StartPoint, Tutorial);
+      Tutorial.addWesternCorridor(setRoomData(getMaxMazeRoom(getMazeVar(Tutorial))+1), Position);//Added room 26
       Position = moveWest(Position);
       SpacialCoordinateModifierX(Position, 3);
       SpacialCoordinateModifierY(Position, -7);
       
-      Tutorial.addWesternCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 27
+      TrackMaxRoom(StartPoint, Tutorial);
+      Tutorial.addWesternCorridor(setRoomData(getMaxMazeRoom(getMazeVar(Tutorial))+1), Position);//Added room 27
       Position = moveWest(Position);
       SpacialCoordinateModifierX(Position, 2);
       SpacialCoordinateModifierY(Position, -7);
       
-      Tutorial.addWesternCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 28
+      TrackMaxRoom(StartPoint, Tutorial);
+      Tutorial.addWesternCorridor(setRoomData(getMaxMazeRoom(getMazeVar(Tutorial))+1), Position);//Added room 28
       Position = moveWest(Position);
       SpacialCoordinateModifierX(Position, 1);
       SpacialCoordinateModifierY(Position, -7);
       
-      Tutorial.addWesternCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 29
+      TrackMaxRoom(StartPoint, Tutorial);
+      Tutorial.addWesternCorridor(setRoomData(getMaxMazeRoom(getMazeVar(Tutorial))+1), Position);//Added room 29
       Position = moveWest(Position);
       SpacialCoordinateModifierX(Position, 0);
       SpacialCoordinateModifierY(Position, -7);
       
-      Tutorial.addNorthernCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 30
+      TrackMaxRoom(StartPoint, Tutorial);
+      Tutorial.addNorthernCorridor(setRoomData(getMaxMazeRoom(getMazeVar(Tutorial))+1), Position);//Added room 30
       SpacialCoordinateModifierX(Position.north, 0);
       SpacialCoordinateModifierY(Position.north, -6);
       
+      TrackMaxRoom(StartPoint, Tutorial);
       Position = moveEast(Position);
       Position = moveEast(Position);
       Position = moveEast(Position);
@@ -453,7 +495,7 @@ private class MazeVar {
       Position = moveNorth(Position);
       Position = moveNorth(Position);
       Position = moveEast(Position);
-      Tutorial.addEasternCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 31
+      Tutorial.addEasternCorridor(setRoomData(getMaxMazeRoom(getMazeVar(Tutorial))+1), Position);//Added room 31
       Position = moveEast(Position);
       SpacialCoordinateModifierX(Position, 6);
       SpacialCoordinateModifierY(Position, -4);
@@ -462,42 +504,50 @@ private class MazeVar {
       //ParadoxAvoidance_3Block(Tutorial, getStart(Tutorial), Position.north, Position.north.north, Position.north.north.north);
       //System.out.println(getParadox(Tutorial.MazeVariables));
       
-      Tutorial.addEasternCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 32
+      TrackMaxRoom(StartPoint, Tutorial);
+      Tutorial.addEasternCorridor(setRoomData(getMaxMazeRoom(getMazeVar(Tutorial))+1), Position);//Added room 32
       Position = moveEast(Position);
       SpacialCoordinateModifierX(Position, 7);
       SpacialCoordinateModifierY(Position, -4);
       
-      Tutorial.addNorthernCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 33
+      TrackMaxRoom(StartPoint, Tutorial);
+      Tutorial.addNorthernCorridor(setRoomData(getMaxMazeRoom(getMazeVar(Tutorial))+1), Position);//Added room 33
       Position = moveNorth(Position);
       SpacialCoordinateModifierX(Position, 7);
       SpacialCoordinateModifierY(Position, -3);
       
-      Tutorial.addNorthernCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 34
+      TrackMaxRoom(StartPoint, Tutorial);
+      Tutorial.addNorthernCorridor(setRoomData(getMaxMazeRoom(getMazeVar(Tutorial))+1), Position);//Added room 34
       SpacialCoordinateModifierX(Position.north, 7);
       SpacialCoordinateModifierY(Position.north, -2);
       
+      TrackMaxRoom(StartPoint, Tutorial);
       Position = moveSouth(Position);
       Position = moveWest(Position);
-      Tutorial.addSouthernCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 35
+      Tutorial.addSouthernCorridor(setRoomData(getMaxMazeRoom(getMazeVar(Tutorial))+1), Position);//Added room 35
       Position = moveSouth(Position);
       SpacialCoordinateModifierX(Position, 6);
       SpacialCoordinateModifierY(Position, -5);
       
-      Tutorial.addSouthernCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 36
+      TrackMaxRoom(StartPoint, Tutorial);
+      Tutorial.addSouthernCorridor(setRoomData(getMaxMazeRoom(getMazeVar(Tutorial))+1), Position);//Added room 36
       Position = moveSouth(Position);
       SpacialCoordinateModifierX(Position, 6);
       SpacialCoordinateModifierY(Position, -6);
       
-      Tutorial.addEasternCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 37
+      TrackMaxRoom(StartPoint, Tutorial);
+      Tutorial.addEasternCorridor(setRoomData(getMaxMazeRoom(getMazeVar(Tutorial))+1), Position);//Added room 37
       Position = moveEast(Position);
       SpacialCoordinateModifierX(Position, 7);
       SpacialCoordinateModifierY(Position, -6);
       
-      Tutorial.addSouthernCorridor(setRoomData(TrackHighRoom(Position)+1), Position);//Added room 38
+      TrackMaxRoom(StartPoint, Tutorial);
+      Tutorial.addSouthernCorridor(setRoomData(getMaxMazeRoom(getMazeVar(Tutorial))+1), Position);//Added room 38
       Position = moveSouth(Position);
       SpacialCoordinateModifierX(Position, 7);
       SpacialCoordinateModifierY(Position, -7);
       
+      TrackMaxRoom(StartPoint, Tutorial);
       Tutorial.exit = Position;
       
       return Tutorial;
@@ -581,164 +631,10 @@ private class MazeVar {
    return NValue;
    }//End Method RandomNodeSelection
    
-   public static Maze CreateMaze() {
-      Maze Dungeon = new Maze();
-      Dungeon = GenerateMazeStartPoint(Dungeon);
-      Dungeon = GenerateLevelOne(Dungeon, FindStartRoom(Dungeon));
-      return Dungeon;
-   }//End Method CreateMaze
-   
-   public static Maze GenerateLevelOne(Maze M, Node C) {
-      Maze MM = new Maze();
-      MM = M;
-      int count;
-      count = 0;
-      while(count < 10) {
-         MM = GenerateMaze(MM, C, 0, 0);
-         count++;
-      }
-      return MM;
-   }//End Method GenerateLevelOne
-   
-   public static Maze GenerateMaze(Maze M, Node C, int FailSafe, int MAX) {
-      if(FailSafe >= 15) {
-         return M;
-      }
-      Node Position;
-      int x, MaxRoom, RNG, stop;
-      stop = 0;
-      Position = C;
-      MaxRoom = getMaxMazeRoom(M.MazeVariables);
-      RNG = (int)(Math.random()*(5-1)+1);
-      
-      while(stop <= MaxRoom) {
-         x = (int)(Math.random()*(5-1)+1);
-         if(x==1) {
-            if(Position.north != null) {
-               FailSafe++;
-               GenerateMaze(M, Position.north, FailSafe, MaxRoom);
-               break;
-            }
-            else
-               continue;
-         }//End North if
-         if(x==2) {
-            if(Position.east != null) {
-               FailSafe++;
-               GenerateMaze(M, Position.east, FailSafe, MaxRoom);
-               break;
-            }
-            else
-               continue;
-         }//End East if
-         if(x==3) {   
-            if(Position.south != null) {
-               FailSafe++;
-               GenerateMaze(M, Position.south, FailSafe, MaxRoom);
-               break;
-            }
-            else
-               continue;
-         }//End South check
-         if(x==4) {   
-            if(Position.west != null) {
-               FailSafe++;
-               GenerateMaze(M, Position.west, FailSafe, MaxRoom);
-               break;
-            }
-            else
-               continue;
-         }//End West if
-      }//End Loop
-      if(isConstructionPoint(Position) == true) {
-         Position = BlockGenerator(Position, RNG, MaxRoom, getSpacialCoordinateX(Position), getSpacialCoordinateY(Position), M);
-      }//End construction Check
-      
-      M.exit = Position;
-      return M;
-      
-   }//End Method GenerateMaze
-   
    public static Maze GenerateMazeStartPoint(Maze M) {
       M = GenerateEntrance((int)(Math.random() *(29-1)+1));
       return M;
-   }
-   
-   public static int TrackHighRoom(Node C) {
-      int N = getRoomNumber(C);
-      int a, b, c, d;
-      a = b = c = d = 0;
-      if(C.north != null)
-         a = getRoomNumber(C.north);
-      if(C.east != null)
-         b = getRoomNumber(C.east);
-      if(C.south != null)
-         c = getRoomNumber(C.south);
-      if(C.west != null)
-         d = getRoomNumber(C.west);
-      
-      if(a>b) {//a is higher than b
-         if(a>c) {//a is higher than c and b
-            if(a>d) {//a is the highest room number; 
-               if(N >= a)
-                  return N;
-               else
-                  return TrackHighRoom(C.north);
-            }//end a>d
-            else {//d is the highest room number;
-               if(N >= d)
-                  return N;
-               else    
-                  return TrackHighRoom(C.west);
-            }//end d>a
-         }//end a>c
-         else {//c is higher than a and b
-            if(c>d) {//c is the highest room number
-               if(N >= c)
-                  return N;
-               else
-                  return TrackHighRoom(C.south);
-            }//end c>d
-            else {//d is the highest room number
-               if(N >= d)
-                  return N;
-               else   
-                  return TrackHighRoom(C.west);
-            }//end d>c
-         }//end c>a
-      }//end a>b
-      else {//b is higher than a
-         if(b>c) {//b is higher than c and a
-            if(b>d) {//b is the highest room number
-               if(N >= b)
-                  return N;
-               else   
-                  return TrackHighRoom(C.east);
-            }//end b>d
-            else {//d is the highest room number
-               if(N >= d)
-                  return N;
-               else   
-                  return TrackHighRoom(C.west);
-            }//end d>b
-         }//end b>c
-         else {//c is higher than b and a
-            if(c>d) {//c is the highest room number
-               if(N >= c)
-                  return N;
-               else   
-                  return TrackHighRoom(C.south);
-            }//end c>d
-            else {//d is the highest room number
-               if(N >= d)
-                  return N;
-               else   
-                  return TrackHighRoom(C.west);
-            }//end d>c
-         }//end c>b
-      }//end b>a
-      
-   }//End method TrackHighRoom
+   }//End Method GenerateMazeStartPoint
    
    public static void TrackMaxRoom (Node C, Maze M) {
       int x;
