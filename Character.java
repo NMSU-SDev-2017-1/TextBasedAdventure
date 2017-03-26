@@ -5,15 +5,30 @@
 //Generate Character Object
 public class Character{
    public String playerID;
-   protected int attack;
-   protected int defense;
-   protected int luck;
-   protected int healthpoints;
-   protected Item inventory[];
-   protected Item equipment[];
+   public int baseAttack;
+   public int baseDefense;
+   public int baseLuck;
+   public int baseHealthpoints;
+   public int maxHP;
+
+   public int attack;
+   public int defense;
+   public int luck;
+   public int healthpoints;
+
+
+   public Item inventory[];
+   public Item equipment[];
    //Constructor
    public Character(String playerID){
       this.playerID = playerID;
+
+      this.baseAttack = 5;
+      this.baseDefense = 10;
+      this.baseLuck = 5;
+      this.baseHealthpoints = 10;
+      this.maxHP = 10;
+
       this.attack = 5;
       this.defense = 10;
       this.luck = 5;
@@ -24,6 +39,13 @@ public class Character{
    //Specific Value Constructor
    public Character(String playerID, int attack, int defense, int luck, int healthpoints, int inventorySize){
       this.playerID = playerID;
+
+      this.baseAttack = attack;
+      this.baseDefense = defense;
+      this.baseLuck = luck;
+      this.baseHealthpoints = healthpoints;
+      this.maxHP = healthpoints;
+
       this.attack = attack;
       this.defense = defense;
       this.luck = luck;
@@ -134,8 +156,25 @@ public class Character{
 	   playerID = newID;
    }
    public void modHP(int newHP){
+        if(healthpoints + newHP > maxHP)
+           healthpoints = maxHP;
+        else   
 	   healthpoints = healthpoints + newHP;
    }
+   public void modMaxHP(int newMaxHP){
+	   maxHP = maxHP + newMaxHP;
+   }
+   public void modATK(int newATK){
+	   attack = attack + newATK;
+   }
+   public void modDEF(int newDEF){
+	   defense = defense + newDEF;
+   }
+   public void modLUCK(int newLUCK){
+	   luck = luck + newLUCK;
+   }
+
+
    public void setAtk(int newATK){
 	   attack = newATK;
    }
@@ -145,6 +184,8 @@ public class Character{
    public void setLuck(int newLUCK){
 	   luck = newLUCK;
    }
+
+
    public void modInventorySize(int newSIZE){
 	   Item newInventory[] = new Item[newSIZE];
 	   for(int i = 0;i < inventory.length; i++){
@@ -152,10 +193,42 @@ public class Character{
 	   }
 	   inventory = newInventory;
    }
+
+
+
+
+   public void equipmentMod(){
+      attack = baseAttack;
+      defense = baseDefense;
+      luck = baseLuck;
+      maxHP = baseHealthpoints;
+
+      if(healthpoints > maxHP)
+         healthpoints = maxHP;
+
+      for(int i = 0; i < equipment.length; i++){
+         if(equipment[i] == null)
+            ;
+         else{
+            modMaxHP(equipment[i].getHealthMod());
+            modATK(equipment[i].getAttackMod());
+            modDEF(equipment[i].getDefenseMod());
+            modLUCK(equipment[i].getLuckMod());
+         }
+      }
+   }
+
+
+
+
+
+
+
+
    //toString Method
    public String toString(){
-	   String statLine = "HP: " + healthpoints + ", Attack: " + attack + ", Defense: " + defense + ", Luck: " + luck + ", Inventory Size: " + inventory.length;
+       String statLine = "HP: " + healthpoints +"/" + maxHP + ", Attack: " + attack + ", Defense: " + defense + ", Luck: " + luck + ", Inventory Size: " + inventory.length;
        String information = "Player: " + playerID + ", " + statLine;
-	   return information;
+       return information;
    }
 }//end character

@@ -7,7 +7,7 @@ public class Equipment extends Item{
    //Constructors
    public Equipment(){
       this.itemName = "";
- 	   this.size = 1;
+      this.size = 1;
       this.coinValue = 5;
       this.healthMod = 0;
       this.attackMod = 0;
@@ -17,7 +17,7 @@ public class Equipment extends Item{
    }
    public Equipment(String itemName, int size, int coinValue, int healthMod, int attackMod, int defenseMod, int luckMod, char attatchment){
       this.itemName = itemName;
- 	   this.size = size;
+      this.size = size;
       this.coinValue = coinValue;
       this.healthMod = healthMod;
       this.attackMod = attackMod;
