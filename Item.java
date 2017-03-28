@@ -1,17 +1,21 @@
 public class Item{
-   protected String itemName;
-   protected int size;
-   protected int coinValue;
+   public String itemName;
+   public int size;
+   public int coinValue;
    public int healthMod;
    public int attackMod;
    public int defenseMod;
    public int luckMod;
    public boolean consumed;
+   public String attachment;
+   public String description;
+   public String itemUse;
    //Default Constructor ---- SHOULD NEVER BE USED
    public Item(){
       this.itemName = "";
-	   this.size = 0;
+      this.size = 0;
       this.coinValue = 0;
+      this.consumed = false;
    }
 
    //General Accessors
@@ -37,6 +41,18 @@ public class Item{
    public int getLuckMod(){
       return luckMod;
    }  
+   public String getItemDescription(){
+      return description;
+   }
+   public String getAttachment(){
+      return attachment;
+   }
+   public String getItemUse(){
+      return itemUse;
+   }
+   public boolean getConsumed(){
+      return consumed;
+   }
 
    //General Mutators
    public void setItemName(String newNAME){
@@ -48,7 +64,9 @@ public class Item{
    public void setCoinValue(int newCOINVALUE){
       coinValue = newCOINVALUE;
    }
-
+   public void setConsumed(){
+      consumed = true;
+   }
 
 
 

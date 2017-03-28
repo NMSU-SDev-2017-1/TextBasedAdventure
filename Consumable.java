@@ -9,15 +9,21 @@ public class Consumable extends Item{
       this.defenseMod = 0;
       this.luckMod = 0;
       this.consumed = false;
+      this.description = "";
+      this.attachment = "X";
+      this.itemUse = "consume";
    }
-   public Consumable(String itemName, int size, int coinValue, int healthMod, int attackMod, int defenseMod, int luckMod){
+   public Consumable(String itemName, int size, int coinValue, int healthMod, int attackMod, int defenseMod, int luckMod, String description){
       this.itemName = itemName;
- 	   this.size = size;
+      this.size = size;
       this.coinValue = coinValue;
       this.healthMod = healthMod;
       this.attackMod = attackMod;
       this.defenseMod = defenseMod;
       this.luckMod = luckMod;
       this.consumed = false;
+      this.description = description;
+      this.attachment = "X";
+      this.itemUse = "consume";
    }      
 }//end class

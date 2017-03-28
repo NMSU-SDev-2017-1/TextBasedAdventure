@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 //Character.java
 //Written for: TBAD
 //Contains class to create Player object
@@ -70,8 +72,9 @@ public class Character{
       return luck;
    }
    public int getInventorySize(){
-	   return inventory.length;
+      return inventory.length;
    }
+    
    public String getInventoryList(){
       int i = 0;
       String list = "";
@@ -195,8 +198,6 @@ public class Character{
    }
 
 
-
-
    public void equipmentMod(){
       attack = baseAttack;
       defense = baseDefense;
@@ -214,14 +215,145 @@ public class Character{
             modATK(equipment[i].getAttackMod());
             modDEF(equipment[i].getDefenseMod());
             modLUCK(equipment[i].getLuckMod());
-         }
+         }//end else
+      }//end for
+   }//end equipmentMod
+
+   public void addInventoryItem(Item newItem){
+      int i = 0;
+      while(inventory[i] != null){
+         i++;
+      }
+      if(i >= inventory.length)
+         System.out.println("You cannot hold any more items.");
+      else{
+         inventory[i] = newItem;
+         System.out.println("You added " + newItem.getItemName() + " to your inventory.");
       }
    }
+   
+   public void useInventory(){
+      Scanner scan = new Scanner(System.in);
+      System.out.println();
+      System.out.println(getInventoryList());
+      System.out.println();
+      System.out.println("Do you want to examine an item?");
+      System.out.println("1. Yes");
+      System.out.println("2. No");    
+      int itemOption = scan.nextInt();
+      if(itemOption == 1){
+         int useOption = 1;
+         int i = 0;
+         System.out.println("Which item do you wish to examine?");
+         while(inventory[i] != null){
+            System.out.println( useOption +". " + inventory[i].getItemName());
+            useOption++;
+            i++;
+         }
+         int numberOfItems = useOption;
+         int itemSelection = scan.nextInt();
+         if(itemSelection <= useOption && inventory[itemSelection-1] != null){
+            System.out.println("What do you want to do?");
+            System.out.println("1. Check");
+            System.out.println("2. Use");
+            System.out.println("3. Exit");
+            int itemAction = scan.nextInt();
+            if(itemAction == 1){
+               System.out.println(inventory[itemSelection-1].getItemDescription());
+               useInventory();
+            }
+            else if(itemAction == 2){
+               if(inventory[itemSelection-1].getAttachment() == "X")
+                  useItem(inventory[itemSelection-1], itemSelection-1);
+               else
+                  equipItem(inventory[itemSelection-1], itemSelection-1);
+            }//end else if itemAction == 2
+            else if(itemAction == 3)
+               useInventory();
+         }//end if
+      
+      }//end itemOption == 1 if
+      else if(itemOption == 2){
+         System.out.println();
+      }  
+      updateInventory(inventory);
+   }
 
+   public void useItem(Item selectedItem, int index){
+      modMaxHP(selectedItem.getHealthMod());
+      modATK(selectedItem.getAttackMod());
+      modDEF(selectedItem.getDefenseMod());
+      modLUCK(selectedItem.getLuckMod());
+      System.out.println("You used: " + inventory[index].getItemName() + ".");
+      if(selectedItem.getAttachment() == "X")
+         inventory[index] = null;
+   }//end useItem
+   
+   public void equipItem(Item selectedItem, int index){
+      if(selectedItem.getAttachment() == "H"){
+         equipment[0] = selectedItem;
+         inventory[index] = null;
+         System.out.println("You equipped " + selectedItem.getItemName() + " to your head.");
+      }
+      else if(selectedItem.getAttachment() == "T"){
+         equipment[1] = selectedItem;
+         inventory[index] = null;
+         System.out.println("You equipped " + selectedItem.getItemName() + " to your torso.");
+      }
+      else if(selectedItem.getAttachment() == "A"){
+         equipment[2] = selectedItem;
+         inventory[index] = null;
+         System.out.println("You equipped " + selectedItem.getItemName() + " to your arms.");
+      }
+      else if(selectedItem.getAttachment() == "L"){
+         equipment[3] = selectedItem;
+         inventory[index] = null;
+         System.out.println("You equipped " + selectedItem.getItemName() + " to your legs.");
+      }
+      else if(selectedItem.getAttachment() == "P"){
+         equipment[4] = selectedItem;
+         inventory[index] = null;
+         System.out.println("You equipped " + selectedItem.getItemName() + " as your Primary Weapon.");
+      }
+      else if(selectedItem.getAttachment() == "S"){
+         equipment[5] = selectedItem;
+         inventory[index] = null;
+         System.out.println("You equipped " + selectedItem.getItemName() + " as your Secondary Weapon.");
+      }
+      else if(selectedItem.getAttachment() == "C"){
+         equipment[6] = selectedItem;
+         inventory[index] = null;
+         System.out.println("You equipped " + selectedItem.getItemName() + " as your first charm .");
+      }
+      else if(selectedItem.getAttachment() == "R"){
+         equipment[7] = selectedItem;
+         inventory[index] = null;
+         System.out.println("You equipped " + selectedItem.getItemName() + " as your second charm.");
+      }
+      else if(selectedItem.getAttachment() == "B"){
+         equipment[8] = selectedItem;
+         inventory[index] = null;
+         System.out.println("You equipped " + selectedItem.getItemName() + " as your new bag.");
+      }
+      else if(selectedItem.getAttachment() == "W"){
+         equipment[9] = selectedItem;
+         inventory[index] = null;
+         System.out.println("You equipped " + selectedItem.getItemName() + " as your new wallet");
+      }
+      else
+         System.out.println("This item cannot be equipped.");
+   }//end equipItem
 
-
-
-
+   public void updateInventory(Item inventory[]){
+      for(int j = 0; j < inventory.length; j++){
+         if(inventory[j] == null){
+            while(inventory[j] == null){
+               inventory[j] = inventory[j+1];
+               inventory[j+1] = null;
+            }//end while       
+         }//end if
+      }
+   }//end updateInventory
 
 
 

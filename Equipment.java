@@ -3,7 +3,7 @@ public class Equipment extends Item{
    public int attackMod;
    public int defenseMod;
    public int luckMod;
-   protected char attatchment;
+   public String attachment;
    //Constructors
    public Equipment(){
       this.itemName = "";
@@ -13,9 +13,10 @@ public class Equipment extends Item{
       this.attackMod = 0;
       this.defenseMod = 0;
       this.luckMod = 0;
-      this.attatchment = 'X'; //0-H, 1-T, 2-A, 3-L, 4-P, 5-S, 6-C, 7-R, 8-B, 9-W
+      this.attachment = "z"; //0-H, 1-T, 2-A, 3-L, 4-P, 5-S, 6-C, 7-R, 8-B, 9-W
+      this.description = "";
    }
-   public Equipment(String itemName, int size, int coinValue, int healthMod, int attackMod, int defenseMod, int luckMod, char attatchment){
+   public Equipment(String itemName, int size, int coinValue, int healthMod, int attackMod, int defenseMod, int luckMod, String attachment, String Description){
       this.itemName = itemName;
       this.size = size;
       this.coinValue = coinValue;
@@ -23,7 +24,8 @@ public class Equipment extends Item{
       this.attackMod = attackMod;
       this.defenseMod = defenseMod;
       this.luckMod = luckMod;
-      this.attatchment = attatchment;
+      this.attachment = attachment;
+      this.description = description;
    }
    //Accessors
    public String getItemName(){
@@ -41,6 +43,15 @@ public class Equipment extends Item{
    public int getLuckMod(){
       return luckMod;
    }  
+   public String getAttachment(){
+      return attachment;
+   }
+   public String getItemUse(){
+      return itemUse;
+   }
+   public boolean getConsumed(){
+      return consumed;
+   }
    //Mutators
    public void setItemName(String newNAME){
       itemName = newNAME;
