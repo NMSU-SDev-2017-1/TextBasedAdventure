@@ -1,5 +1,7 @@
 import java.util.Scanner;
-
+import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 //Character.java
 //Written for: TBAD
 //Contains class to create Player object
@@ -91,6 +93,7 @@ public class Character{
    }
    public void getEquipmentList(){
       String empty = "Empty Slot";
+      System.out.println();
       for(int i = 0; i < equipment.length; i++){
          if(i == 0){
             if(equipment[i] == null)
@@ -153,6 +156,7 @@ public class Character{
                System.out.println("Head - " + equipment[i].getItemName());
          }
       }
+   System.out.println();
    }
    //Mutators
    public void setID(String newID){
@@ -244,6 +248,7 @@ public class Character{
       if(itemOption == 1){
          int useOption = 1;
          int i = 0;
+	 System.out.println();
          System.out.println("Which item do you wish to examine?");
          while(inventory[i] != null){
             System.out.println( useOption +". " + inventory[i].getItemName());
@@ -253,6 +258,7 @@ public class Character{
          int numberOfItems = useOption;
          int itemSelection = scan.nextInt();
          if(itemSelection <= useOption && inventory[itemSelection-1] != null){
+            System.out.println();
             System.out.println("What do you want to do?");
             System.out.println("1. Check");
             System.out.println("2. Use");
@@ -291,9 +297,17 @@ public class Character{
    
    public void equipItem(Item selectedItem, int index){
       if(selectedItem.getAttachment() == "H"){
-         equipment[0] = selectedItem;
-         inventory[index] = null;
-         System.out.println("You equipped " + selectedItem.getItemName() + " to your head.");
+         if(equipment[0] != null){
+            addInventoryItem(equipment[0]);
+            equipment[0] = selectedItem;
+            inventory[index] = null;
+            System.out.println("You equipped " + selectedItem.getItemName() + " to your head.");
+         }
+         else{
+            equipment[0] = selectedItem;
+            inventory[index] = null;
+            System.out.println("You equipped " + selectedItem.getItemName() + " to your head.");
+         }
       }
       else if(selectedItem.getAttachment() == "T"){
          equipment[1] = selectedItem;
@@ -311,9 +325,17 @@ public class Character{
          System.out.println("You equipped " + selectedItem.getItemName() + " to your legs.");
       }
       else if(selectedItem.getAttachment() == "P"){
-         equipment[4] = selectedItem;
-         inventory[index] = null;
-         System.out.println("You equipped " + selectedItem.getItemName() + " as your Primary Weapon.");
+         if(equipment[4] != null){
+            addInventoryItem(equipment[4]);
+            equipment[4] = selectedItem;
+            inventory[index] = null;
+            System.out.println("You equipped " + selectedItem.getItemName() + " as your Primary Weapon.");
+         }
+         else{
+            equipment[4] = selectedItem;
+            inventory[index] = null;
+            System.out.println("You equipped " + selectedItem.getItemName() + " as your Primary Weapon.");
+         }
       }
       else if(selectedItem.getAttachment() == "S"){
          equipment[5] = selectedItem;
@@ -342,16 +364,20 @@ public class Character{
       }
       else
          System.out.println("This item cannot be equipped.");
+      updateInventory(inventory);
    }//end equipItem
 
    public void updateInventory(Item inventory[]){
+      List<Item> temp = new ArrayList<Item>();
+      Item newIn[] = new Item[10];
       for(int j = 0; j < inventory.length; j++){
-         if(inventory[j] == null){
-            while(inventory[j] == null){
-               inventory[j] = inventory[j+1];
-               inventory[j+1] = null;
-            }//end while       
-         }//end if
+         if(inventory[j] != null)
+            temp.add(inventory[j]);            
+         else{}
+      }
+      newIn = temp.toArray(newIn);
+      for(int k = 0; k <inventory.length; k++){
+         inventory[k] = newIn[k];
       }
    }//end updateInventory
 

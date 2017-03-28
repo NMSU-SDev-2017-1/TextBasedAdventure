@@ -16,7 +16,7 @@ public class Equipment extends Item{
       this.attachment = "z"; //0-H, 1-T, 2-A, 3-L, 4-P, 5-S, 6-C, 7-R, 8-B, 9-W
       this.description = "";
    }
-   public Equipment(String itemName, int size, int coinValue, int healthMod, int attackMod, int defenseMod, int luckMod, String attachment, String Description){
+   public Equipment(String itemName, int size, int coinValue, int healthMod, int attackMod, int defenseMod, int luckMod, String attachment, String description){
       this.itemName = itemName;
       this.size = size;
       this.coinValue = coinValue;
@@ -51,6 +51,9 @@ public class Equipment extends Item{
    }
    public boolean getConsumed(){
       return consumed;
+   }
+   public String getItemDescription(){
+      return description;
    }
    //Mutators
    public void setItemName(String newNAME){

@@ -1,14 +1,13 @@
 import java.io.*;
 public class Skeleton extends Monster
 {
-	public Skeleton()
-	{
-		super("Skeleton", 10, 2);
+   public Skeleton(){
+      super("Skeleton", 10, 2);
       Equipment skeletonSword = new Equipment("Skeleton Sword", 1, 5, 0, 2, 0, 0, "P", "A skeleton sword.");
       inventory[0] = skeletonSword;
-		inventory[1] = null;
-		inventory[2] = null;
-	}
+      inventory[1] = null;
+      inventory[2] = null;
+   }
 	
 	public void printSkeleton()
 	{
