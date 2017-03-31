@@ -12,6 +12,8 @@ public class Monster
 	private int attack;
    	//Adding inventory to monsters for post-combat drops - Greg
    public Item inventory[];
+   //Added loot table so monsters can drop variable loot.
+   public Item lootTable[];
       //Adding coins for player reward post-death
    public int coinDropValue;
    Random rand = new Random(System.currentTimeMillis());
