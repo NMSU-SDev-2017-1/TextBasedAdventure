@@ -1,3 +1,8 @@
+import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+
 public class Monster
 {
 	private String name;
@@ -6,16 +11,20 @@ public class Monster
    	//Variable was originally private
 	private int attack;
    	//Adding inventory to monsters for post-combat drops - Greg
-    public Item inventory[];
-
+   public Item inventory[];
+      //Adding coins for player reward post-death
+   public int coinDropValue;
+   Random rand = new Random(System.currentTimeMillis());
+	public int randomInventorySize = rand.nextInt(5 - 1) + 1;
 	
 	//Constructor
-	public Monster(String name, int hp, int attack)
+	public Monster(String name, int hp, int attack, int coinDropValue )
 	{
 		this.name = name;
 		this.hp = hp;
 		this.attack = attack;
-      this.inventory = new Item[3];
+      this.inventory = new Item[randomInventorySize];
+      this.coinDropValue = coinDropValue;
 
 	}
 	
@@ -34,15 +43,14 @@ public class Monster
 	{
 		return attack;
 	}
+   public int getCoinDropValue(){
+      return coinDropValue;
+   }
 	
         //Added for post-death - Greg
 	public int getInventoryNum(){
-               int i = 0;
-               while(inventory[i] != null){
-                  i++;
-               }
-               return i + 1;
-        }
+      return inventory.length + 1;
+   }
 
 	//Mutators
 	public void setName(String name)
@@ -86,15 +94,18 @@ public class Monster
         }
         //Added for post-death - Greg
 	public void updateDeathItems(){
-		if(inventory[0] == null && inventory[1] != null){
-			inventory[0] = inventory[1];
-			inventory[1] = null;
-		}
-		if(inventory[1] == null && inventory[2] != null){
-			inventory[1] = inventory[2];
-			inventory[2] = null;
-		}
-        }
+      List<Item> temp = new ArrayList<Item>();
+      Item newIn[] = new Item[10];
+      for(int j = 0; j < inventory.length; j++){
+         if(inventory[j] != null)
+            temp.add(inventory[j]);            
+         else{}
+      }
+      newIn = temp.toArray(newIn);
+      for(int k = 0; k <inventory.length; k++){
+         inventory[k] = newIn[k];
+      }
+    }//end updateDeathItems
    
 	//takeDamage Written in by Greg De La Torre for Combat Demo
    	public void takeDamage(int damage){

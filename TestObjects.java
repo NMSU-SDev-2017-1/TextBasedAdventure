@@ -1,9 +1,10 @@
 import java.util.Scanner;
+import java.util.Random;
 
 public class TestObjects {
 	public static void main(String[] args) {
 	   Scanner scan = new Scanner(System.in);
-      Consumable bread = new Consumable("Bread", 1, 5, 2,0,0,0, "Regular Ol' Bread. The choice meal of every Navy Seal.");
+      Consumable bread = new Consumable("Bread", 1, 5, 2,0,0,0, "Regular Ol' Bread. The choice meal of every Navy Seal.", 2);
       System.out.println("Please enter your username:");
       String name = scan.nextLine();
       Character player = new Character(name);
@@ -33,12 +34,16 @@ public class TestObjects {
             System.out.println("You continue through the dungeon...A SKELETON APPEARS!");
             Skeleton testSkeleton = new Skeleton();
 		      testSkeleton.printSkeleton();
-            System.out.println(testSkeleton.inventory[0].getAttachment());
-            System.out.println(bread.getAttachment());
-            Combat.advantageCombat(testSkeleton, player);
+            Random rand = new Random(System.currentTimeMillis());
+		      int randomInt = rand.nextInt(10 - 1) + 1;
+		      if(randomInt <= 5)
+               Combat.standardCombat(testSkeleton, player);
+            else
+               Combat.advantageCombat(testSkeleton, player);
          }//end playerAction == 1
          else if(playerAction == 2){
             player.useInventory();
+            
          }
          else if(playerAction == 3){
             System.out.print("You currently have the following items equipped:");
@@ -47,6 +52,8 @@ public class TestObjects {
          else if(playerAction == 4){
             System.out.println(player.toString());
          } 
+         else
+            System.out.println("That is not a correct input.");
       }//end action while 
       System.out.println("GAME OVER...or is it?");
    }//end main

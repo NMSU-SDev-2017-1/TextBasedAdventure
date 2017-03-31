@@ -12,8 +12,9 @@ public class Consumable extends Item{
       this.description = "";
       this.attachment = "X";
       this.itemUse = "consume";
+      this.rarity = 1;
    }
-   public Consumable(String itemName, int size, int coinValue, int healthMod, int attackMod, int defenseMod, int luckMod, String description){
+   public Consumable(String itemName, int size, int coinValue, int healthMod, int attackMod, int defenseMod, int luckMod, String description, int rarity){
       this.itemName = itemName;
       this.size = size;
       this.coinValue = coinValue;
@@ -25,5 +26,6 @@ public class Consumable extends Item{
       this.description = description;
       this.attachment = "X";
       this.itemUse = "consume";
+      this.rarity = rarity;
    }      
 }//end class

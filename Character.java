@@ -19,6 +19,7 @@ public class Character{
    public int defense;
    public int luck;
    public int healthpoints;
+   public int coins;
 
 
    public Item inventory[];
@@ -39,6 +40,7 @@ public class Character{
       this.healthpoints = 10;
       this.inventory = new Item[10];
       this.equipment = new Item[10];
+      this.coins = 0;
    }
    //Specific Value Constructor
    public Character(String playerID, int attack, int defense, int luck, int healthpoints, int inventorySize){
@@ -56,6 +58,7 @@ public class Character{
       this.healthpoints = healthpoints;
       this.inventory = new Item[inventorySize];
       this.equipment = new Item[10];
+      this.coins = 0;
    }
    //Accessors
    public String getPlayerID(){
@@ -76,6 +79,9 @@ public class Character{
    public int getInventorySize(){
       return inventory.length;
    }
+   public int getCoins(){
+      return coins;
+   } 
     
    public String getInventoryList(){
       int i = 0;
@@ -151,9 +157,9 @@ public class Character{
          }
          if(i == 9){
             if(equipment[i] == null)
-               System.out.println("Wallet - " + "Beginner's Wallet");
+               System.out.println("Wallet");
             else
-               System.out.println("Head - " + equipment[i].getItemName());
+               System.out.println("Wallet");
          }
       }
    System.out.println();
@@ -180,7 +186,9 @@ public class Character{
    public void modLUCK(int newLUCK){
 	   luck = luck + newLUCK;
    }
-
+   public void modCoins(int newCOINS){
+      coins = coins + newCOINS;
+   }
 
    public void setAtk(int newATK){
 	   attack = newATK;
@@ -210,21 +218,80 @@ public class Character{
 
       if(healthpoints > maxHP)
          healthpoints = maxHP;
-
-      for(int i = 0; i < equipment.length; i++){
-         if(equipment[i] == null)
-            ;
-         else{
-            modMaxHP(equipment[i].getHealthMod());
-            modATK(equipment[i].getAttackMod());
-            modDEF(equipment[i].getDefenseMod());
-            modLUCK(equipment[i].getLuckMod());
-         }//end else
-      }//end for
+   
+      //Check Head Equip
+      if(equipment[0] == null)
+         ;
+      else{
+         modMaxHP(equipment[0].getHealthMod());
+         modATK(equipment[0].getAttackMod());
+         modDEF(equipment[0].getDefenseMod());
+         modLUCK(equipment[0].getLuckMod());
+      }//end else
+      
+      //Check Torso Equip
+      if(equipment[1] == null)
+         ;
+      else{
+         modMaxHP(equipment[1].getHealthMod());
+         modATK(equipment[1].getAttackMod());
+         modDEF(equipment[1].getDefenseMod());
+         modLUCK(equipment[1].getLuckMod());
+      }//end else
+      
+      //Check Arms Equip
+      if(equipment[2] == null)
+         ;
+      else{
+         modMaxHP(equipment[2].getHealthMod());
+         modATK(equipment[2].getAttackMod());
+         modDEF(equipment[2].getDefenseMod());
+         modLUCK(equipment[2].getLuckMod());
+      }//end else
+      
+      //Check Legs Equip
+      if(equipment[3] == null)
+         ;
+      else{
+         modMaxHP(equipment[3].getHealthMod());
+         modATK(equipment[3].getAttackMod());
+         modDEF(equipment[3].getDefenseMod());
+         modLUCK(equipment[3].getLuckMod());
+      }//end else
+      
+      //Check Primary Weapon Equip
+      if(equipment[4] == null)
+         ;
+      else{
+         modMaxHP(equipment[4].getHealthMod());
+         modATK(equipment[4].getAttackMod());
+         modDEF(equipment[4].getDefenseMod());
+         modLUCK(equipment[4].getLuckMod());
+      }//end else
+      
+      //Check Charm 1 Equip
+      if(equipment[6] == null)
+         ;
+      else{
+         modMaxHP(equipment[6].getHealthMod());
+         modATK(equipment[6].getAttackMod());
+         modDEF(equipment[6].getDefenseMod());
+         modLUCK(equipment[6].getLuckMod());
+      }//end else
+      
+      //Check Charm 2 Equip
+      if(equipment[7] == null)
+         ;
+      else{
+         modMaxHP(equipment[7].getHealthMod());
+         modATK(equipment[7].getAttackMod());
+         modDEF(equipment[7].getDefenseMod());
+         modLUCK(equipment[7].getLuckMod());
+      }//end else
    }//end equipmentMod
 
    public void addInventoryItem(Item newItem){
-      int i = 0;
+      int i = 1;
       while(inventory[i] != null){
          i++;
       }
@@ -276,17 +343,21 @@ public class Character{
             }//end else if itemAction == 2
             else if(itemAction == 3)
                useInventory();
+            else
+               System.out.println("That is not a correct input.");
          }//end if
       
       }//end itemOption == 1 if
       else if(itemOption == 2){
          System.out.println();
-      }  
+      } 
+      else
+         System.out.println("That is not a correct input."); 
       updateInventory(inventory);
    }
 
    public void useItem(Item selectedItem, int index){
-      modMaxHP(selectedItem.getHealthMod());
+      modHP(selectedItem.getHealthMod());
       modATK(selectedItem.getAttackMod());
       modDEF(selectedItem.getDefenseMod());
       modLUCK(selectedItem.getLuckMod());
@@ -296,6 +367,7 @@ public class Character{
    }//end useItem
    
    public void equipItem(Item selectedItem, int index){
+      Scanner scan = new Scanner(System.in);
       if(selectedItem.getAttachment() == "H"){
          if(equipment[0] != null){
             addInventoryItem(equipment[0]);
@@ -324,24 +396,46 @@ public class Character{
          inventory[index] = null;
          System.out.println("You equipped " + selectedItem.getItemName() + " to your legs.");
       }
+      
       else if(selectedItem.getAttachment() == "P"){
-         if(equipment[4] != null){
-            addInventoryItem(equipment[4]);
-            equipment[4] = selectedItem;
-            inventory[index] = null;
-            System.out.println("You equipped " + selectedItem.getItemName() + " as your Primary Weapon.");
-         }
-         else{
-            equipment[4] = selectedItem;
-            inventory[index] = null;
-            System.out.println("You equipped " + selectedItem.getItemName() + " as your Primary Weapon.");
-         }
-      }
-      else if(selectedItem.getAttachment() == "S"){
-         equipment[5] = selectedItem;
-         inventory[index] = null;
-         System.out.println("You equipped " + selectedItem.getItemName() + " as your Secondary Weapon.");
-      }
+         System.out.println("Where would you like to equip this item?");
+         System.out.println("1. Primary");
+         System.out.println("2. Secondary");
+         int weaponChoice = scan.nextInt();
+         if(weaponChoice == 1){
+            if(equipment[4] != null){
+               addInventoryItem(equipment[4]);
+               equipment[4] = selectedItem;
+               inventory[index] = null;
+               System.out.println("You equipped " + selectedItem.getItemName() + " as your Primary Weapon.");
+            }
+            else{
+               equipment[4] = selectedItem;
+               inventory[index] = null;
+               System.out.println("You equipped " + selectedItem.getItemName() + " as your Primary Weapon.");
+            }
+         }//end if weaponChoice == 1
+         else if(weaponChoice == 2){
+            if(equipment[4] == null){
+               System.out.println("You currently do not have a Primary Weapon attached. The " + selectedItem.getItemName() + " will be set to your Primary Weapon slot.");
+               equipment[4] = selectedItem;
+               inventory[index] = null;
+            }
+            else if(equipment[5] != null){
+               addInventoryItem(equipment[5]);
+               equipment[5] = selectedItem;
+               inventory[index] = null;
+               System.out.println("You equipped " + selectedItem.getItemName() + " as your Secondary Weapon.");
+            }
+            else{
+               equipment[5] = selectedItem;
+               inventory[index] = null;
+               System.out.println("You equipped " + selectedItem.getItemName() + " as your Secondary Weapon.");
+            }
+         }//end if weapon choice == 2
+         else
+            System.out.println("That is not a correct input.");
+      }  
       else if(selectedItem.getAttachment() == "C"){
          equipment[6] = selectedItem;
          inventory[index] = null;
@@ -357,11 +451,7 @@ public class Character{
          inventory[index] = null;
          System.out.println("You equipped " + selectedItem.getItemName() + " as your new bag.");
       }
-      else if(selectedItem.getAttachment() == "W"){
-         equipment[9] = selectedItem;
-         inventory[index] = null;
-         System.out.println("You equipped " + selectedItem.getItemName() + " as your new wallet");
-      }
+      //Removed Wallet item - Wallet will not have upgradable limit
       else
          System.out.println("This item cannot be equipped.");
       updateInventory(inventory);
@@ -380,12 +470,23 @@ public class Character{
          inventory[k] = newIn[k];
       }
    }//end updateInventory
+   
+   public void weaponSwitch(){
+      if(equipment[4] == null || equipment[5] == null){
+         System.out.println("You cannot switch at this time.");
+         return;
+      }
+      Item secondaryToPrimary = new Item();
+      secondaryToPrimary = equipment[4];
+      equipment[4] =  equipment[5];
+      equipment[5] = secondaryToPrimary;
+   }//end weaponSwitch      
 
 
 
    //toString Method
    public String toString(){
-       String statLine = "HP: " + healthpoints +"/" + maxHP + ", Attack: " + attack + ", Defense: " + defense + ", Luck: " + luck + ", Inventory Size: " + inventory.length;
+       String statLine = "HP: " + healthpoints +"/" + maxHP + ", Attack: " + attack + ", Defense: " + defense + ", Luck: " + luck + ", Coin: " + coins + ", Inventory Size: " + inventory.length;
        String information = "Player: " + playerID + ", " + statLine;
        return information;
    }

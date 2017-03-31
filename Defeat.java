@@ -4,20 +4,23 @@ public class Defeat{
    public static void enemyDefeat(Monster monster, Character player){
       Scanner scan = new Scanner(System.in);
       System.out.println();
-      System.out.println("Your attack destroys the "  + monster.getName() + "." + " The enemy dropped the following items:");
-      monster.deathItems(); 
+      player.modCoins(monster.getCoinDropValue());
+      System.out.println("Your attack destroys the "  + monster.getName() + "." + " You collected: " + monster.getCoinDropValue() + " coins.");
+      System.out.println("You check the fallen foe for items: ");
+      monster.updateDeathItems();
+      monster.deathItems();
       while(monster.inventory[0] != null){
-	 System.out.println();
-	 System.out.println();
+	      System.out.println();
+	      System.out.println();
          System.out.println("Do you wish to take any items?");
          System.out.println("1. Yes");
          System.out.println("2. No");
          int itemResponse = scan.nextInt();
          if(itemResponse == 1){ 
-	    System.out.println();
+	         System.out.println();
             System.out.println("Which item will you take?");
             monster.deathItems();
-	    System.out.println();
+	         System.out.println();
             int monsterItems = monster.getInventoryNum();
             int itemSelection = scan.nextInt();
             if((itemSelection > 0) && (itemSelection <= monsterItems) && (monster.inventory[itemSelection-1] != null)){

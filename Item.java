@@ -12,6 +12,7 @@ public class Item{
    public String attachment;
    public String description;
    public String itemUse;
+   public int rarity;
    //Default Constructor ---- SHOULD NEVER BE USED
    public Item(){
       this.itemName = "";
@@ -29,6 +30,9 @@ public class Item{
    }
    public int getCoinValue(){
       return coinValue;
+   }
+   public int getRarity(){
+      return rarity;
    }
    //Consumable Accessors
    public int getHealthMod(){

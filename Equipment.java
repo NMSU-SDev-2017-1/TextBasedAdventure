@@ -13,10 +13,11 @@ public class Equipment extends Item{
       this.attackMod = 0;
       this.defenseMod = 0;
       this.luckMod = 0;
-      this.attachment = "z"; //0-H, 1-T, 2-A, 3-L, 4-P, 5-S, 6-C, 7-R, 8-B, 9-W
+      this.attachment = "z"; //0-H, 1-T, 2-A, 3-L, 4-P(Weapons - Primary), 5-P(Weapons - Secondary), 6-C, 7-R, 8-B, 9-W
       this.description = "";
+      this.rarity = 1;
    }
-   public Equipment(String itemName, int size, int coinValue, int healthMod, int attackMod, int defenseMod, int luckMod, String attachment, String description){
+   public Equipment(String itemName, int size, int coinValue, int healthMod, int attackMod, int defenseMod, int luckMod, String attachment, String description, int rarity){
       this.itemName = itemName;
       this.size = size;
       this.coinValue = coinValue;
@@ -26,6 +27,7 @@ public class Equipment extends Item{
       this.luckMod = luckMod;
       this.attachment = attachment;
       this.description = description;
+      this.rarity = rarity;
    }
    //Accessors
    public String getItemName(){
