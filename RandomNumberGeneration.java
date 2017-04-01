@@ -36,8 +36,9 @@ Last edited: 3/31/2017
 		exception if the length of weights[] is greater than the range of 
 		values.
 	*/
-	public static int getRandomWeighted(int low, int high, int weights[])
+	public static int getRandomWeighted(int low, int high, int weight[])
 	{
+		int weights[] = weight.clone();
 		if(weights.length != ((high - low) + 1))
 		{
 			throw new IllegalArgumentException();
@@ -46,19 +47,22 @@ Last edited: 3/31/2017
 		int totalWeights = 0;
 		for(int i = 0; i < weights.length; i++)
 		{
+			int temp = weights[i] * 100;
+			weights[i] = temp;
 			totalWeights += weights[i];
 		}
 		int rolledNumber = getRandomIntRange(1, totalWeights);
+		//System.out.println("Rolled number is " + rolledNumber);
 		
 		int cursor = rolledNumber;
 		for(int i = 0; i < weights.length; i++)
 		{
 			cursor -= weights[i];
 			//System.out.println("Cursor is " + cursor);
-			if(cursor <= 1)
+			if(cursor < 1)
 			{
-				//System.out.println(i + 1);
-				return i + 1;
+				//System.out.println("Returned number is " + (i + low));
+				return i + low;
 			}
 		}
 		return 0;
