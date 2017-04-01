@@ -3,7 +3,7 @@ public class RandomNumberGeneration
 /*
 This is a utility class containing several methods of generating random numbers.
 Written by: Troy Redfearn
-Last edited: 3/31/2017
+Last edited: 4/1/2017
 */
 {
 	/*
@@ -41,7 +41,7 @@ Last edited: 3/31/2017
 		int weights[] = weight.clone();
 		if(low > high)
 		{
-			throw new IllegalArgumentException("High range value greater than low.");
+			throw new IllegalArgumentException("Low range value greater than high.");
 		}
 		if(weights.length != ((high - low) + 1))
 		{
