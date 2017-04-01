@@ -34,14 +34,18 @@ Last edited: 3/31/2017
 	@param weights[]: An array of ints where weights[0] is the weight of low,
 		and weights[length-1] is the weight of high. This method will throw an 
 		exception if the length of weights[] is greater than the range of 
-		values.
+		values or if the range provided is invalid.
 	*/
 	public static int getRandomWeighted(int low, int high, int weight[])
 	{
 		int weights[] = weight.clone();
+		if(low > high)
+		{
+			throw new IllegalArgumentException("High range value greater than low.");
+		}
 		if(weights.length != ((high - low) + 1))
 		{
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Range and size of weights array do not match.");
 		}
 		
 		int totalWeights = 0;
@@ -52,16 +56,13 @@ Last edited: 3/31/2017
 			totalWeights += weights[i];
 		}
 		int rolledNumber = getRandomIntRange(1, totalWeights);
-		//System.out.println("Rolled number is " + rolledNumber);
 		
 		int cursor = rolledNumber;
 		for(int i = 0; i < weights.length; i++)
 		{
 			cursor -= weights[i];
-			//System.out.println("Cursor is " + cursor);
-			if(cursor < 1)
+			if(cursor <= 0)
 			{
-				//System.out.println("Returned number is " + (i + low));
 				return i + low;
 			}
 		}
