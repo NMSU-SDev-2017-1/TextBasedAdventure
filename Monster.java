@@ -13,11 +13,14 @@ public class Monster
    	//Adding inventory to monsters for post-combat drops - Greg
    public Item inventory[];
    //Added loot table so monsters can drop variable loot.
-   public Item lootTable[];
+   public LootTable possibleLoot;
       //Adding coins for player reward post-death
    public int coinDropValue;
-   Random rand = new Random(System.currentTimeMillis());
-	public int randomInventorySize = rand.nextInt(5 - 1) + 1;
+   //Eventually the random inventory size will be different for all monsters, but it is
+   //currently hardcoded as proof of concept. As it is currently implemented, there is
+   //a 10% chance of inventory size 1, 70% for 2, 10% for 3, 7% for 4, 3% for 5
+   int[] inventoryWeights = {10, 70, 10, 7, 3};
+	public int randomInventorySize = RandomNumberGeneration.getRandomWeighted(1, 5, inventoryWeights);
 	
 	//Constructor
 	public Monster(String name, int hp, int attack, int coinDropValue )
@@ -124,5 +127,16 @@ public class Monster
 	public void attack(Character target)
 	{
 		target.modHP(-1 * attack);
+	}
+	
+	public void createInventory()
+	{
+		int[] lootTableDropRates = possibleLoot.getAllDropRates();
+		Item[] lootTableItems = possibleLoot.getAllItems();
+		for(int i = 0; i < inventory.length; i++)
+		{
+			int x = RandomNumberGeneration.getRandomWeighted(0, lootTableItems.length - 1, lootTableDropRates);
+			inventory[i] = lootTableItems[x];
+		}
 	}
 }

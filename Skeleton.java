@@ -10,8 +10,14 @@ public class Skeleton extends Monster
       Equipment skeletonSword = new Equipment("Skeleton Sword", 1, 5, 0, 2, 0, 0, "P", "A skeleton sword.", 1);
       Equipment skeletonBow = new Equipment("Skeleton Bow", 1, 5, 0, 1, 0, 0, "P", "A bow made of old bones.", 1);
       Consumable bread = new Consumable("Bread", 1, 5, 2,0,0,0, "Regular Ol' Bread. The choice meal of every Navy Seal.", 2);
+	  LootTable temp = new LootTable(3);
+	  possibleLoot = temp;
+	  possibleLoot.add(skeletonSword, 45);
+	  possibleLoot.add(skeletonBow, 30);
+	  possibleLoot.add(bread, 50);
+	  createInventory();
       
-      for(int i = 0; i < inventory.length; i++){
+      /* for(int i = 0; i < inventory.length; i++){
          Random rand = new Random();
 		   int randomInt = rand.nextInt(8 - 1 + 1) + 1;
          if(randomInt <= 2)
@@ -21,8 +27,8 @@ public class Skeleton extends Monster
          else if(randomInt > 4 && randomInt <= 6)
             inventory[i] = bread;
          else if(randomInt >6)
-            inventory[i] = null;
-      }
+            inventory[i] = null; 
+      }*/
    }
 	
 	public void printSkeleton()
