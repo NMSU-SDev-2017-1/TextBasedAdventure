@@ -5,17 +5,14 @@ public class TestBasicMaze {
    
    Maze basic = new Maze();
    
-   Maze clone = new Maze();
+   //Maze clone = new Maze();
    
-   clone.addEntrance(Maze.setRoomData(0));
-   
+   //clone.addEntrance(Maze.setRoomData(0));
    basic = Maze.GenerateBasicMaze();
    
    //clone = Maze.Clone(basic);
-   
    //clone.addNorthernCorridor(Maze.setRoomData(39), Maze.getStart(clone));
-   
-   Maze.mazeDiagnostics(Maze.getStart(basic));
+   //Maze.mazeDiagnostics(Maze.getStart(basic));
    
    //Maze.mazeDiagnostics(Maze.getStart(clone));
    

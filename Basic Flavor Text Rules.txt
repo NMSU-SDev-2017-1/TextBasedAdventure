@@ -1,0 +1,16 @@
+Factors to be considered during flavor text development.
+
+int - Environment; //This integer value determines what kind of environment the maze is.  For example, 1 = stone, 
+                   //so the room should be described as such.
+
+int - RoomSize; //For now there are three sizes, 1 = small, 2 = medium, 3 = large.
+
+int - Temperature; //1 = freezing, 2 = cold, 3 = normal, 4 = warm, 5 = hot.
+
+int - NumberOfPassages;
+
+int - NumberOfVisits; //The text should be different if you already been in the room.
+
+int - EventTypeDescription;
+
+Also keep in mind player condition and other factors usefull for the flavor text.
