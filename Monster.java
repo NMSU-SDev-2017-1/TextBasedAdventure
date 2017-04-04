@@ -131,12 +131,19 @@ public class Monster
 	
 	public void createInventory()
 	{
-		int[] lootTableDropRates = possibleLoot.getAllDropRates();
-		Item[] lootTableItems = possibleLoot.getAllItems();
+		//int[] lootTableDropRates = possibleLoot.getAllDropRates();
+		//Item[] lootTableItems = possibleLoot.getAllItems();
 		for(int i = 0; i < inventory.length; i++)
 		{
+			if(i == possibleLoot.getSize())
+				return;
+			int[] lootTableDropRates = possibleLoot.getAllDropRates();
+			Item[] lootTableItems = possibleLoot.getAllItems();
+			if(lootTableItems.length == 0)
+				return;
 			int x = RandomNumberGeneration.getRandomWeighted(0, lootTableItems.length - 1, lootTableDropRates);
 			inventory[i] = lootTableItems[x];
+			possibleLoot.remove(x);
 		}
 	}
 }
