@@ -175,24 +175,30 @@ public class Character{
 
    //Mutators
    public void setID(String newID){
-	   playerID = newID;
+      playerID = newID;
    }
    public void setAtk(int newATK){
-	   attack = newATK;
+      attack = newATK;
+      if(attack < 0)
+         attack = 0;
    }
    public void setDef(int newDEF){
-	   defense = newDEF;
+      defense = newDEF;
+      if(defense < 0)
+         defense = 0;
    }
    public void setLuck(int newLUCK){
-	   luck = newLUCK;
+      luck = newLUCK;
+      if(luck < 0)
+         luck = 0;
    }
 
    //Player stat modifiers
    public void modHP(int newHP){
-        if(healthpoints + newHP > maxHP)
-           healthpoints = maxHP;
-        else   
-	   healthpoints = healthpoints + newHP;
+      if(healthpoints + newHP > maxHP)
+         healthpoints = maxHP;
+      else   
+         healthpoints = healthpoints + newHP;
    }
    public void modMaxHP(int newMaxHP){
 	   maxHP = maxHP + newMaxHP;
