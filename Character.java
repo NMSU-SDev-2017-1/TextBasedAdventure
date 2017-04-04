@@ -2,12 +2,14 @@ import java.util.Scanner;
 import java.util.*;
 import java.util.Arrays;
 import java.util.List;
+
 //Character.java
-//Written for: TBAD
+//Written by: TBAD
 //Contains class to create Player object
 
 //Generate Character Object
 public class Character{
+   //Instance Variables
    public String playerID;
    public int baseAttack;
    public int baseDefense;
@@ -24,7 +26,8 @@ public class Character{
 
    public Item inventory[];
    public Item equipment[];
-   //Constructor
+
+   //Default Constructor
    public Character(String playerID){
       this.playerID = playerID;
 
@@ -60,6 +63,7 @@ public class Character{
       this.equipment = new Item[10];
       this.coins = 0;
    }
+
    //Accessors
    public String getPlayerID(){
 	   return playerID;
@@ -82,7 +86,8 @@ public class Character{
    public int getCoins(){
       return coins;
    } 
-    
+   
+   //Produces list of current player inventory
    public String getInventoryList(){
       int i = 0;
       String list = "";
@@ -97,6 +102,8 @@ public class Character{
       }
       return list;
    }
+
+   //Produces list of avaiable and filled player equipment slots
    public void getEquipmentList(){
       String empty = "Empty Slot";
       System.out.println();
@@ -164,10 +171,23 @@ public class Character{
       }
    System.out.println();
    }
+
+
    //Mutators
    public void setID(String newID){
 	   playerID = newID;
    }
+   public void setAtk(int newATK){
+	   attack = newATK;
+   }
+   public void setDef(int newDEF){
+	   defense = newDEF;
+   }
+   public void setLuck(int newLUCK){
+	   luck = newLUCK;
+   }
+
+   //Player stat modifiers
    public void modHP(int newHP){
         if(healthpoints + newHP > maxHP)
            healthpoints = maxHP;
@@ -189,18 +209,8 @@ public class Character{
    public void modCoins(int newCOINS){
       coins = coins + newCOINS;
    }
-
-   public void setAtk(int newATK){
-	   attack = newATK;
-   }
-   public void setDef(int newDEF){
-	   defense = newDEF;
-   }
-   public void setLuck(int newLUCK){
-	   luck = newLUCK;
-   }
-
-
+   
+   //Modifies inventory size based off of equipped bag object
    public void modInventorySize(int newSIZE){
 	   Item newInventory[] = new Item[newSIZE];
 	   for(int i = 0;i < inventory.length; i++){
@@ -209,7 +219,7 @@ public class Character{
 	   inventory = newInventory;
    }
 
-
+   //Modifies player stats based on equipment
    public void equipmentMod(){
       attack = baseAttack;
       defense = baseDefense;
@@ -290,6 +300,7 @@ public class Character{
       }//end else
    }//end equipmentMod
 
+   //adds item to player inventory
    public void addInventoryItem(Item newItem){
       int i = 1;
       while(inventory[i] != null){
@@ -301,8 +312,9 @@ public class Character{
          inventory[i] = newItem;
          System.out.println("You added " + newItem.getItemName() + " to your inventory.");
       }
-   }
+   }//end addInventoryItem
    
+   //Method for player to access and use items within their inventory
    public void useInventory(){
       Scanner scan = new Scanner(System.in);
       System.out.println();
@@ -356,6 +368,7 @@ public class Character{
       updateInventory(inventory);
    }
 
+   //Modifies player based off of item's values
    public void useItem(Item selectedItem, int index){
       modHP(selectedItem.getHealthMod());
       modATK(selectedItem.getAttackMod());
@@ -366,6 +379,7 @@ public class Character{
          inventory[index] = null;
    }//end useItem
    
+   //Equips a selected item to the player in the correct index of the equipment array
    public void equipItem(Item selectedItem, int index){
       Scanner scan = new Scanner(System.in);
       if(selectedItem.getAttachment() == "H"){
@@ -457,6 +471,7 @@ public class Character{
       updateInventory(inventory);
    }//end equipItem
 
+   //Updates the player's inventory, removes used items
    public void updateInventory(Item inventory[]){
       List<Item> temp = new ArrayList<Item>();
       Item newIn[] = new Item[10];
@@ -471,6 +486,7 @@ public class Character{
       }
    }//end updateInventory
    
+   //Allows player to switch their primary and secondary weapon - Used primarily with combat class
    public void weaponSwitch(){
       if(equipment[4] == null || equipment[5] == null){
          System.out.println("You cannot switch at this time.");
@@ -482,12 +498,11 @@ public class Character{
       equipment[5] = secondaryToPrimary;
    }//end weaponSwitch      
 
-
-
    //toString Method
    public String toString(){
        String statLine = "HP: " + healthpoints +"/" + maxHP + ", Attack: " + attack + ", Defense: " + defense + ", Luck: " + luck + ", Coin: " + coins + ", Inventory Size: " + inventory.length;
        String information = "Player: " + playerID + ", " + statLine;
        return information;
-   }
-}//end character
+   }//end toString
+
+}//end class

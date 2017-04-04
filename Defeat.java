@@ -1,5 +1,9 @@
 import java.util.Scanner;
 
+//Defeat.java
+//Written by: TBAD
+//Defeat scripts for post-combat
+
 public class Defeat{
    public static void enemyDefeat(Monster monster, Character player){
       Scanner scan = new Scanner(System.in);

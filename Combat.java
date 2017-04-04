@@ -1,7 +1,12 @@
 import java.util.Scanner;
 
+//Class.java
+//Written by: TBAD
+//Scripts for enemy VS player combat
+
 public class Combat{
    
+   //Standard Combat Method, can be used with any monster object. 
    public static void standardCombat(Monster monster, Character player){
            int criticalHit = player.getAttack() + (player.getAttack()/2);
            Scanner scan = new Scanner(System.in);
@@ -60,6 +65,7 @@ public class Combat{
 	    }//end while (Combat)
    }//end standardCombat
    
+   //Player advantage combat method, gives player critical hit at the beginning of the battle.
    public static void advantageCombat(Monster monster, Character player){
       int criticalHit = player.getAttack() + (player.getAttack()/2);
       Scanner scan = new Scanner(System.in);

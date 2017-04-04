@@ -1,3 +1,7 @@
+//KeyItem.java
+//Written by: TBAD
+//Key item constructors & methods, extends from Item Class
+
 public class KeyItem extends Item{
    //Constructors
    public KeyItem(){

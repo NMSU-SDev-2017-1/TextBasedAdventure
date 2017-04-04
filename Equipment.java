@@ -1,10 +1,16 @@
+//Equipment.java
+//Written by: TBAD
+//Equipment item constructors & methods, extends from Item Class
+
 public class Equipment extends Item{
+   //INstance Variables
    public int healthMod;
    public int attackMod;
    public int defenseMod;
    public int luckMod;
    public String attachment;
-   //Constructors
+
+   //Default Constructor
    public Equipment(){
       this.itemName = "";
       this.size = 1;
@@ -17,6 +23,7 @@ public class Equipment extends Item{
       this.description = "";
       this.rarity = 1;
    }
+   //Specific Value Constructor
    public Equipment(String itemName, int size, int coinValue, int healthMod, int attackMod, int defenseMod, int luckMod, String attachment, String description, int rarity){
       this.itemName = itemName;
       this.size = size;
@@ -29,6 +36,7 @@ public class Equipment extends Item{
       this.description = description;
       this.rarity = rarity;
    }
+
    //Accessors
    public String getItemName(){
       return itemName;
@@ -57,8 +65,10 @@ public class Equipment extends Item{
    public String getItemDescription(){
       return description;
    }
+
    //Mutators
    public void setItemName(String newNAME){
       itemName = newNAME;
    }
+
 }//end class

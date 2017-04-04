@@ -1,3 +1,7 @@
+//Loot.java
+//Written by: TBAD
+//Loot item constructors & methods, extends from Item Class
+
 public class Loot extends Item{
    //Constructors
    public Loot(){

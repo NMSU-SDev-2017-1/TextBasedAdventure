@@ -1,6 +1,12 @@
 import java.util.Arrays;
 
+//Item.java
+//Written by: TBAD
+//Item object class, extends to child-item type classes. Defines item characteristics.
+//Class is abstract
+
 public class Item{
+   //Instance Variables
    public String itemName;
    public int size;
    public int coinValue;
@@ -13,6 +19,7 @@ public class Item{
    public String description;
    public String itemUse;
    public int rarity;
+
    //Default Constructor ---- SHOULD NEVER BE USED
    public Item(){
       this.itemName = "";
@@ -73,11 +80,5 @@ public class Item{
    public void setConsumed(){
       consumed = true;
    }
-
-
-
-    //Test for Consume
-
-
 
 }//end class
