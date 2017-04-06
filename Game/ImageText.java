@@ -1,4 +1,4 @@
-package game;
+//package game;
 import java.awt.*; 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -15,12 +15,15 @@ public class ImageText extends JFrame
     Font font, font2;
     String text, text2;
     BufferedImage img, img1;
-    int x,y, w, h;
+    int x, y, w, h;
     int swidth, sheight;
     boolean t;
     Rectangle play, quit, Tbox;
   private ImageText(String arg){
      
+	 //setUndecorated(true);
+	 setResizable(false);
+	 //setLocationRelativeTo(null);
      font = new Font(Font.MONOSPACED, Font.BOLD, 32);
      font2 = new Font(Font.SANS_SERIF, Font.BOLD, 20);
      t=true;
@@ -34,8 +37,8 @@ public class ImageText extends JFrame
      quit = new Rectangle(188,242,84,30);
      Tbox = new Rectangle(170,400, 570, 200);
      try {
-        img = ImageIO.read(new File("src/game/deadpool-suicide-kings.jpg"));
-        img1 = ImageIO.read(new File("src/game/deadpool-wallpapers-wilson-wallpaper.jpg"));
+        img = ImageIO.read(new File("deadpool-suicide-kings.jpg"));
+        img1 = ImageIO.read(new File("deadpool-wallpapers-wilson-wallpaper.jpg"));
     } catch (IOException e) {
         // TODO Auto-generated catch block
         e.printStackTrace();
