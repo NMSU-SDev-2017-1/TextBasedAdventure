@@ -24,6 +24,7 @@ public class ImageText extends JFrame
 	 //setUndecorated(true);
 	 setResizable(false);
 	 //setLocationRelativeTo(null);
+	 Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
      font = new Font(Font.MONOSPACED, Font.BOLD, 32);
      font2 = new Font(Font.SANS_SERIF, Font.BOLD, 20);
      t=true;
@@ -31,9 +32,9 @@ public class ImageText extends JFrame
      y=100;
      w = 400;
      h= 400;
-     swidth = 900;
-     sheight =600;
-     play = new Rectangle(187,143,90,32);
+     swidth = screenSize.width;
+     sheight = screenSize.height;
+     play = new Rectangle(sheight/2,swidth/3,90,32);
      quit = new Rectangle(188,242,84,30);
      Tbox = new Rectangle(170,400, 570, 200);
      try {
@@ -52,7 +53,7 @@ public class ImageText extends JFrame
         @Override
         public void mouseClicked(MouseEvent e) {
             // TODO Auto-generated method stub
-        //System.out.println(e.getX() + " " + (e.getY()));
+        System.out.println(e.getX() + " " + (e.getY()));
         if(play.contains(e.getPoint())){
             System.out.println("Play");
             t = !t;
@@ -113,7 +114,7 @@ public class ImageText extends JFrame
          g.setColor(Color.white);
          g.setFont(font);
          g.drawString(text, 200, 550);
-         g.drawString("Play", 200,200);
+         g.drawString("Play", swidth/3, sheight/2 + 32);
          g.drawString("quit", 200,300);
          g.drawRect(play.x+5,play.y+30, play.width, play.height);
          g.drawRect(quit.x+5,quit.y+35, quit.width, quit.height);
