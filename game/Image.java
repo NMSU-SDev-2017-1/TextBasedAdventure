@@ -22,7 +22,7 @@ public class Image extends JFrame
 {    
 		Font font, font2;
 	    String text, text2;
-	    BufferedImage mScreen, img1, Skele, imgPlay, imgQuit,textBox;
+	    BufferedImage mScreen, img1, Skele, imgPlay, imgQuit,textBox, deadSke;
 	    BufferedImage button1, button2, button3, button4;
 	    int x,y, w, h, GameState;
 	    int swidth, sheight;
@@ -43,13 +43,15 @@ public class Image extends JFrame
 	     play = new Rectangle(187,143,90,32);
 	     quit = new Rectangle(188,242,90,32);
 	     B1 = new Rectangle( x,y+100,90,32);
-	     B2 = new Rectangle(x,y+300,90,32);
+	     B2 = new Rectangle(x,y+200,90,32);
+	     B3 = new Rectangle(x,y+300,90,32);
 	     try {
 	        mScreen = ImageIO.read(new File("src/game/darkest-dungeon-title-screen.jpg"));
 	        img1 = ImageIO.read(new File("src/game/dungeons-and-dragons-strategy-1.jpg"));
 	        imgPlay = ImageIO.read(new File("src/game/play.png"));
 	        imgQuit = ImageIO.read(new File("src/game/quit.png"));
 	        Skele = ImageIO.read(new File("src/game/Skeleton.jpg"));
+	        deadSke = ImageIO.read(new File("src/game/stock-photo-a-pile-of-human-bones-with-an-intact-skeleton-on-top-d-render-106336646.jpg"));
 	        textBox = ImageIO.read(new File("src/game/Tbox.jpeg"));
 	        button1 = ImageIO.read(new File("src/game/Button1.png"));
 	        button2 = ImageIO.read(new File("src/game/Button2.png"));
@@ -74,16 +76,20 @@ public class Image extends JFrame
 			System.out.println("Play");
 			GameState = 1;
 			dothis();
-		}else if(quit.contains(e.getPoint())){
+		} if(quit.contains(e.getPoint())){
 			System.out.println("Quit");
 			System.exit(DISPOSE_ON_CLOSE);
-		}else if(B1.contains(e.getPoint())){
+		} if(B1.contains(e.getPoint())){
 			System.out.println("Play2");
 			GameState = 2;
 			dothis();
-		}else if(B2.contains(e.getPoint())){
+		} if(B2.contains(e.getPoint())){
 			System.out.println("Play3");
 			GameState = 3;
+			dothis();
+		} if(B3.contains(e.getPoint())){
+			System.out.println("play4");
+			GameState = 4;
 			dothis();
 		}
 		}
@@ -180,10 +186,13 @@ public class Image extends JFrame
 	             g.setColor(Color.black);
 	             //button2
 	             g.drawRect(B2.x+5,B2.y+40, B2.width, B2.height);
-	             g.drawImage(button2, B2.x+7,B2.y+40, B2.x+B2.width, B2.height+B2.y+40, 0, 0, button2.getWidth(), button2.getHeight(), null);
+	             g.drawImage(button2, B2.x+7,B2.y+40, B2.x+B2.width+7, B2.height+B2.y+40, 0, 0, button2.getWidth(), button2.getHeight(), null);
 	             g.setFont(font);
+	             //button3
+	             g.drawRect(B3.x+5,B3.y+40, B3.width, B3.height);
+	             g.drawImage(button3, B3.x+7,B3.y+40, B3.x+B3.width+7, B3.height+B3.y+40, 0, 0, button3.getWidth(), button3.getHeight(), null);
 	             g.drawString(text,x+400, y+800);
-	             text2 = "here u get to be me, Deadpool welcome...$" +"press 1 to continue 2 to quit";
+	             text2 = "here u get to be me, Deadpool welcome...$" +"press 1 to continue 2 to run and 3 to quit";
 	             if(!imgtext){
 	             Timg(text2, g);
 	             imgtext = true;
@@ -195,21 +204,30 @@ public class Image extends JFrame
 	             //g.setColor(Color.WHITE);
 	            break;
 	    	 case 2:
+	    		
 	    		 g.drawImage(img1, x-200, y-60, x+swidth, y+sheight, 0, 0, img1.getWidth(), img1.getHeight(), null);
 	    		 g.drawImage(Skele, x+200, y, x+swidth, y+sheight, 0, 0, Skele.getWidth()+200, Skele.getHeight(), null);
 	    		 g.drawImage(textBox,x-200, y+700, swidth, sheight+100, 0, 0, textBox.getWidth(), textBox.getHeight()+400, null);
 	    		 g.drawRect(B1.x+5,B1.y+30, B1.width, B1.height);
-	             g.drawImage(button1, B1.x+5,B1.y+30,B1.x+5+B1.width, B1.height+B1.y+30,0,0, button1.getWidth(), button1.getHeight(), null);
+	             g.drawImage(button1,B1.x+5,B1.y+30,B1.x+5+B1.width, B1.height+B1.y+30,0,0, button1.getWidth(), button1.getHeight(), null );
 	             g.setColor(Color.black);
 	             g.drawRect(B2.x+5,B2.y+40, B2.width, B2.height);
-	             g.drawImage(button2, B2.x+7,B2.y+40, B2.x+B2.width, B2.height+B2.y+40, 0, 0, button2.getWidth(), button2.getHeight(), null);
+	             g.drawImage(button2, B2.x+7,B2.y+40, B2.x+B2.width+7, B2.height+B2.y+40, 0, 0, button2.getWidth()-30, button2.getHeight(), null);
+	             g.drawRect(B3.x+5,B3.y+40, B3.width, B3.height);
+	             g.drawImage(button3, B3.x+7,B3.y+40, B3.x+B3.width+7, B3.height+B3.y+40, 0, 0, button3.getWidth()-30, button3.getHeight(), null);
 	             text = "FIGHT ME!!!";
-	             text2 = "press 1 to fight 2 to run";
+	             text2 = "press 1 to fight 2 to run and 3 to quit";
 	             g.setColor(Color.black);
 	             Timg(text2, g);
 	             g.setColor(Color.WHITE);
 	             g.drawString(text,x+400, y+800);
 	             //g.drawRect(quit.x+5,quit.y+35, quit.width, quit.height);
+	             Rectangle temp=B1;
+	    		 B1=B3;
+	    		 B3=temp;
+//	             temp = B3;
+//	             B3=B1;
+//	             B1=temp;
 	             
 	         break;
 	    	 case 3:
@@ -222,8 +240,35 @@ public class Image extends JFrame
 	    		 g.setColor(Color.WHITE);
 	    		 g.setFont(font);
 	    		 g.drawString(text,200, 400);
-	    	 
-	    		
+	    	 break;
+	    	 case 4:
+//	             temp = B3;
+//	             B3=B1;
+//	             B1=temp;
+	    		 //B1 = quit;
+	             text2 = "press 1 to fight 2 to run and 3 to quit";
+	    		 g.drawImage(img1, x-200, y-60, x+swidth, y+sheight, 0, 0, img1.getWidth(), img1.getHeight(), null);
+	    		 g.drawImage(deadSke, x+200, y, x+swidth, y+sheight, 0, 0, deadSke.getWidth()+200, deadSke.getHeight(), null);
+	    		 g.drawImage(textBox,x-200, y+700, swidth, sheight+100, 0, 0, textBox.getWidth(), textBox.getHeight()+400, null);
+	    		 
+	    		 g.drawRect(B1.x+5,B1.y+30, B1.width, B1.height);
+	             g.drawImage(button3,B1.x+5,B1.y+30,B1.x+5+B1.width, B1.height+B1.y+30,0,0, button1.getWidth(), button1.getHeight(), null );
+	             
+	             g.setColor(Color.black);
+	             g.drawRect(B2.x+5,B2.y+40, B2.width, B2.height);
+	             g.drawImage(button2, B2.x+7,B2.y+40, B2.x+B2.width+7, B2.height+B2.y+40, 0, 0, button2.getWidth()-30, button2.getHeight(), null);
+	             
+	             g.drawRect(B3.x+5,B3.y+40, B3.width, B3.height);
+	             g.drawImage(button1, B3.x+7,B3.y+40, B3.x+B3.width+7, B3.height+B3.y+40, 0, 0, button3.getWidth()-30, button3.getHeight(), null);
+	             
+	             
+	             text2 = "press 1 to fight 2 to run and 3 to quit";
+	             g.setColor(Color.black);
+	             Timg(text2, g);
+	             g.setColor(Color.WHITE);
+	             g.drawString(text,x+400, y+800);
+	             
+	    		 
 	    	 break;
 	    	 default:
 	    		 text = " Hello!!";
