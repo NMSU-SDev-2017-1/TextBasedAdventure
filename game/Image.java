@@ -41,9 +41,9 @@ public class Image extends JFrame
 	     sheight = ((int) tk.getScreenSize().getHeight());
 	     
 	     play = new Rectangle(187,143,90,32);
-	     quit = new Rectangle(188,242,84,30);
-	     B1 = new Rectangle( 200,200,90,32);
-	     B2 = new Rectangle(200,240,90,32);
+	     quit = new Rectangle(188,242,90,32);
+	     B1 = new Rectangle( x,y+100,90,32);
+	     B2 = new Rectangle(x,y+300,90,32);
 	     try {
 	        mScreen = ImageIO.read(new File("src/game/darkest-dungeon-title-screen.jpg"));
 	        img1 = ImageIO.read(new File("src/game/dungeons-and-dragons-strategy-1.jpg"));
@@ -63,13 +63,13 @@ public class Image extends JFrame
     
     JPanel panel = new JPanel(); 
     this.setSize(swidth,sheight);
-    panel.setBackground(Color.white); 
+    panel.setBackground(Color.black); 
     panel.addMouseListener(new MouseListener(){
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			// TODO Auto-generated method stub
-		//System.out.println(e.getX() + " " + (e.getY()));
+		System.out.println(e.getX() + " " + (e.getY()));
 		if(play.contains(e.getPoint())){
 			System.out.println("Play");
 			GameState = 1;
@@ -78,9 +78,11 @@ public class Image extends JFrame
 			System.out.println("Quit");
 			System.exit(DISPOSE_ON_CLOSE);
 		}else if(B1.contains(e.getPoint())){
+			System.out.println("Play2");
 			GameState = 2;
 			dothis();
 		}else if(B2.contains(e.getPoint())){
+			System.out.println("Play3");
 			GameState = 3;
 			dothis();
 		}
@@ -172,12 +174,13 @@ public class Image extends JFrame
 	    		 g.drawImage(textBox,x-200, y+700, swidth, sheight+100, 0, 0, textBox.getWidth(), textBox.getHeight()+400, null);
 	             text = "Welcome to the game!!!";
 	             g.setColor(Color.black);
-	             g.drawRect(B1.x+200,B1.y+600, B1.width, B1.height);
+	             //button1
+	             g.drawRect(B1.x+5,B1.y+30, B1.width, B1.height);
 	             g.drawImage(button1, B1.x+5,B1.y+30,B1.x+5+B1.width, B1.height+B1.y+30,0,0, button1.getWidth(), button1.getHeight(), null);
-	             g.setColor(Color.white);
-	             g.drawRect(B2.x+5,B2.y+35, B2.width, B2.height);
 	             g.setColor(Color.black);
-	             g.drawImage(button2, B2.x+5, B2.y+35, B2.x+5+B2.width, B2.height+B2.y+35, 0, 0, button2.getWidth(), button2.getHeight(), null);
+	             //button2
+	             g.drawRect(B2.x+5,B2.y+40, B2.width, B2.height);
+	             g.drawImage(button2, B2.x+7,B2.y+40, B2.x+B2.width, B2.height+B2.y+40, 0, 0, button2.getWidth(), button2.getHeight(), null);
 	             g.setFont(font);
 	             g.drawString(text,x+400, y+800);
 	             text2 = "here u get to be me, Deadpool welcome...$" +"press 1 to continue 2 to quit";
@@ -194,14 +197,24 @@ public class Image extends JFrame
 	    	 case 2:
 	    		 g.drawImage(img1, x-200, y-60, x+swidth, y+sheight, 0, 0, img1.getWidth(), img1.getHeight(), null);
 	    		 g.drawImage(Skele, x+200, y, x+swidth, y+sheight, 0, 0, Skele.getWidth()+200, Skele.getHeight(), null);
+	    		 g.drawImage(textBox,x-200, y+700, swidth, sheight+100, 0, 0, textBox.getWidth(), textBox.getHeight()+400, null);
+	    		 g.drawRect(B1.x+5,B1.y+30, B1.width, B1.height);
+	             g.drawImage(button1, B1.x+5,B1.y+30,B1.x+5+B1.width, B1.height+B1.y+30,0,0, button1.getWidth(), button1.getHeight(), null);
+	             g.setColor(Color.black);
+	             g.drawRect(B2.x+5,B2.y+40, B2.width, B2.height);
+	             g.drawImage(button2, B2.x+7,B2.y+40, B2.x+B2.width, B2.height+B2.y+40, 0, 0, button2.getWidth(), button2.getHeight(), null);
 	             text = "FIGHT ME!!!";
+	             text2 = "press 1 to fight 2 to run";
+	             g.setColor(Color.black);
+	             Timg(text2, g);
 	             g.setColor(Color.WHITE);
-	             g.drawString(text,200, 400);g.drawRect(quit.x+5,quit.y+35, quit.width, quit.height);
+	             g.drawString(text,x+400, y+800);
+	             //g.drawRect(quit.x+5,quit.y+35, quit.width, quit.height);
 	             
 	         break;
 	    	 case 3:
 	    		 g.drawImage(img1, x-200, y-60, x+swidth, y+sheight, 0, 0, img1.getWidth(), img1.getHeight(), null);
-	    		 text = "Welcome to adventure pool!!!";
+	    		 text = "You Ran Away...";
 	    		 g.setColor(Color.black);
 	    		 //g.drawRect(Tbox.x, Tbox.y, Tbox.width, Tbox.width);
 	    		 g.setColor(Color.white);
@@ -213,8 +226,8 @@ public class Image extends JFrame
 	    		
 	    	 break;
 	    	 default:
-	    		 text = " Hello, Im DEADPOOL!!";
-	             text2 = "here u get to be me, Deadpool welcome..." +"whos your favorite superhero???";
+	    		 text = " Hello!!";
+	             text2 = "Welcome to the grand adventure..." +"every chose you make in this game matters so be carefull";
 	             g.drawImage(mScreen, x-300, y-100, x+swidth, y+sheight, 0, 0, mScreen.getWidth(), mScreen.getHeight(), null);
 	             g.setColor(Color.white);
 	             g.setFont(font);
