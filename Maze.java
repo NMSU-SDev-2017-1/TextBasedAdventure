@@ -2,12 +2,13 @@
 //  This will herald the change to only allow room data to be set through modifier methods.
 import java.util.Scanner;
 
-public class Maze {
+public class Maze extends Character {
    private Node entrance;
    private Node exit;
    private Node grabPoint;
    private MazeVar MazeVariables;
-private class Node {
+   private int[] EventTrackerArray;
+private class Node extends Event {
    private int[] roomData;
    private int direction;
    private int X_Axis;
@@ -22,6 +23,7 @@ private class Node {
    private Node south;
    private Node east;
    private Node west;
+   private Event RoomEvent;
    
    public Node(int[] newData, Node newNorth, Node newSouth, Node newEast, Node newWest) {
       roomData = newData;
@@ -37,11 +39,12 @@ private class Node {
       ConstructSouth = false;
       ConstructWest = false;
       BeenInRoom = 0;
+      RoomEvent = new Event();
    }//End Node constructor
    
 }//End private class
 
-private class MazeVar {
+private class MazeVar extends Item {
    private boolean Paradox;
    private int MaxMazeRoom;
    private int MazeEnvironment;
@@ -59,7 +62,24 @@ private class MazeVar {
       exit = null;
       grabPoint = null;
       MazeVariables = new MazeVar();
+      EventTrackerArray = new int[]{0,0,0,0,0,0,0,0,0,0};
    }
+   
+   public static void AssignEventNumber(Event E, int Enumber) {
+      E.setEventNumber(Enumber);
+   }//End Method AssigneEventNumber
+   
+   public static Event getRoomEvent(Node C) {
+      return C.RoomEvent;
+   }//End Method getRoomEvent
+   
+   public static int getRoomEventNumber(Event E) {
+      return E.getEventNumber();
+   }//End Method GetRoomEventNumber
+   
+   public static int[] getEventTrackerArray(Maze M) {
+      return M.EventTrackerArray;
+   }//End Method getEventTrackerArray
    
    public static int getMazeEnvironment(MazeVar MV) {
       return MV.MazeEnvironment;
@@ -192,6 +212,10 @@ private class MazeVar {
       return newRoomData;
    }//End method setRoomData
    
+   public static void setExit(Maze M, Node C) {
+      M.exit = C;
+   }//End Method getExit
+   
    public static boolean isConstructionPoint(Node C) {
       if(C.ConstructNorth == true || C.ConstructEast == true || C.ConstructSouth == true || C.ConstructWest == true)
          return true;
@@ -205,6 +229,19 @@ private class MazeVar {
       else
        return false;
    }//End Method isEqual
+   
+   public static boolean isExit(Node C, Maze M) {
+      if(getRoomNumber(C) == getRoomNumber(getExit(M)))
+         return true;
+      return false;
+   }//End Method isExit
+   
+   public boolean ExitExists() {
+      if(this.exit != null)
+         return true;
+      else
+         return false;
+   }//End Method ExitExists
    
    public void addEntrance(int[] newData) {
       entrance = new Node(newData, null, null, null, null);
@@ -556,12 +593,25 @@ private class MazeVar {
       return Tutorial;
    }//End method GenerateBasicMaze
    
+   public static Maze CreateMaze() {
+      Maze Dungeon = new Maze();
+      boolean EE;
+      EE = false;
+      while(EE == false) {
+         Dungeon = RandomMazeGeneration();
+         if(Dungeon.ExitExists() == true)
+            EE = true;
+      }
+      FillMaze(getStart(Dungeon), Dungeon);
+      return Dungeon;
+   }//End Method CreateMaze
+   
    public static Maze RandomMazeGeneration() {
       Maze M = new Maze();
       Node Position, Insert;
       Node NodeTracker[] = new Node[15];
       M = GenerateEntrance((int)(Math.random()*(29-1)+1));
-      Position = M.entrance;
+      Position = FindStartRoom(M);
       for(int x = 0; x < NodeTracker.length; x++) {
          NodeTracker[x] = Position;
       }
@@ -615,6 +665,7 @@ private class MazeVar {
          Position = RandomNodeSelection(NodeTracker);
       }//End Loop
       
+      M.setMazeExit(getStart(M), 0, 15);
       return M;
    }//End Method RandomMazeGeneration
    
@@ -702,17 +753,19 @@ private class MazeVar {
    }//End Method MatchRoom
    
    public static void TestVarious() {
-      Maze basic = new Maze();
-      Maze clone = new Maze();
-      clone.addEntrance(Maze.setRoomData(0));
-      basic = Maze.GenerateBasicMaze();
-      clone = Maze.Clone(basic);
+      Maze Test = new Maze();
+   
+      Character Player = new Character();
       
-      Node T;
-      T = getStart(clone);
-      MatchRoom(T, 50, clone);
-      
-      System.out.println(getRoomNumber(getGrabPoint(clone)));
+      boolean EE;
+      EE = false;
+      while(EE == false) {
+         Test = RandomMazeGeneration();
+         if(Test.ExitExists() == true)
+            EE = true;
+      }
+      FillMaze(getStart(Test), Test);
+      mazeDiagnostics(Maze.getStart(Test), Test);
       
    }//End Method TestVarious
    
@@ -2412,7 +2465,122 @@ private class MazeVar {
    //This block of code represents maze generation blocks end.
    //*************************************************************
    
-   public static void CheckRoom(Node C) {
+   public static void DisplayRoom(Node C, Character Player) throws InterruptedException {
+      //*****************************************
+      //Call code for displaying room description
+      //*****************************************
+      
+      getRoomEvent(C).EventInterpreter(getRoomEventNumber(getRoomEvent(C)), Player);
+      
+      System.out.println("");
+      System.out.println("What will you do?");
+      
+      if(C.north != null) {
+         if(C.direction == 1)  
+            System.out.printf("\n(1)You can go straight, ");
+         if(C.direction == 2)
+            System.out.printf("\n(4)You can go left, ");
+         if(C.direction == 3)
+            System.out.printf("\n(3)You can go back, ");
+         if(C.direction == 4)
+            System.out.printf("\n(2)You can go right, ");
+      }
+         
+      if(C.east != null) {
+         if(C.direction == 1)
+            System.out.printf("(2)you can go right, ");
+         if(C.direction == 2)
+            System.out.printf("(1)you can go straight, ");
+         if(C.direction == 3)
+            System.out.printf("(4)you can go left, ");
+         if(C.direction == 4)
+            System.out.printf("(3)you can go back, ");
+      }
+      
+      if(C.south != null) {
+         if(C.direction == 1)
+            System.out.printf("(3)you can go back, ");
+         if(C.direction == 2)
+            System.out.printf("(2)you can go right, ");
+         if(C.direction == 3)
+            System.out.printf("(1)you can go straight, ");
+         if(C.direction == 4)
+            System.out.printf("(4)you can go left, ");
+      }
+
+      if(C.west != null) {
+         if(C.direction == 1)
+            System.out.printf("(4)you can go left,");
+         if(C.direction == 2)
+            System.out.printf("(3)you can go back, ");
+         if(C.direction == 3)
+            System.out.printf("(2)you can go right, ");
+         if(C.direction == 4)
+            System.out.printf("(1)you can go straight, ");
+      }
+      
+      if(getRoomEvent(C).getEventOn() == true) {
+        System.out.printf("(5)turn back?");
+      }
+         
+   }//End method DisplayRoom
+   
+   public static void BackupDisplayRoom(Node C, Character Player) throws InterruptedException {
+      System.out.println();
+      System.out.println("What will you do?");
+      
+      if(C.north != null) {
+         if(C.direction == 1)  
+            System.out.printf("\n(1)You can go straight, ");
+         if(C.direction == 2)
+            System.out.printf("\n(4)You can go left, ");
+         if(C.direction == 3)
+            System.out.printf("\n(3)You can go back, ");
+         if(C.direction == 4)
+            System.out.printf("\n(2)You can go right, ");
+      }
+         
+      if(C.east != null) {
+         if(C.direction == 1)
+            System.out.printf("(2)you can go right, ");
+         if(C.direction == 2)
+            System.out.printf("(1)you can go straight, ");
+         if(C.direction == 3)
+            System.out.printf("(4)you can go left, ");
+         if(C.direction == 4)
+            System.out.printf("(3)you can go back, ");
+      }
+      
+      if(C.south != null) {
+         if(C.direction == 1)
+            System.out.printf("(3)you can go back, ");
+         if(C.direction == 2)
+            System.out.printf("(2)you can go right, ");
+         if(C.direction == 3)
+            System.out.printf("(1)you can go straight, ");
+         if(C.direction == 4)
+            System.out.printf("(4)you can go left, ");
+      }
+
+      if(C.west != null) {
+         if(C.direction == 1)
+            System.out.printf("(4)you can go left,");
+         if(C.direction == 2)
+            System.out.printf("(3)you can go back, ");
+         if(C.direction == 3)
+            System.out.printf("(2)you can go right, ");
+         if(C.direction == 4)
+            System.out.printf("(1)you can go straight, ");
+      }
+      
+      if(getRoomEvent(C).getEventOn() == true) {
+        System.out.printf("(5)turn back?");
+      }
+         
+   }//End method BackupDisplayRoom
+
+   
+   public static void CheckRoom(Node C, Character Player) throws InterruptedException {
       if(C.north != null) {
          if(C.direction == 1)  
             System.out.printf("\nYou can go straight, ");
@@ -2456,6 +2624,8 @@ private class MazeVar {
          if(C.direction == 4)
             System.out.printf("you can go straight");
       }
+      
+      getRoomEvent(C).EventInterpreter(getRoomEventNumber(getRoomEvent(C)), Player);
          
       System.out.println();
       System.out.println("The room number is: " + C.roomData[0]);
@@ -2548,120 +2718,347 @@ private class MazeVar {
             ParadoxAvoidance_4Block(M, C.west, ParadoxOne, ParadoxTwo, ParadoxThree, ParadoxFour);
    }//End Method ParadoxAvoidance_4Block
    
-   public void TraverseMaze(Node C) {
-      if(C.roomData[0] == this.exit.roomData[0]) {
+   public void TraverseMaze(Node C, Character Player) throws InterruptedException {
+      if(getRoomNumber(C) == getRoomNumber(this.exit)) {
          System.out.println("You have reached the end!");
          return;
       }
-      CheckRoom(C);
+      DisplayRoom(C, Player);
       System.out.println();
-      System.out.println("Where would you like to go?");
+      
       Scanner Scan = new Scanner(System.in);
       int choice = Scan.nextInt();
       if(C.direction == 1) {
          if(choice == 1) {
+            if(C.north == null) {
+               BackupTraverseMaze(C, Player);
+               return;
+            }
             C.north.direction = 1;
-            TraverseMaze(C.north);
+            TraverseMaze(C.north, Player);
          }
          if(choice == 2) {
+            if(C.east == null) {
+               BackupTraverseMaze(C, Player);
+               return;
+            }
             C.east.direction = 2;
-            TraverseMaze(C.east);
+            TraverseMaze(C.east, Player);
          }
          if(choice == 3) {
+            if(C.south == null) {
+               BackupTraverseMaze(C, Player);
+               return;
+            }
             C.south.direction = 3;
-            TraverseMaze(C.south);
+            TraverseMaze(C.south, Player);
          }
          if(choice == 4) {
+            if(C.west == null) { 
+               BackupTraverseMaze(C, Player);
+               return;
+            }
             C.west.direction = 4;
-            TraverseMaze(C.west);
+            TraverseMaze(C.west, Player);
          }
       }  
       
       if(C.direction == 2) {
          if(choice == 1){
+            if(C.east == null) { 
+               BackupTraverseMaze(C, Player);
+               return;
+            }
             C.east.direction = 2;
-            TraverseMaze(C.east);
+            TraverseMaze(C.east, Player);
          }
          if(choice == 2) {
+            if(C.south == null) { 
+               BackupTraverseMaze(C, Player);
+               return;
+            }
             C.south.direction = 3;
-            TraverseMaze(C.south);
+            TraverseMaze(C.south, Player);
          }
          if(choice == 3) {
+            if(C.west == null) {
+               BackupTraverseMaze(C, Player);
+               return;
+            }
             C.west.direction = 4;
-            TraverseMaze(C.west);
+            TraverseMaze(C.west, Player);
          }
          if(choice == 4) {
+            if(C.north == null) { 
+               BackupTraverseMaze(C, Player);
+               return;
+            }
             C.north.direction = 1;
-            TraverseMaze(C.north);
+            TraverseMaze(C.north, Player);
          }
       }  
       
       if(C.direction == 3) {
          if(choice == 1) {
+            if(C.south == null) { 
+               BackupTraverseMaze(C, Player);
+               return;
+            }
             C.south.direction = 3;
-            TraverseMaze(C.south);
+            TraverseMaze(C.south, Player);
          }
          if(choice == 2) {
+            if(C.west == null) {
+               BackupTraverseMaze(C, Player);
+               return;
+            }
             C.west.direction = 4;
-            TraverseMaze(C.west);
+            TraverseMaze(C.west, Player);
          }
          if(choice == 3) {
+            if(C.north == null) { 
+               BackupTraverseMaze(C, Player);
+               return;
+            }
             C.north.direction = 1;
-            TraverseMaze(C.north);
+            TraverseMaze(C.north, Player);
          }
          if(choice == 4) {
+            if(C.east == null) { 
+               BackupTraverseMaze(C, Player);
+               return;
+            }
             C.east.direction = 2;
-            TraverseMaze(C.east);
+            TraverseMaze(C.east, Player);
          }
       }  
       
       if(C.direction == 4) {
          if(choice == 1) {
+            if(C.west == null) { 
+               BackupTraverseMaze(C, Player);
+               return;
+            }
             C.west.direction = 4;
-            TraverseMaze(C.west);
+            TraverseMaze(C.west, Player);
          }
          if(choice == 2) {
+            if(C.north == null) { 
+               BackupTraverseMaze(C, Player);
+               return;
+            }
             C.north.direction = 1;
-            TraverseMaze(C.north);
+            TraverseMaze(C.north, Player);
          }
          if(choice == 3) {
+            if(C.east == null) { 
+               BackupTraverseMaze(C, Player);
+               return;
+            }
             C.east.direction = 2;
-            TraverseMaze(C.east);
+            TraverseMaze(C.east, Player);
          }
          if(choice == 4) {
+            if(C.south == null) { 
+               BackupTraverseMaze(C, Player);
+               return;
+            }
             C.south.direction = 3;
-            TraverseMaze(C.south);
+            TraverseMaze(C.south, Player);
          }
+      }
+      if(choice == 5) {
+         TraverseMaze(C, Player);
       }         
+      if(choice != 1 && choice != 2 && choice != 3 && choice != 4 && choice != 5) {
+         BackupTraverseMaze(C, Player);
+      }
    }//End method TraverseMaze
    
-   public static void mazeDiagnostics(Node C) {
+   public void BackupTraverseMaze(Node C, Character Player) throws InterruptedException {
+      BackupDisplayRoom(C, Player);
+      System.out.println();
+      
+      Scanner Scan = new Scanner(System.in);
+      int choice = Scan.nextInt();
+      if(C.direction == 1) {
+         if(choice == 1) {
+            if(C.north == null) {
+               BackupTraverseMaze(C, Player);
+               return;
+            }
+            C.north.direction = 1;
+            TraverseMaze(C.north, Player);
+         }
+         if(choice == 2) {
+            if(C.east == null) {
+               BackupTraverseMaze(C, Player);
+               return;
+            }
+            C.east.direction = 2;
+            TraverseMaze(C.east, Player);
+         }
+         if(choice == 3) {
+            if(C.south == null) {
+               BackupTraverseMaze(C, Player);
+               return;
+            }
+            C.south.direction = 3;
+            TraverseMaze(C.south, Player);
+         }
+         if(choice == 4) {
+            if(C.west == null) { 
+               BackupTraverseMaze(C, Player);
+               return;
+            }
+            C.west.direction = 4;
+            TraverseMaze(C.west, Player);
+         }
+      }  
+      
+      if(C.direction == 2) {
+         if(choice == 1){
+            if(C.east == null) { 
+               BackupTraverseMaze(C, Player);
+               return;
+            }
+            C.east.direction = 2;
+            TraverseMaze(C.east, Player);
+         }
+         if(choice == 2) {
+            if(C.south == null) { 
+               BackupTraverseMaze(C, Player);
+               return;
+            }
+            C.south.direction = 3;
+            TraverseMaze(C.south, Player);
+         }
+         if(choice == 3) {
+            if(C.west == null) {
+               BackupTraverseMaze(C, Player);
+               return;
+            }
+            C.west.direction = 4;
+            TraverseMaze(C.west, Player);
+         }
+         if(choice == 4) {
+            if(C.north == null) { 
+               BackupTraverseMaze(C, Player);
+               return;
+            }
+            C.north.direction = 1;
+            TraverseMaze(C.north, Player);
+         }
+      }  
+      
+      if(C.direction == 3) {
+         if(choice == 1) {
+            if(C.south == null) { 
+               BackupTraverseMaze(C, Player);
+               return;
+            }
+            C.south.direction = 3;
+            TraverseMaze(C.south, Player);
+         }
+         if(choice == 2) {
+            if(C.west == null) {
+               BackupTraverseMaze(C, Player);
+               return;
+            }
+            C.west.direction = 4;
+            TraverseMaze(C.west, Player);
+         }
+         if(choice == 3) {
+            if(C.north == null) { 
+               BackupTraverseMaze(C, Player);
+               return;
+            }
+            C.north.direction = 1;
+            TraverseMaze(C.north, Player);
+         }
+         if(choice == 4) {
+            if(C.east == null) { 
+               BackupTraverseMaze(C, Player);
+               return;
+            }
+            C.east.direction = 2;
+            TraverseMaze(C.east, Player);
+         }
+      }  
+      
+      if(C.direction == 4) {
+         if(choice == 1) {
+            if(C.west == null) { 
+               BackupTraverseMaze(C, Player);
+               return;
+            }
+            C.west.direction = 4;
+            TraverseMaze(C.west, Player);
+         }
+         if(choice == 2) {
+            if(C.north == null) { 
+               BackupTraverseMaze(C, Player);
+               return;
+            }
+            C.north.direction = 1;
+            TraverseMaze(C.north, Player);
+         }
+         if(choice == 3) {
+            if(C.east == null) { 
+               BackupTraverseMaze(C, Player);
+               return;
+            }
+            C.east.direction = 2;
+            TraverseMaze(C.east, Player);
+         }
+         if(choice == 4) {
+            if(C.south == null) { 
+               BackupTraverseMaze(C, Player);
+               return;
+            }
+            C.south.direction = 3;
+            TraverseMaze(C.south, Player);
+         }
+      }
+      if(choice == 5) {
+         TraverseMaze(C, Player);
+      }         
+      if(choice != 1 && choice != 2 && choice != 3 && choice != 4 && choice != 5) {
+         BackupTraverseMaze(C, Player);
+      }
+   }//End method BackupTraverseMaze
+   
+   public static void mazeDiagnostics(Node C, Maze M) {
       int x = getRoomNumber(C);
+      //System.out.println("Event Number: " + getRoomEventNumber(getRoomEvent(C)) + " Is in room: " + x);
+      if(isExit(C, M) == true) {
+         System.out.println("Exit is in room number: " + getRoomNumber(C));
+      }
       if(C.north != null) {
          if(getRoomNumber(C.north) > x) {
             System.out.println("Go North to room number: " + getRoomNumber(C.north));
-            mazeDiagnostics(C.north);
+            mazeDiagnostics(C.north, M);
          }
       }
       
       if(C.east != null) {
          if(getRoomNumber(C.east) > x) {
             System.out.println("Go East to room number: " + getRoomNumber(C.east));
-            mazeDiagnostics(C.east);
+            mazeDiagnostics(C.east, M);
          }
       }
       
       if(C.south != null) {
          if(getRoomNumber(C.south) > x) {
             System.out.println("Go South to room number: " + getRoomNumber(C.south));
-            mazeDiagnostics(C.south);
+            mazeDiagnostics(C.south, M);
          }
       }
       
       if(C.west != null) {
          if(getRoomNumber(C.west) > x) {
             System.out.println("Go West to room number: " + getRoomNumber(C.west));
-            mazeDiagnostics(C.west);
+            mazeDiagnostics(C.west, M);
          }
       }
       System.out.println("Go back from room number: " + x);
@@ -2704,7 +3101,6 @@ private class MazeVar {
          Position.north.ConstructNorth = true;
          Position.east.ConstructEast = true;
          Position.west.ConstructWest = true;
-         MazeStart.exit = Position.west;
       }
       if(Type == 2) {//If Type == 2, direction entered into the maze is East with 3 corridors leading deeper into the maze.
          MazeStart.entrance.direction = 2;
@@ -2717,7 +3113,6 @@ private class MazeVar {
          Position.north.ConstructNorth = true;
          Position.east.ConstructEast = true;
          Position.south.ConstructSouth = true;
-         MazeStart.exit = Position.north;
       }   
       if(Type == 3) {//If Type == 3, direction entered into the maze is South with 3 corridors leading deeper into the maze.
          MazeStart.entrance.direction = 3;
@@ -2730,7 +3125,6 @@ private class MazeVar {
          Position.south.ConstructSouth = true;
          Position.east.ConstructEast = true;
          Position.west.ConstructWest = true;
-         MazeStart.exit = Position.east;
       }
       if(Type == 4) {//If Type == 4, direction entered into the maze is West with 3 corridors leading deeper into the maze.
          MazeStart.entrance.direction = 4;
@@ -2743,7 +3137,6 @@ private class MazeVar {
          Position.north.ConstructNorth = true;
          Position.south.ConstructSouth = true;
          Position.west.ConstructWest = true;
-         MazeStart.exit = Position.south;
       }
       if(Type == 5) {//If Type == 5, direction entered into the maze is North with East and West corridors leading deeper into the maze.
          MazeStart.entrance.direction = 1;
@@ -2753,7 +3146,6 @@ private class MazeVar {
          SpacialCoordinateModifierX(Position.west, X-1);
          Position.east.ConstructEast = true;
          Position.west.ConstructWest = true;
-         MazeStart.exit = Position.west;
       }
       if(Type == 6) {//If Type == 6, direction entered into the maze is North with East and North corridors leading deeper into the maze.
          MazeStart.entrance.direction = 1;
@@ -2763,7 +3155,6 @@ private class MazeVar {
          SpacialCoordinateModifierX(Position.east, X+1);
          Position.north.ConstructNorth = true;
          Position.east.ConstructEast = true;
-         MazeStart.exit = Position.east;
       }  
       if(Type == 7) {//If Type == 7, direction entered into the maze is North with North and West corridors leading deeper into the maze.
          MazeStart.entrance.direction = 1;
@@ -2773,7 +3164,6 @@ private class MazeVar {
          SpacialCoordinateModifierX(Position.west, X-1);
          Position.north.ConstructNorth = true;
          Position.west.ConstructWest = true;
-         MazeStart.exit = Position.west;
       }
       if(Type == 8) {//If Type == 8, direction entered into the maze is East with East and South corridors leading deeper into the maze.
          MazeStart.entrance.direction = 2;
@@ -2783,7 +3173,6 @@ private class MazeVar {
          SpacialCoordinateModifierY(Position.south, Y-1);
          Position.south.ConstructSouth = true;
          Position.east.ConstructEast = true;
-         MazeStart.exit = Position.south;
       }
       if(Type == 9) {//If Type == 9, direction entered into the maze is East with East and North corridors leading deeper into the maze.
          MazeStart.entrance.direction = 2;
@@ -2793,7 +3182,6 @@ private class MazeVar {
          SpacialCoordinateModifierX(Position.east, X+1);
          Position.north.ConstructNorth = true;
          Position.east.ConstructEast = true;
-         MazeStart.exit = Position.north;
       }    
       if(Type == 10) {//If Type == 10, direction entered into the maze is East with South and North corridors leading deeper into the maze.
          MazeStart.entrance.direction = 2;
@@ -2803,7 +3191,6 @@ private class MazeVar {
          SpacialCoordinateModifierY(Position.south, Y-1);
          Position.north.ConstructNorth = true;
          Position.south.ConstructSouth = true;
-         MazeStart.exit = Position.north;
       }  
       if(Type == 11) {//If Type == 11, direction entered into the maze is South with South and West corridors leading deeper into the maze.
          MazeStart.entrance.direction = 3;
@@ -2813,7 +3200,6 @@ private class MazeVar {
          SpacialCoordinateModifierX(Position.west, X-1);
          Position.south.ConstructSouth = true;
          Position.west.ConstructWest = true;
-         MazeStart.exit = Position.west;
       }
       if(Type == 12) {//If Type == 12, direction entered into the maze is South with South and East corridors leading deeper into the maze.
          MazeStart.entrance.direction = 3;
@@ -2823,7 +3209,6 @@ private class MazeVar {
          SpacialCoordinateModifierY(Position.south, Y-1);
          Position.south.ConstructSouth = true;
          Position.east.ConstructEast = true;
-         MazeStart.exit = Position.east;
       }
       if(Type == 13) {//If Type == 13, direction entered into the maze is South with West and East corridors leading deeper into the maze.
          MazeStart.entrance.direction = 3;
@@ -2833,7 +3218,6 @@ private class MazeVar {
          SpacialCoordinateModifierX(Position.west, X-1);
          Position.east.ConstructEast = true;
          Position.west.ConstructWest = true;
-         MazeStart.exit = Position.east;
       }
       if(Type == 14) {//If Type == 14, direction entered into the maze is West with West and North corridors leading deeper into the maze.
          MazeStart.entrance.direction = 4;
@@ -2843,7 +3227,6 @@ private class MazeVar {
          SpacialCoordinateModifierX(Position.west, X-1);
          Position.north.ConstructNorth = true;
          Position.west.ConstructWest = true;
-         MazeStart.exit = Position.north;
       }
       if(Type == 15) {//If Type == 15, direction entered into the maze is West with West and South corridors leading deeper into the maze.
          MazeStart.entrance.direction = 4;
@@ -2853,7 +3236,6 @@ private class MazeVar {
          SpacialCoordinateModifierX(Position.west, X-1);
          Position.south.ConstructSouth = true;
          Position.west.ConstructWest = true;
-         MazeStart.exit = Position.south;
       }
       if(Type == 16) {//If Type == 16, direction entered into the maze is West with North and South corridors leading deeper into the maze.
          MazeStart.entrance.direction = 4;
@@ -2863,91 +3245,78 @@ private class MazeVar {
          SpacialCoordinateModifierY(Position.south, Y-1);
          Position.north.ConstructNorth = true;
          Position.south.ConstructSouth = true;
-         MazeStart.exit = Position.south;
       }
       if(Type == 17) {//If Type == 17, direction entered into the maze is North with a Northern corridor leading deeper into the maze.
          MazeStart.entrance.direction = 1;
          MazeStart.addNorthernCorridor(setRoomData(1), Position);
          SpacialCoordinateModifierY(Position.north, Y+1);
          Position.north.ConstructNorth = true;
-         MazeStart.exit = Position.north;
       }
       if(Type == 18) {//If Type == 18, direction entered into the maze is North with an Eastern corridor leading deeper into the maze.
          MazeStart.entrance.direction = 1;
          MazeStart.addEasternCorridor(setRoomData(1), Position);
          SpacialCoordinateModifierX(Position.east, X+1);
          Position.east.ConstructEast = true;
-         MazeStart.exit = Position.east;
       }
       if(Type == 19) {//If Type == 19, direction entered into the maze is North with a Western corridor leading deeper into the maze.
          MazeStart.entrance.direction = 1;
          MazeStart.addWesternCorridor(setRoomData(1), Position);
          SpacialCoordinateModifierX(Position.west, X-1);
          Position.west.ConstructWest = true;
-         MazeStart.exit = Position.west;
       }
       if(Type == 20) {//If Type == 20, direction entered into the maze is East with an Eastern corridor leading deeper into the maze.
          MazeStart.entrance.direction = 2;
          MazeStart.addEasternCorridor(setRoomData(1), Position);
          SpacialCoordinateModifierX(Position.east, X+1);
          Position.east.ConstructEast = true;
-         MazeStart.exit = Position.east;
       }
       if(Type == 21) {//If Type == 21, direction entered into the maze is East with a Southern corridor leading deeper into the maze.
          MazeStart.entrance.direction = 2;
          MazeStart.addSouthernCorridor(setRoomData(1), Position);
          SpacialCoordinateModifierY(Position.south, Y-1);
          Position.south.ConstructSouth = true;
-         MazeStart.exit = Position.south;
       }
       if(Type == 22) {//If Type == 22, direction entered into the maze is East with a Northern corridor leading deeper into the maze.
          MazeStart.entrance.direction = 2;
          MazeStart.addNorthernCorridor(setRoomData(1), Position);
          SpacialCoordinateModifierY(Position.north, Y+1);
          Position.north.ConstructNorth = true;
-         MazeStart.exit = Position.north;
       }
       if(Type == 23) {//If Type == 23, direction entered into the maze is South with a Southern corridor leading deeper into the maze.
          MazeStart.entrance.direction = 3;
          MazeStart.addSouthernCorridor(setRoomData(1), Position);
          SpacialCoordinateModifierY(Position.south, Y-1);
          Position.south.ConstructSouth = true;
-         MazeStart.exit = Position.south;
       }
       if(Type == 24) {//If Type == 24, direction entered into the maze is South with a Western corridor leading deeper into the maze.
          MazeStart.entrance.direction = 3;
          MazeStart.addWesternCorridor(setRoomData(1), Position);
          SpacialCoordinateModifierX(Position.west, X-1);
          Position.west.ConstructWest = true;
-         MazeStart.exit = Position.west;
       }
       if(Type == 25) {//If Type == 25, direction entered into the maze is South with an Eastern corridor leading deeper into the maze.
          MazeStart.entrance.direction = 3;
          MazeStart.addEasternCorridor(setRoomData(1), Position);
          SpacialCoordinateModifierX(Position.east, X+1);
          Position.east.ConstructEast = true;
-         MazeStart.exit = Position.east;
       }
       if(Type == 26) {//If Type == 26, direction entered into the maze is West with a Western corridor leading deeper into the maze.
          MazeStart.entrance.direction = 4;
          MazeStart.addWesternCorridor(setRoomData(1), Position);
          SpacialCoordinateModifierX(Position.west, X-1);
          Position.west.ConstructWest = true;
-         MazeStart.exit = Position.west;
       }
       if(Type == 27) {//If Type == 27, direction entered into the maze is West with a Northern corridor leading deeper into the maze.
          MazeStart.entrance.direction = 4;
          MazeStart.addNorthernCorridor(setRoomData(1), Position);
          SpacialCoordinateModifierY(Position.north, Y+1);
          Position.north.ConstructNorth = true;
-         MazeStart.exit = Position.north;
       }
       if(Type == 28) {//If Type == 28, direction entered into the maze is West with a Southern corridor leading deeper into the maze.
          MazeStart.entrance.direction = 4;
          MazeStart.addSouthernCorridor(setRoomData(1), Position);
          SpacialCoordinateModifierY(Position.south, Y-1);
          Position.south.ConstructSouth = true;
-         MazeStart.exit = Position.south;
       }
       return MazeStart;  
    }//End Method GenerateEntrance
@@ -3050,5 +3419,93 @@ private class MazeVar {
          }
       }//End west check
    }//End Method CloneMaze
+   
+   public static void FillMaze(Node Start, Maze M) {
+      int RandomEvent;
+      RandomEvent = (int)(Math.random() * (5-1) + 1);
+      //RandomEvent = 1;
+      if(getRoomNumber(Start) != 0) {   
+         if(EventExists(M, RandomEvent) != true) {
+            AssignEventNumber(getRoomEvent(Start), RandomEvent);
+            AddRoomEvent(RandomEvent, getEventTrackerArray(M));
+            getRoomEvent(Start).setEventOn(true);
+         }
+      }   
+       
+      if(Start.north != null) {
+         if(getRoomNumber(Start) < getRoomNumber(Start.north)) { 
+            FillMaze(Start.north, M);
+         }
+      }//End North check
+      
+      if(Start.east != null) {
+         if(getRoomNumber(Start) < getRoomNumber(Start.east)) {   
+            FillMaze(Start.east, M);
+         }
+      }//End east check
+      
+      if(Start.south != null) {
+         if(getRoomNumber(Start) < getRoomNumber(Start.south)) {
+            FillMaze(Start.south, M);
+         }
+      }//End South check
+      
+      if(Start.west != null) {
+         if(getRoomNumber(Start) < getRoomNumber(Start.west)) {
+            FillMaze(Start.west, M);
+         }
+      }//End west check
+   }//End Method CloneMaze
+   
+   public static boolean EventExists(Maze M, int Enumber) {
+      for(int i = 0; i < getEventTrackerArray(M).length; i++) {
+         if(Enumber == getEventTrackerArray(M)[i])
+            return true;
+      }
+      return false;
+   }//End Method EventExists
+   
+   public static void AddRoomEvent(int Enumber, int[] InnitEvents) {
+      for(int i = 0; i < InnitEvents.length; i++) {
+         if(InnitEvents[i] == 0)
+            InnitEvents[i] = Enumber;
+      }
+   }//End Method AddRoomEvent
+   
+   public void setMazeExit(Node C, int current, int target) {
+      Node Position;
+      Position = C;
+      int x;
+      x = getRoomNumber(C);
+      
+      if(C.north != null) {
+         if(x < getRoomNumber(C.north)) {
+            this.setMazeExit(C.north, current+1, target);
+         }
+      }
+      
+      if(C.east != null) {
+         if(x < getRoomNumber(C.east)) {
+            this.setMazeExit(C.east, current+1, target);
+         }
+      }
+      
+      if(C.south != null) {
+         if(x < getRoomNumber(C.south)) {
+            this.setMazeExit(C.south, current+1, target);
+         }
+      }
+      
+      if(C.west != null) {
+         if(x < getRoomNumber(C.west)) {
+            this.setMazeExit(C.west, current+1, target);
+         }
+      }
+      
+      if(current >= target) {
+         this.exit = C;
+         return;
+      }
+   }//End Method setMazeExit
    
 }//End class Maze

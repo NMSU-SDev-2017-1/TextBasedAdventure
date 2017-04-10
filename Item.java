@@ -5,7 +5,7 @@ import java.util.Arrays;
 //Item object class, extends to child-item type classes. Defines item characteristics.
 //Class is abstract
 
-public class Item{
+public class Item extends Character{
    //Instance Variables
    public String itemName;
    public int size;

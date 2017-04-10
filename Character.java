@@ -26,7 +26,27 @@ public class Character{
 
    public Item inventory[];
    public Item equipment[];
+   
+   //Inherited Constructor
+   public Character(){
+      this.playerID = "";
 
+      this.baseAttack = 10;
+      this.baseDefense = 10;
+      this.baseLuck = 10;
+      this.baseHealthpoints = 15;
+      this.maxHP = 15;
+
+      this.attack = 10;
+      this.defense = 10;
+      this.luck = 10;
+      this.healthpoints = 15;
+      this.inventory = new Item[10];
+      this.equipment = new Item[10];
+      this.coins = 0;
+   }
+
+   
    //Default Constructor
    public Character(String playerID){
       this.playerID = playerID;
@@ -65,6 +85,13 @@ public class Character{
    }
 
    //Accessors
+   
+   //Edited by Christian Robles
+   //Used to retrieve the inventory array
+   public Item[] getInventory() {
+      return this.inventory;
+   }
+   
    public String getPlayerID(){
 	   return playerID;
    }
@@ -191,6 +218,10 @@ public class Character{
       luck = newLUCK;
       if(luck < 0)
          luck = 0;
+   }
+   
+   public void setMaxHP(int newMaxHP){
+      maxHP = newMaxHP;
    }
 
    //Player stat modifiers
