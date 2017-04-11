@@ -1,4 +1,4 @@
-package game;
+//package game;
 import sun.audio.*;
 
 import java.awt.*; 
@@ -46,17 +46,17 @@ public class Image extends JFrame
 	     B2 = new Rectangle(x,y+200,90,32);
 	     B3 = new Rectangle(x,y+300,90,32);
 	     try {
-	        mScreen = ImageIO.read(new File("src/game/darkest-dungeon-title-screen.jpg"));
-	        img1 = ImageIO.read(new File("src/game/dungeons-and-dragons-strategy-1.jpg"));
-	        imgPlay = ImageIO.read(new File("src/game/play.png"));
-	        imgQuit = ImageIO.read(new File("src/game/quit.png"));
-	        Skele = ImageIO.read(new File("src/game/Skeleton.jpg"));
-	        deadSke = ImageIO.read(new File("src/game/stock-photo-a-pile-of-human-bones-with-an-intact-skeleton-on-top-d-render-106336646.jpg"));
-	        textBox = ImageIO.read(new File("src/game/Tbox.jpeg"));
-	        button1 = ImageIO.read(new File("src/game/Button1.png"));
-	        button2 = ImageIO.read(new File("src/game/Button2.png"));
-	        button3 = ImageIO.read(new File("src/game/Button3.png"));
-	        button4 = ImageIO.read(new File("src/game/Button4.png"));
+	        mScreen = ImageIO.read(new File("darkest-dungeon-title-screen.jpg"));
+	        img1 = ImageIO.read(new File("dungeons-and-dragons-strategy-1.jpg"));
+	        imgPlay = ImageIO.read(new File("play.png"));
+	        imgQuit = ImageIO.read(new File("quit.png"));
+	        Skele = ImageIO.read(new File("Skeleton.jpg"));
+	        deadSke = ImageIO.read(new File("stock-photo-a-pile-of-human-bones-with-an-intact-skeleton-on-top-d-render-106336646.jpg"));
+	        textBox = ImageIO.read(new File("Tbox.jpeg"));
+	        button1 = ImageIO.read(new File("Button1.png"));
+	        button2 = ImageIO.read(new File("Button2.png"));
+	        button3 = ImageIO.read(new File("Button3.png"));
+	        button4 = ImageIO.read(new File("Button4.png"));
 	        
 	    } catch (IOException e) {
 	        // TODO Auto-generated catch block
@@ -192,7 +192,7 @@ public class Image extends JFrame
 	             g.drawRect(B3.x+5,B3.y+40, B3.width, B3.height);
 	             g.drawImage(button3, B3.x+7,B3.y+40, B3.x+B3.width+7, B3.height+B3.y+40, 0, 0, button3.getWidth(), button3.getHeight(), null);
 	             g.drawString(text,x+400, y+800);
-	             text2 = "here u get to be me, Deadpool welcome...$" +"press 1 to continue 2 to run and 3 to quit";
+	             text2 = "press 1 to continue 2 to run and 3 to quit";
 	             if(!imgtext){
 	             Timg(text2, g);
 	             imgtext = true;

@@ -6,7 +6,7 @@ import java.util.Random;
 //Class implements and tests game objects
 
 public class TestObjects {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 	   Scanner scan = new Scanner(System.in);
            Consumable bread = new Consumable("Bread", 1, 5, 2,0,0,0, "Regular Ol' Bread. The choice meal of every Navy Seal.", 2);
            System.out.println("Please enter your username:");
@@ -35,15 +35,26 @@ public class TestObjects {
               System.out.println("4. Check Status");
               int playerAction = scan.nextInt();
               if(playerAction == 1){
-                 System.out.println("You continue through the dungeon...A SKELETON APPEARS!");
+                 System.out.println("You continue through the dungeon...");
                  Skeleton testSkeleton = new Skeleton();
-	     	 testSkeleton.printSkeleton();
+                 Minotaur testMinotaur = new Minotaur();
                  Random rand = new Random(System.currentTimeMillis());
                  int randomInt = rand.nextInt(10 - 1) + 1;
-	         if(randomInt <= 5)
+	         if(randomInt <= 5){
+                    System.out.println("A SKELETON APPEARS!");
+                    testSkeleton.printSkeleton();
                     Combat.standardCombat(testSkeleton, player);
-                 else
+                 }
+                 else if(randomInt == 10){
+                    System.out.println("A MIGHTY MINOTAUR APPEARS!");
+                    testMinotaur.printMinotaur();
+                    Combat.standardCombat(testMinotaur, player);
+                 }
+                 else{
+                    System.out.println("A SKELETON APPEARS!");
+                    testSkeleton.printSkeleton();
                     Combat.advantageCombat(testSkeleton, player);
+                 }
               }//end playerAction == 1
               else if(playerAction == 2){
                  player.useInventory();       

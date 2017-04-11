@@ -181,7 +181,7 @@ public class Combat{
          GameSystem.read("You take no damage.");
       }
       else {
-         GameSystem.read("You take " + damage + "damage.");
+         GameSystem.read("You take " + damage + " damage.");
          Player.modHP(-damage);
       }
    }//End method PlayerDamage
@@ -190,10 +190,10 @@ public class Combat{
       int crit;
       crit = Mon.getAttack()+(Mon.getAttack()/2) - Player.getDefense();
       if(crit <= 0) {
-         GameSystem.read("You take no damage.");
+         GameSystem.read("You took no damage.");
       }
       else {
-         GameSystem.read("You take " + crit + "critical damage!");
+         GameSystem.read("You took " + crit + " critical damage!");
          Player.modHP(-crit);
       }
    }//End method CriticalPlayerDamage
@@ -205,7 +205,7 @@ public class Combat{
          GameSystem.read("You dealt no damage.");
       }
       else {
-         GameSystem.read(Mon.getName() + " took " + damage + "damage.");
+         GameSystem.read(Mon.getName() + " took " + damage + " damage.");
          Mon.modMonsterHP(-damage);
       }
    }//End method MonsterDamage
@@ -217,7 +217,7 @@ public class Combat{
          GameSystem.read("You dealt no damage.");
       }
       else {
-         GameSystem.read(Mon.getName() + " took " + crit + "critical damage!");
+         GameSystem.read(Mon.getName() + " took " + crit + " critical damage!");
          Mon.modMonsterHP(-crit);
       }
    }//End method MonsterPlayerDamage
