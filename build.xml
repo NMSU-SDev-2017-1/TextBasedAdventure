@@ -1,0 +1,16 @@
+<project default="all">
+	<target name="all" depends="compile, jar, run"/>
+	<target name="compile">
+		<javac srcdir="." />
+	</target>
+	<target name="jar" depends="compile">
+		<jar basedir="." destfile="DemoTwo.jar" excludes="DemoTwo.jar">
+			<manifest>
+				<attribute name="Main-Class" value="DemoTwo"/>
+			</manifest>
+		</jar>
+	</target>
+	<target name="run" depends="jar">
+		<java fork="true" jar="DemoTwo.jar"/>
+	</target>
+</project>
