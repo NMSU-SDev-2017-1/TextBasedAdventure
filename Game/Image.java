@@ -45,6 +45,7 @@ public class Image extends JFrame
 	     B1 = new Rectangle( x,y+100,90,32);
 	     B2 = new Rectangle(x,y+200,90,32);
 	     B3 = new Rectangle(x,y+300,90,32);
+	     B4 = new Rectangle(x,y+300,90,32);
 	     try {
 	        mScreen = ImageIO.read(new File("src/game/darkest-dungeon-title-screen.jpg"));
 	        img1 = ImageIO.read(new File("src/game/dungeons-and-dragons-strategy-1.jpg"));
@@ -73,7 +74,7 @@ public class Image extends JFrame
 			// TODO Auto-generated method stub
 		System.out.println(e.getX() + " " + (e.getY()));
 		if(play.contains(e.getPoint())){
-			System.out.println("Play");
+			System.out.println("Play1");
 			GameState = 1;
 			dothis();
 		} if(quit.contains(e.getPoint())){
@@ -91,6 +92,9 @@ public class Image extends JFrame
 			System.out.println("play4");
 			GameState = 4;
 			dothis();
+		}if (B4.contains(e.getPoint())){
+			System.out.println("play5");
+			System.exit(DISPOSE_ON_CLOSE);
 		}
 		}
 
@@ -192,7 +196,7 @@ public class Image extends JFrame
 	             g.drawRect(B3.x+5,B3.y+40, B3.width, B3.height);
 	             g.drawImage(button3, B3.x+7,B3.y+40, B3.x+B3.width+7, B3.height+B3.y+40, 0, 0, button3.getWidth(), button3.getHeight(), null);
 	             g.drawString(text,x+400, y+800);
-	             text2 = "here u get to be me, Deadpool welcome...$" +"press 1 to continue 2 to run and 3 to quit";
+	             text2 = "You have entered a cave...$" +"press 1 to continue 2 to run and 3 to quit";
 	             if(!imgtext){
 	             Timg(text2, g);
 	             imgtext = true;
@@ -204,7 +208,6 @@ public class Image extends JFrame
 	             //g.setColor(Color.WHITE);
 	            break;
 	    	 case 2:
-	    		
 	    		 g.drawImage(img1, x-200, y-60, x+swidth, y+sheight, 0, 0, img1.getWidth(), img1.getHeight(), null);
 	    		 g.drawImage(Skele, x+200, y, x+swidth, y+sheight, 0, 0, Skele.getWidth()+200, Skele.getHeight(), null);
 	    		 g.drawImage(textBox,x-200, y+700, swidth, sheight+100, 0, 0, textBox.getWidth(), textBox.getHeight()+400, null);
@@ -222,12 +225,11 @@ public class Image extends JFrame
 	             g.setColor(Color.WHITE);
 	             g.drawString(text,x+400, y+800);
 	             //g.drawRect(quit.x+5,quit.y+35, quit.width, quit.height);
+	             //button 1 = button 3 & button 3 = button 1
 	             Rectangle temp=B1;
 	    		 B1=B3;
 	    		 B3=temp;
-//	             temp = B3;
-//	             B3=B1;
-//	             B1=temp;
+
 	             
 	         break;
 	    	 case 3:
@@ -242,13 +244,16 @@ public class Image extends JFrame
 	    		 g.drawString(text,200, 400);
 	    	 break;
 	    	 case 4:
-//	             temp = B3;
-//	             B3=B1;
-//	             B1=temp;
-	    		 //B1 = quit;
+	             
+	             //B3=B1;
+	             //B1=temp;
+	             
+//	    		 B1 = B4;
+	    		
+	    		 B1=B4;
 	             text2 = "press 1 to fight 2 to run and 3 to quit";
 	    		 g.drawImage(img1, x-200, y-60, x+swidth, y+sheight, 0, 0, img1.getWidth(), img1.getHeight(), null);
-	    		 g.drawImage(deadSke, x+200, y, x+swidth, y+sheight, 0, 0, deadSke.getWidth()+200, deadSke.getHeight(), null);
+	    		 g.drawImage(deadSke, x+200, y+100, x+swidth, y+sheight, 0, 0, deadSke.getWidth()+300, deadSke.getHeight(), null);
 	    		 g.drawImage(textBox,x-200, y+700, swidth, sheight+100, 0, 0, textBox.getWidth(), textBox.getHeight()+400, null);
 	    		 
 	    		 g.drawRect(B1.x+5,B1.y+30, B1.width, B1.height);
@@ -261,8 +266,7 @@ public class Image extends JFrame
 	             g.drawRect(B3.x+5,B3.y+40, B3.width, B3.height);
 	             g.drawImage(button1, B3.x+7,B3.y+40, B3.x+B3.width+7, B3.height+B3.y+40, 0, 0, button3.getWidth()-30, button3.getHeight(), null);
 	             
-	             
-	             text2 = "press 1 to fight 2 to run and 3 to quit";
+	             text2 = "press 3 to quit";
 	             g.setColor(Color.black);
 	             Timg(text2, g);
 	             g.setColor(Color.WHITE);
@@ -284,8 +288,7 @@ public class Image extends JFrame
 	             g.drawImage(imgPlay, play.x+5,play.y+30,play.x+5+play.width, play.height+play.y+30,0,0, imgPlay.getWidth(), imgPlay.getHeight(), null);
 	             g.drawImage(imgQuit, quit.x+5,quit.y+30,quit.x+5+quit.width, quit.height+quit.y+35,0,0, imgQuit.getWidth(), imgQuit.getHeight(), null);
 	            }
-	         
-	    
+
 	     }
   public void run(){
 	  while(true){
