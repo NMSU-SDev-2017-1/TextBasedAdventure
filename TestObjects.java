@@ -4,6 +4,7 @@ import java.util.Random;
 //TestObjects.java
 //Written by: TBAD
 //Class implements and tests game objects
+//Demo 2 - 4/11/17
 
 public class TestObjects {
 	public static void main(String[] args) throws InterruptedException {

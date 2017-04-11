@@ -1,4 +1,6 @@
-package game;
+//Demo 2 - 4/11/17
+
+
 import sun.audio.*;
 
 import java.awt.*; 
@@ -40,17 +42,17 @@ public class Image extends JFrame
 	     swidth = ((int) tk.getScreenSize().getWidth());
 	     sheight = ((int) tk.getScreenSize().getHeight());
 	     try {
-	        mScreen = ImageIO.read(new File("src/game/darkest-dungeon-title-screen.jpg"));
-	        img1 = ImageIO.read(new File("src/game/dungeons-and-dragons-strategy-1.jpg"));
-	        imgPlay = ImageIO.read(new File("src/game/play.png"));
-	        imgQuit = ImageIO.read(new File("src/game/quit.png"));
-	        Skele = ImageIO.read(new File("src/game/Skeleton.jpg"));
-	        deadSke = ImageIO.read(new File("src/game/stock-photo-a-pile-of-human-bones-with-an-intact-skeleton-on-top-d-render-106336646.jpg"));
-	        textBox = ImageIO.read(new File("src/game/Tbox.jpeg"));
-	        button1 = ImageIO.read(new File("src/game/Button1.png"));
-	        button2 = ImageIO.read(new File("src/game/Button2.png"));
-	        button3 = ImageIO.read(new File("src/game/Button3.png"));
-	        button4 = ImageIO.read(new File("src/game/Button4.png"));
+	        mScreen = ImageIO.read(new File("game/darkest-dungeon-title-screen.jpg"));
+	        img1 = ImageIO.read(new File("game/dungeons-and-dragons-strategy-1.jpg"));
+	        imgPlay = ImageIO.read(new File("game/play.png"));
+	        imgQuit = ImageIO.read(new File("game/quit.png"));
+	        Skele = ImageIO.read(new File("game/Skeleton.jpg"));
+	        deadSke = ImageIO.read(new File("game/stock-photo-a-pile-of-human-bones-with-an-intact-skeleton-on-top-d-render-106336646.jpg"));
+	        textBox = ImageIO.read(new File("game/Tbox.jpeg"));
+	        button1 = ImageIO.read(new File("game/Button1.png"));
+	        button2 = ImageIO.read(new File("game/Button2.png"));
+	        button3 = ImageIO.read(new File("game/Button3.png"));
+	        button4 = ImageIO.read(new File("game/Button4.png"));
 	        
 	    } catch (IOException e) {
 	        // TODO Auto-generated catch block

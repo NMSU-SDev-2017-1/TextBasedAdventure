@@ -1,5 +1,7 @@
 import java.util.Scanner;
 
+//Demo 2 - 4/11/17
+
 public class DemoTwo extends Maze {
    public static void main (String args[]) throws InterruptedException {
       
