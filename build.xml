@@ -1,5 +1,5 @@
 <project default="all">
-	<target name="all" depends="compile, jar, run"/>
+	<target name="all" depends="compile, run"/>
 	<target name="compile">
 		<javac srcdir="." />
 	</target>
@@ -10,7 +10,11 @@
 			</manifest>
 		</jar>
 	</target>
-	<target name="run" depends="jar">
-		<java fork="true" jar="DemoTwo.jar"/>
+	<target name="run">
+		<java classname="DemoTwo">
+			<classpath>
+				<pathelement location="."/>
+			</classpath>
+		</java>
 	</target>
 </project>
