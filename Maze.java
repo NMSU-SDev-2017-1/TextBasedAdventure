@@ -3422,16 +3422,19 @@ private class MazeVar extends Item {
    
    public static void FillMaze(Node Start, Maze M) {
       int RandomEvent;
-      RandomEvent = (int)(Math.random() * (5-1) + 1);
+      int addEvent;
+      RandomEvent = (int)(Math.random() * (6-1) + 1);
       //RandomEvent = 1;
-      if(getRoomNumber(Start) != 0) {   
-         if(EventExists(M, RandomEvent) != true) {
-            AssignEventNumber(getRoomEvent(Start), RandomEvent);
-            AddRoomEvent(RandomEvent, getEventTrackerArray(M));
-            getRoomEvent(Start).setEventOn(true);
-         }
-      }   
-       
+      addEvent = (int)(Math.random() * (4-1) + 1);
+      if(addEvent == 1) {
+         if(getRoomNumber(Start) != 0) {   
+            if(EventExists(M, RandomEvent) != true) {
+               AssignEventNumber(getRoomEvent(Start), RandomEvent);
+               AddRoomEvent(RandomEvent, getEventTrackerArray(M));
+               getRoomEvent(Start).setEventOn(true);
+            }
+         }   
+      } 
       if(Start.north != null) {
          if(getRoomNumber(Start) < getRoomNumber(Start.north)) { 
             FillMaze(Start.north, M);

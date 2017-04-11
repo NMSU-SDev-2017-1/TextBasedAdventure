@@ -10,6 +10,8 @@ public class Monster
 	public int hp;
    	//Variable was originally private
 	private int attack;
+      //Added defense state to monsters. ||Edited by Christian Robles.
+   private int defense;
    	//Adding inventory to monsters for post-combat drops - Greg
    public Item inventory[];
    //Added loot table so monsters can drop variable loot.
@@ -23,16 +25,28 @@ public class Monster
 	public int randomInventorySize = RandomNumberGeneration.getRandomWeighted(1, 5, inventoryWeights);
 	
 	//Constructor
-	public Monster(String name, int hp, int attack, int coinDropValue )
+	public Monster(String name, int hp, int attack, int defense, int coinDropValue )
 	{
 		this.name = name;
 		this.hp = hp;
 		this.attack = attack;
+      this.defense = defense;
       this.inventory = new Item[randomInventorySize];
       this.coinDropValue = coinDropValue;
 
 	}
-	
+	//Modifiers || Edited by Christian Robles.
+   public void modMonsterHP(int newHP){       
+      hp = hp + newHP;
+   }
+
+   public void modMonsterATK(int newATK){
+	   attack = attack + newATK;
+   }
+   public void modMonsterDEF(int newDEF){
+	   defense = defense + newDEF;
+   }
+   
 	//Accessors
 	public String getName()
 	{
@@ -48,6 +62,12 @@ public class Monster
 	{
 		return attack;
 	}
+   
+   public int getDefense()
+   {
+      return defense;
+   }
+   
    public int getCoinDropValue(){
       return coinDropValue;
    }

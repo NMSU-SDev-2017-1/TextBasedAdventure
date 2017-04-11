@@ -6,9 +6,11 @@ import java.util.Random;
 public class Skeleton extends Monster
 {
    public Skeleton(){
-      super("Skeleton", 10, 2, 5);
-      Equipment skeletonSword = new Equipment("Skeleton Sword", 1, 5, 0, 2, 0, 0, "P", "A skeleton sword.", 1);
-      Equipment skeletonBow = new Equipment("Skeleton Bow", 1, 5, 0, 1, 0, 0, "P", "A bow made of old bones.", 1);
+      super("Skeleton", 10, 4, 2, 5);
+      Equipment skeletonSword = new Equipment("Skeleton Sword", 1, 200, 0, 4, 0, 0, "P", "A skeleton sword. Its " + 
+         "Bony edge is rather sharp.  ATTACK +4", 1);
+      Equipment skeletonBow = new Equipment("Skeleton Flail", 1, 200, 1, 3, 1, 0, "P", "A Flail made of bones...  HEALTH +1 " + 
+         ": ATTACK +3 : DEFENSE +1", 1);
       Consumable bread = new Consumable("Bread", 1, 5, 2,0,0,0, "Regular Ol' Bread. The choice meal of every Navy Seal.", 2);
       Consumable bread2 = new Consumable("Bread2", 1, 5, 2,0,0,0, "Regular Ol' Bread, but slightly different. The choice meal of every Navy Seal.", 2);
 	  LootTable temp = new LootTable(3);

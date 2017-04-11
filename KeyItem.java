@@ -20,8 +20,12 @@ public class KeyItem extends Item{
    
    public static boolean hasKeyItem(String keyItemName, Character Player) {
       Item PI[] = Player.getInventory();
+      String keyItemString;
+      keyItemString = "";
       for(int i = 0; i < PI.length; i++) {
-         if(keyItemName.equals(PI[i].getItemName()) == true) 
+         if(PI[i] != null)
+            keyItemString = PI[i].getItemName();
+         if(keyItemName.equals(keyItemString) == true) 
             return true;
       }//End loop
       return false;   

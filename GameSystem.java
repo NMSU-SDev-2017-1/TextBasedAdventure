@@ -334,15 +334,15 @@ public class GameSystem extends Character {
       shout = false;
       listen = true;
       while(freedomLoop != true) {
-         if(fallingSpeed == -1)
+         if(fallingSpeed == 1)
             readFast("You are falling quickly.");
          if(fallingSpeed == 0)
             readFast("You are still falling.");
-         if(fallingSpeed == 1)
+         if(fallingSpeed == -1)
             readFast("You are falling slowly");
          Thread.sleep(300);
          
-         System.out.println("(1)Slow your descent.   (2)Hasten your descent.   (3)Listen");
+         System.out.println("(1)Hasten your descent.   (2)Slow your descent.   (3)Listen");
          System.out.println("(4)Shout.");
          freedomChoiceC1 = scan.nextInt();
          Thread.sleep(300);
@@ -352,7 +352,14 @@ public class GameSystem extends Character {
                   readFast("You can't go any faster.");
                   if(fastLie == true) {
                      penalty++;
-                     fastLie = true;
+                     fastLie = false;
+                     slowLie = false;
+                     shout = false;
+                     listen = true;
+                  }
+                  else{
+                     reward++;
+                     fastLie = true;;
                      slowLie = false;
                      shout = false;
                      listen = true;
@@ -369,11 +376,18 @@ public class GameSystem extends Character {
                      shout = false;
                      listen = true;
                   }
+                  else {
+                     reward++;
+                     fastLie = false;
+                     slowLie = false;
+                     shout = false;
+                     listen = true;
+                  }
                }
                break;
             
             case 2:
-               if(fallingSpeed < 0)
+               if(fallingSpeed < 0) {
                   readFast("You can't go any slower.");
                   if(slowLie == true) {
                      penalty++;
@@ -382,12 +396,27 @@ public class GameSystem extends Character {
                      shout = false;
                      listen = true;
                   }
+                  else {
+                     reward++;
+                     fastLie = false;
+                     slowLie = true;
+                     shout = false;
+                     listen = true;
+                  }
+               }
                else {
                   readFast("You stretch your arms outwards and straighten yourself. The air rushing past you hits your " +
                   "body like a sandbag, and you fall slower.");
                   fallingSpeed = -1;
                   if(slowLie == true) {
                      penalty++;
+                     fastLie = false;
+                     slowLie = true;
+                     shout = false;
+                     listen = true;
+                  }
+                  else {
+                     reward++;
                      fastLie = false;
                      slowLie = true;
                      shout = false;
@@ -454,19 +483,35 @@ public class GameSystem extends Character {
                   if(freedomChoiceC3 == 1) {
                      Player.modATK(reward+1);
                      read("You feel a rush of hot air. It makes you feel strong");
+                     if(penalty > 0) {
+                        Player.modATK(-(penalty+1));
+                        read("But the you suddenly feel a rush of freezing air. It weakens you.");
+                     }
                   }
                   if(freedomChoiceC3 == 2) {
                      Player.modDEF(reward+1);
                      read("You feel a rush of hot air. It makes you feel tough.");
+                     if(penalty > 0) {
+                        Player.modDEF(-(penalty));
+                        read("But the you suddenly feel a rush of freezing air. It weakens you.");
+                     }
                   }
                   if(freedomChoiceC3 == 3) {
                      Player.modLUCK(reward+1);
                      read("You feel a rush of hot air.");
                      read("......");
+                     if(penalty > 0) {
+                        Player.modLUCK(-(penalty));
+                        read("But then you suddenly feel a rush of freezing air. It feels ominous.");
+                     }
                   }
                   if(freedomChoiceC3 == 4) {
                      Player.modMaxHP(reward+1);
                      read("You feel a rush of hot air. It feels soothing.");
+                     if(penalty > 0) {
+                        Player.modMaxHP(-(penalty));
+                        read("But then you suddenly feel a rush of freezing air. It hurts.");
+                     }
                   }
                }
                else {
@@ -499,7 +544,7 @@ public class GameSystem extends Character {
                break;
                
          }//End switch
-         if(counter >= 5)
+         if(counter >= 3)
             freedomLoop = true;
       }//End loop 
       readFast("Without warning, you land.");

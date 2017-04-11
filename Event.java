@@ -64,6 +64,9 @@ public class Event extends Item {
       if(EventNumber == 4) {
          this.Event_004_TreasureChest_RandomArmor(this.getEventAttempts(), Player);
       }
+      if(EventNumber == 5) {
+         this.Event_005_MonsterBattle_Skeleton(this.getEventAttempts(), Player);
+      }
    }//End Method EventInterpreter
    
    public void EventAssignment(int EventNumber) {
@@ -152,6 +155,11 @@ public class Event extends Item {
                GameSystem.readFast("It's heavy! you barely lifted it off the Pedestal.");
                Thread.sleep(200);
                GameSystem.readFast("....CLICK....");
+               Player.modHP(-4);
+               if(Player.getHealth() <= 0) {
+                Defeat.PlayerDefeat();
+		          return;
+		         }
                GameSystem.readFast("Fire rained down from above. The heat was intense. As the flames bathed over you, you grit your " +
                   "teeth and threw yourself backward, still holding the Golden Statue. You manage to get out of the fire with the " + 
                   "treasure, but it cost you.");
@@ -238,6 +246,11 @@ public class Event extends Item {
                GameSystem.readFast("It's heavy! you barely lifted it off the Pedestal.");
                Thread.sleep(200);
                GameSystem.readFast("....CLICK....");
+               Player.modHP(-4);
+               if(Player.getHealth() <= 0) {
+                Defeat.PlayerDefeat();
+		          return;
+		         }
                GameSystem.readFast("Fire rained down from above. The heat was intense. As the flames bathed over you, you grit your " +
                   "teeth and threw yourself backward, still holding the Golden Statue. You manage to get out of the fire with the " + 
                   "treasure, but it cost you.");
@@ -359,9 +372,13 @@ public class Event extends Item {
                   GameSystem.readFast("...CRASH...");
                   Thread.sleep(500);
                   GameSystem.read("......");
+                  Player.modHP(-2);
+                  if(Player.getHealth() <= 0) {
+                     Defeat.PlayerDefeat();
+		               return;
+		            }
                   GameSystem.readFast("The Treasure Chest was tougher than it looked, and judging by the sharp pain in your foot" + 
                   "not only did you fail to break the chest, you also injured yourself.");
-                  Player.modHP(-4);
                   attemptedBreak = true;
                   continue;
                }
@@ -398,9 +415,13 @@ public class Event extends Item {
                   GameSystem.readFast("...CRASH...");
                   Thread.sleep(500);
                   GameSystem.read("......");
+                  Player.modHP(-2);
+                  if(Player.getHealth() <= 0) {
+                     Defeat.PlayerDefeat();
+		               return;
+		            }
                   GameSystem.readFast("The Treasure Chest was tougher than it looked, and judging by the sharp pain in your foot" + 
                   "not only did you fail to break the chest, you also injured yourself.");
-                  Player.modHP(-4);
                   attemptedBreak = true;
                }
                GameSystem.read("......");
@@ -504,9 +525,18 @@ public class Event extends Item {
                   GameSystem.readFast("...CRASH...");
                   Thread.sleep(500);
                   GameSystem.read("......");
+                  Player.modHP(-2);
+                  if(Player.getHealth() <= 0) {
+                     Defeat.PlayerDefeat();
+		               return;
+		            }
                   GameSystem.readFast("The Treasure Chest was tougher than it looked, and judging by the sharp pain in your foot" + 
                   "not only did you fail to break the chest, you also injured yourself.");
-                  Player.modHP(-4);
+                  Player.modHP(-2);
+                  if(Player.getHealth() <= 0) {
+                     Defeat.PlayerDefeat();
+		               return;
+		            }
                   attemptedBreak = true;
                   continue;
                }
@@ -543,9 +573,18 @@ public class Event extends Item {
                   GameSystem.readFast("...CRASH...");
                   Thread.sleep(500);
                   GameSystem.read("......");
+                  Player.modHP(-2);
+                  if(Player.getHealth() <= 0) {
+                     Defeat.PlayerDefeat();
+		               return;
+		            }
                   GameSystem.readFast("The Treasure Chest was tougher than it looked, and judging by the sharp pain in your foot" + 
                   "not only did you fail to break the chest, you also injured yourself.");
-                  Player.modHP(-4);
+                  Player.modHP(-2);
+                  if(Player.getHealth() <= 0) {
+                     Defeat.PlayerDefeat();
+		               return;
+		            }
                   attemptedBreak = true;
                }
                GameSystem.read("......");
@@ -729,9 +768,18 @@ public class Event extends Item {
                   GameSystem.readFast("...CRASH...");
                   Thread.sleep(500);
                   GameSystem.read("......");
+                  Player.modHP(-2);
+                  if(Player.getHealth() <= 0) {
+                     Defeat.PlayerDefeat();
+		               return;
+		            }
                   GameSystem.readFast("The Treasure Chest was tougher than it looked, and judging by the sharp pain in your foot" + 
                   "not only did you fail to break the chest, you also injured yourself.");
-                  Player.modHP(-4);
+                  Player.modHP(-2);
+                  if(Player.getHealth() <= 0) {
+                     Defeat.PlayerDefeat();
+		               return;
+		            }
                   attemptedBreak = true;
                   continue;
                }
@@ -799,9 +847,18 @@ public class Event extends Item {
                   GameSystem.readFast("...CRASH...");
                   Thread.sleep(500);
                   GameSystem.read("......");
+                  Player.modHP(-2);
+                  if(Player.getHealth() <= 0) {
+                     Defeat.PlayerDefeat();
+		               return;
+		            }
                   GameSystem.readFast("The Treasure Chest was tougher than it looked, and judging by the sharp pain in your foot" + 
                   "not only did you fail to break the chest, you also injured yourself.");
-                  Player.modHP(-4);
+                  Player.modHP(-2);
+                  if(Player.getHealth() <= 0) {
+                     Defeat.PlayerDefeat();
+		               return;
+		            }
                   attemptedBreak = true;
                }
                GameSystem.read("......");
@@ -967,9 +1024,18 @@ public class Event extends Item {
                   GameSystem.readFast("...CRASH...");
                   Thread.sleep(500);
                   GameSystem.read("......");
+                  Player.modHP(-2);
+                  if(Player.getHealth() <= 0) {
+                     Defeat.PlayerDefeat();
+		               return;
+		            }
                   GameSystem.readFast("The Treasure Chest was tougher than it looked, and judging by the sharp pain in your foot" + 
                   "not only did you fail to break the chest, you also injured yourself.");
-                  Player.modHP(-4);
+                  Player.modHP(-2);
+                  if(Player.getHealth() <= 0) {
+                     Defeat.PlayerDefeat();
+		               return;
+		            }
                   attemptedBreak = true;
                   continue;
                }
@@ -1037,9 +1103,18 @@ public class Event extends Item {
                   GameSystem.readFast("...CRASH...");
                   Thread.sleep(500);
                   GameSystem.read("......");
+                  Player.modHP(-2);
+                  if(Player.getHealth() <= 0) {
+                     Defeat.PlayerDefeat();
+		               return;
+		            }
                   GameSystem.readFast("The Treasure Chest was tougher than it looked, and judging by the sharp pain in your foot" + 
                   "not only did you fail to break the chest, you also injured yourself.");
-                  Player.modHP(-4);
+                  Player.modHP(-2);
+                  if(Player.getHealth() <= 0) {
+                     Defeat.PlayerDefeat();
+		               return;
+		            }
                   attemptedBreak = true;
                }
                GameSystem.read("......");
@@ -1223,9 +1298,18 @@ public class Event extends Item {
                   GameSystem.readFast("...CRASH...");
                   Thread.sleep(500);
                   GameSystem.read("......");
+                  Player.modHP(-2);
+                  if(Player.getHealth() <= 0) {
+                     Defeat.PlayerDefeat();
+		               return;
+		            }
                   GameSystem.readFast("The Treasure Chest was tougher than it looked, and judging by the sharp pain in your foot" + 
                   "not only did you fail to break the chest, you also injured yourself.");
-                  Player.modHP(-4);
+                  Player.modHP(-2);
+                  if(Player.getHealth() <= 0) {
+                     Defeat.PlayerDefeat();
+		               return;
+		            }
                   attemptedBreak = true;
                   continue;
                }
@@ -1293,9 +1377,13 @@ public class Event extends Item {
                   GameSystem.readFast("...CRASH...");
                   Thread.sleep(500);
                   GameSystem.read("......");
+                  Player.modHP(-2);
+                  if(Player.getHealth() <= 0) {
+                     Defeat.PlayerDefeat();
+		               return;
+		            }
                   GameSystem.readFast("The Treasure Chest was tougher than it looked, and judging by the sharp pain in your foot" + 
                   "not only did you fail to break the chest, you also injured yourself.");
-                  Player.modHP(-4);
                   attemptedBreak = true;
                }
                GameSystem.read("......");
@@ -1461,9 +1549,13 @@ public class Event extends Item {
                   GameSystem.readFast("...CRASH...");
                   Thread.sleep(500);
                   GameSystem.read("......");
+                  Player.modHP(-2);
+                  if(Player.getHealth() <= 0) {
+                     Defeat.PlayerDefeat();
+		               return;
+		            }
                   GameSystem.readFast("The Treasure Chest was tougher than it looked, and judging by the sharp pain in your foot" + 
                   "not only did you fail to break the chest, you also injured yourself.");
-                  Player.modHP(-4);
                   attemptedBreak = true;
                   continue;
                }
@@ -1531,9 +1623,13 @@ public class Event extends Item {
                   GameSystem.readFast("...CRASH...");
                   Thread.sleep(500);
                   GameSystem.read("......");
+                  Player.modHP(-2);
+                  if(Player.getHealth() <= 0) {
+                     Defeat.PlayerDefeat();
+		               return;
+		            }
                   GameSystem.readFast("The Treasure Chest was tougher than it looked, and judging by the sharp pain in your foot" + 
                   "not only did you fail to break the chest, you also injured yourself.");
-                  Player.modHP(-4);
                   attemptedBreak = true;
                }
                GameSystem.read("......");
@@ -1560,15 +1656,14 @@ public class Event extends Item {
    public void Event_005_MonsterBattle_Skeleton(int Visits, Character Player) throws InterruptedException {
       Thread.sleep(300);
       Scanner scan = new Scanner(System.in);
-      int choice;
+      String choice;
       int battleType;
-      boolean loopOut;
-
-
-      loopOut = false;
+      
+      Skeleton MrBones = new Skeleton();
+      
       if(this.getEventCompleted() == true) {
-         GameSystem.readFast("You look back towards that tiny corner, the chest is still there. It is open, you almost " + 
-            "want to look inside again, but you decide against it. You already got your Weapon.");
+         GameSystem.readFast("You smell it before you see it; a dusty aroma that is hanging in the air. You look towards its source " + 
+            "and identify a pile of bones, the remains of the Skeleton you 'killed' earlier. Maybe there is more to loot?");
          return;
       }//End event completed check
       if(Visits == 0) {
@@ -1579,12 +1674,70 @@ public class Event extends Item {
             Thread.sleep(200);
             GameSystem.readFast("You look towards the sound. A Skeleton is marching towards you, its bones rattling with every " + 
                "step it took. Your eyes meet empty sockets and you prepare to fight...");
+            Thread.sleep(300);
+            Combat.standardCombat(MrBones, Player);
+            this.setEventCompleted(true);
+            return;
          }
          if(battleType > 35) {
             GameSystem.readFast("Skchchchchchchchchchc");
             Thread.sleep(400);
             GameSystem.readFast("You look towards the sound. A Skeleton is pacing aimlessly back and forth, " + 
                "its bones rattling with every step it took. It doesn't look like it's guarding anything, but you can't be sure.");
+            Thread.sleep(300);
+            System.out.println("(1)Sneak attack.   (2)Try and sneak past the Skeleton.");
+            choice = scan.next();
+            Thread.sleep(300);
+            if(choice == "1") {
+               GameSystem.readFast("You might not get another opportunity like this - You decide to attack.");
+               Thread.sleep(500);
+               GameSystem.read("..........");
+               Thread.sleep(500);
+               GameSystem.read("You take a step.");
+               Thread.sleep(500);
+               GameSystem.read("..........");
+               Thread.sleep(500);
+               GameSystem.read("You take another step.");
+               Thread.sleep(500);
+               GameSystem.read("..........");
+               Thread.sleep(500);
+               GameSystem.read("You attack! The Skeleton somehow managed to look more surprised than its empty sockets already did.");
+               Thread.sleep(300);
+               Combat.advantageCombat(MrBones, Player);
+               this.setEventCompleted(true);
+               return;
+            }
+            if(choice == "2") {
+               GameSystem.readFast("You decide you don't want to fight the Skeleton right now. Slowly you take a step.");
+               Thread.sleep(500);
+               GameSystem.read("..........");
+               Thread.sleep(500);
+               GameSystem.read("You take another step.");
+               GameSystem.read("......CRUNCH.");
+               Thread.sleep(400);
+               GameSystem.readFast("You stepped on a bone! The Skeleton's head snapped towards your direction. Despite its lack of " + 
+                  "muscles, it manages to charge towards you faster than you thought possible for a bone-man (woman?).");
+               Thread.sleep(300);
+               GameSystem.read("It looks like you are going to have to fight.");
+               Thread.sleep(300);
+               Combat.standardCombat(MrBones, Player);
+               this.setEventCompleted(true);
+               return;
+            }
+            if(!choice.equals("1") && !choice.equals("2")) {
+               GameSystem.readFast("SKRCHCHCHCHCCHCHCHC!");
+               Thread.sleep(500);
+               GameSystem.read("Before you can make a decision, the Skeleton made it for you. It charges towards you at an incredible " + 
+                  "speed. You adjust yourself and prepare to battle.");
+               Thread.sleep(500);
+               GameSystem.read("But as you are readjusting your stance your footing becomes unsteady due to stepping on uneaven ground!.");
+               Thread.sleep(300);
+               GameSystem.read("The Skeleton did not hesitate to capitalize on your misfortune. As it attacks you brace yourself..");
+               Thread.sleep(300);
+               Combat.advantageMonsterCombat(MrBones, Player);
+               this.setEventCompleted(true);
+               return;
+            }
          }
          if(battleType < 15) {
             GameSystem.readFast("Skchchchchchchchchchc");
@@ -1592,6 +1745,16 @@ public class Event extends Item {
             GameSystem.readFast("Before you can react to the noise, a sharp pain pierces your side. You grit your teeth and fling " + 
                "yourself away from the source of the pain. Quickly you turn, and you are greeted with a Skeleton leaping towards you, " + 
                "Your eyes meet lifeless sockets and you prepare to fight.");
+            Player.modHP(-3);
+            if(Player.getHealth() <= 0) {
+                Defeat.PlayerDefeat();
+		          return;
+		      }
+            GameSystem.read("You enter battle injured.");
+            Thread.sleep(300);
+            Combat.standardCombat(MrBones, Player);
+            this.setEventCompleted(true);
+            return;
          }
       }
    }//End Method Event_005_MonsterBattle_Skeleton
