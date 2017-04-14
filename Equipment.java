@@ -24,7 +24,7 @@ public class Equipment extends Item{
       this.description = "";
       this.rarity = 1;
       this.weaponType = 0; //0 = Armor; 1 = Sword; 2 = Great Sword; 3 = Dagger; 4 = Bow & Arrows; 5 = Flail; 6 = Mace;
-                           //7 = Spear; 8 = Polearm; 9 = Battle Gloves; 10 = Magic Staff;
+                           //7 = Spear; 8 = Polearm; 9 = Battle Gloves; 10 = Magic Staff; 11 = Hammer;
    }
    //Specific Value Constructor
    //4-14-2017 Christian Robles added newWeaponType int value to Specific Value Constructor.
