@@ -666,7 +666,7 @@ public class Event extends Item {
                   WeaponType = (int)(Math.random() * (5-1) + 1);                  
                   if(WeaponType == 1) {
                      Equipment IronSword = new Equipment("Iron Sword", 2, 150, 0, 3, 0, 0, "P",
-                     "A solid Iron Sword, it isn't of very high quality, but it will get the job done.  ATTACK +3", 1);
+                     "A solid Iron Sword, it isn't of very high quality, but it will get the job done.  ATTACK +3", 1, 1);
                      GameSystem.readFast(Player.getPlayerID() + " Gained: " + IronSword.getItemName() + "!");
                      Player.addInventoryItem(IronSword);
                      this.setEventCompleted(true);
@@ -674,7 +674,7 @@ public class Event extends Item {
                   }
                   if(WeaponType == 2) {
                      Equipment IronBowAndArrows = new Equipment("Iron Bow & Arrows", 2, 200, 0, 2, 0, 0, "P",
-                     "An Iron Bow & Arrows, it isn't of very high quality, but it gets the job done, from a range.  ATTACK +2", 1);
+                     "An Iron Bow & Arrows, it isn't of very high quality, but it gets the job done, from a range.  ATTACK +2", 1, 4);
                      GameSystem.readFast(Player.getPlayerID() + " Gained: " + IronBowAndArrows.getItemName() + "!");
                      Player.addInventoryItem(IronBowAndArrows);
                      this.setEventCompleted(true);
@@ -683,7 +683,7 @@ public class Event extends Item {
                   
                   if(WeaponType == 3) {
                      Equipment IronDagger = new Equipment("Iron Dagger", 2, 100, 0, 2, 0, 3, "P",
-                     "A small Iron Dagger, it isn't very high quality, but it might be useful.  ATTACK +2 : LUCK +3", 1);
+                     "A small Iron Dagger, it isn't very high quality, but it might be useful.  ATTACK +2 : LUCK +3", 1, 3);
                      GameSystem.readFast(Player.getPlayerID() + " Gained: " + IronDagger.getItemName() + "!");
                      Player.addInventoryItem(IronDagger);
                      this.setEventCompleted(true);
@@ -692,7 +692,7 @@ public class Event extends Item {
                   
                   if(WeaponType == 4) {
                      Equipment IronMace = new Equipment("Iron Mace", 3, 200, 0, 5, -2, 0, "P",
-                     "A heavy Iron Mace, it isn't very high quality, but its weight will definitly add to its power.  ATTACK +5 : DEFENSE -2", 1);
+                     "A heavy Iron Mace, it isn't very high quality, but its weight will definitly add to its power.  ATTACK +5 : DEFENSE -2", 1, 6);
                      GameSystem.readFast(Player.getPlayerID() + " Gained: " + IronMace.getItemName() + "!");
                      Player.addInventoryItem(IronMace);
                      this.setEventCompleted(true);
@@ -722,7 +722,7 @@ public class Event extends Item {
                   WeaponType = (int)(Math.random() * (5-1) + 1);                  
                   if(WeaponType == 1) {
                      Equipment IronSword = new Equipment("Iron Sword", 2, 150, 0, 3, 0, 0, "P",
-                     "A solid Iron Sword, it isn't of very high quality, but it will get the job done.  ATTACK +3", 1);
+                     "A solid Iron Sword, it isn't of very high quality, but it will get the job done.  ATTACK +3", 1, 1);
                      GameSystem.readFast(Player.getPlayerID() + " Gained: " + IronSword.getItemName() + "!");
                      Player.addInventoryItem(IronSword);
                      this.setEventCompleted(true);
@@ -730,7 +730,7 @@ public class Event extends Item {
                   }
                   if(WeaponType == 2) {
                      Equipment IronBowAndArrows = new Equipment("Iron Bow & Arrows", 2, 200, 0, 2, 0, 0, "P",
-                     "An Iron Bow & Arrows, it isn't of very high quality, but it gets the job done, from a range.  ATTACK +2", 1);
+                     "An Iron Bow & Arrows, it isn't of very high quality, but it gets the job done, from a range.  ATTACK +2", 1, 4);
                      GameSystem.readFast(Player.getPlayerID() + " Gained: " + IronBowAndArrows.getItemName() + "!");
                      Player.addInventoryItem(IronBowAndArrows);
                      this.setEventCompleted(true);
@@ -739,7 +739,7 @@ public class Event extends Item {
                   
                   if(WeaponType == 3) {
                      Equipment IronDagger = new Equipment("Iron Dagger", 2, 100, 0, 2, 0, 3, "P",
-                     "A small Iron Dagger, it isn't very high quality, but it might be useful.  ATTACK +2 : LUCK +3", 1);
+                     "A small Iron Dagger, it isn't very high quality, but it might be useful.  ATTACK +2 : LUCK +3", 1, 3);
                      GameSystem.readFast(Player.getPlayerID() + " Gained: " + IronDagger.getItemName() + "!");
                      Player.addInventoryItem(IronDagger);
                      this.setEventCompleted(true);
@@ -748,7 +748,7 @@ public class Event extends Item {
                   
                   if(WeaponType == 4) {
                      Equipment IronMace = new Equipment("Iron Mace", 3, 200, 0, 5, -2, 0, "P",
-                     "A heavy Iron Mace, it isn't very high quality, but its weight will definitly add to its power.  ATTACK +5 : DEFENSE -2", 1);
+                     "A heavy Iron Mace, it isn't very high quality, but its weight will definitly add to its power.  ATTACK +5 : DEFENSE -2", 1, 6);
                      GameSystem.readFast(Player.getPlayerID() + " Gained: " + IronMace.getItemName() + "!");
                      Player.addInventoryItem(IronMace);
                      this.setEventCompleted(true);
@@ -801,7 +801,7 @@ public class Event extends Item {
                   WeaponType = (int)(Math.random() * (5-1) + 1);                  
                   if(WeaponType == 1) {
                      Equipment IronSword = new Equipment("Iron Sword", 2, 150, 0, 3, 0, 0, "P",
-                     "A solid Iron Sword, it isn't of very high quality, but it will get the job done.  ATTACK +3", 1);
+                     "A solid Iron Sword, it isn't of very high quality, but it will get the job done.  ATTACK +3", 1, 1);
                      GameSystem.readFast(Player.getPlayerID() + " Gained: " + IronSword.getItemName() + "!");
                      Player.addInventoryItem(IronSword);
                      this.setEventCompleted(true);
@@ -809,7 +809,7 @@ public class Event extends Item {
                   }
                   if(WeaponType == 2) {
                      Equipment IronBowAndArrows = new Equipment("Iron Bow & Arrows", 2, 200, 0, 2, 0, 0, "P",
-                     "An Iron Bow & Arrows, it isn't of very high quality, but it gets the job done, from a range.  ATTACK +2", 1);
+                     "An Iron Bow & Arrows, it isn't of very high quality, but it gets the job done, from a range.  ATTACK +2", 1, 4);
                      GameSystem.readFast(Player.getPlayerID() + " Gained: " + IronBowAndArrows.getItemName() + "!");
                      Player.addInventoryItem(IronBowAndArrows);
                      this.setEventCompleted(true);
@@ -818,7 +818,7 @@ public class Event extends Item {
                   
                   if(WeaponType == 3) {
                      Equipment IronDagger = new Equipment("Iron Dagger", 2, 100, 0, 2, 0, 3, "P",
-                     "A small Iron Dagger, it isn't very high quality, but it might be useful.  ATTACK +2 : LUCK +3", 1);
+                     "A small Iron Dagger, it isn't very high quality, but it might be useful.  ATTACK +2 : LUCK +3", 1, 3);
                      GameSystem.readFast(Player.getPlayerID() + " Gained: " + IronDagger.getItemName() + "!");
                      Player.addInventoryItem(IronDagger);
                      this.setEventCompleted(true);
@@ -827,7 +827,7 @@ public class Event extends Item {
                   
                   if(WeaponType == 4) {
                      Equipment IronMace = new Equipment("Iron Mace", 3, 200, 0, 5, -2, 0, "P",
-                     "A heavy Iron Mace, it isn't very high quality, but its weight will definitly add to its power.  ATTACK +5 : DEFENSE -2", 1);
+                     "A heavy Iron Mace, it isn't very high quality, but its weight will definitly add to its power.  ATTACK +5 : DEFENSE -2", 1, 6);
                      GameSystem.readFast(Player.getPlayerID() + " Gained: " + IronMace.getItemName() + "!");
                      Player.addInventoryItem(IronMace);
                      this.setEventCompleted(true);
@@ -923,7 +923,7 @@ public class Event extends Item {
                   WeaponType = (int)(Math.random() * (5-1) + 1);                  
                   if(WeaponType == 1) {
                      Equipment IronSword = new Equipment("Iron Sword", 2, 150, 0, 3, 0, 0, "P",
-                     "A solid Iron Sword, it isn't of very high quality, but it will get the job done.  ATTACK +3", 1);
+                     "A solid Iron Sword, it isn't of very high quality, but it will get the job done.  ATTACK +3", 1, 1);
                      GameSystem.readFast(Player.getPlayerID() + " Gained: " + IronSword.getItemName() + "!");
                      Player.addInventoryItem(IronSword);
                      this.setEventCompleted(true);
@@ -931,7 +931,7 @@ public class Event extends Item {
                   }
                   if(WeaponType == 2) {
                      Equipment IronBowAndArrows = new Equipment("Iron Bow & Arrows", 2, 200, 0, 2, 0, 0, "P",
-                     "An Iron Bow & Arrows, it isn't of very high quality, but it gets the job done, from a range.  ATTACK +2", 1);
+                     "An Iron Bow & Arrows, it isn't of very high quality, but it gets the job done, from a range.  ATTACK +2", 1, 4);
                      GameSystem.readFast(Player.getPlayerID() + " Gained: " + IronBowAndArrows.getItemName() + "!");
                      Player.addInventoryItem(IronBowAndArrows);
                      this.setEventCompleted(true);
@@ -940,7 +940,7 @@ public class Event extends Item {
                   
                   if(WeaponType == 3) {
                      Equipment IronDagger = new Equipment("Iron Dagger", 2, 100, 0, 2, 0, 3, "P",
-                     "A small Iron Dagger, it isn't very high quality, but it might be useful.  ATTACK +2 : LUCK +3", 1);
+                     "A small Iron Dagger, it isn't very high quality, but it might be useful.  ATTACK +2 : LUCK +3", 1, 3);
                      GameSystem.readFast(Player.getPlayerID() + " Gained: " + IronDagger.getItemName() + "!");
                      Player.addInventoryItem(IronDagger);
                      this.setEventCompleted(true);
@@ -949,7 +949,7 @@ public class Event extends Item {
                   
                   if(WeaponType == 4) {
                      Equipment IronMace = new Equipment("Iron Mace", 3, 200, 0, 5, -2, 0, "P",
-                     "A heavy Iron Mace, it isn't very high quality, but its weight will definitly add to its power.  ATTACK +5 : DEFENSE -2", 1);
+                     "A heavy Iron Mace, it isn't very high quality, but its weight will definitly add to its power.  ATTACK +5 : DEFENSE -2", 1, 6);
                      GameSystem.readFast(Player.getPlayerID() + " Gained: " + IronMace.getItemName() + "!");
                      Player.addInventoryItem(IronMace);
                      this.setEventCompleted(true);
@@ -978,7 +978,7 @@ public class Event extends Item {
                   WeaponType = (int)(Math.random() * (5-1) + 1);                  
                   if(WeaponType == 1) {
                      Equipment IronSword = new Equipment("Iron Sword", 2, 150, 0, 3, 0, 0, "P",
-                     "A solid Iron Sword, it isn't of very high quality, but it will get the job done.  ATTACK +3", 1);
+                     "A solid Iron Sword, it isn't of very high quality, but it will get the job done.  ATTACK +3", 1, 1);
                      GameSystem.readFast(Player.getPlayerID() + " Gained: " + IronSword.getItemName() + "!");
                      Player.addInventoryItem(IronSword);
                      this.setEventCompleted(true);
@@ -986,7 +986,7 @@ public class Event extends Item {
                   }
                   if(WeaponType == 2) {
                      Equipment IronBowAndArrows = new Equipment("Iron Bow & Arrows", 2, 200, 0, 2, 0, 0, "P",
-                     "An Iron Bow & Arrows, it isn't of very high quality, but it gets the job done, from a range.  ATTACK +2", 1);
+                     "An Iron Bow & Arrows, it isn't of very high quality, but it gets the job done, from a range.  ATTACK +2", 1, 4);
                      GameSystem.readFast(Player.getPlayerID() + " Gained: " + IronBowAndArrows.getItemName() + "!");
                      Player.addInventoryItem(IronBowAndArrows);
                      this.setEventCompleted(true);
@@ -995,7 +995,7 @@ public class Event extends Item {
                   
                   if(WeaponType == 3) {
                      Equipment IronDagger = new Equipment("Iron Dagger", 2, 100, 0, 2, 0, 3, "P",
-                     "A small Iron Dagger, it isn't very high quality, but it might be useful.  ATTACK +2 : LUCK +3", 1);
+                     "A small Iron Dagger, it isn't very high quality, but it might be useful.  ATTACK +2 : LUCK +3", 1, 3);
                      GameSystem.readFast(Player.getPlayerID() + " Gained: " + IronDagger.getItemName() + "!");
                      Player.addInventoryItem(IronDagger);
                      this.setEventCompleted(true);
@@ -1004,7 +1004,7 @@ public class Event extends Item {
                   
                   if(WeaponType == 4) {
                      Equipment IronMace = new Equipment("Iron Mace", 3, 200, 0, 5, -2, 0, "P",
-                     "A heavy Iron Mace, it isn't very high quality, but its weight will definitly add to its power.  ATTACK +5 : DEFENSE -2", 1);
+                     "A heavy Iron Mace, it isn't very high quality, but its weight will definitly add to its power.  ATTACK +5 : DEFENSE -2", 1, 6);
                      GameSystem.readFast(Player.getPlayerID() + " Gained: " + IronMace.getItemName() + "!");
                      Player.addInventoryItem(IronMace);
                      this.setEventCompleted(true);
@@ -1057,7 +1057,7 @@ public class Event extends Item {
                   WeaponType = (int)(Math.random() * (5-1) + 1);                  
                   if(WeaponType == 1) {
                      Equipment IronSword = new Equipment("Iron Sword", 2, 150, 0, 3, 0, 0, "P",
-                     "A solid Iron Sword, it isn't of very high quality, but it will get the job done.  ATTACK +3", 1);
+                     "A solid Iron Sword, it isn't of very high quality, but it will get the job done.  ATTACK +3", 1, 1);
                      GameSystem.readFast(Player.getPlayerID() + " Gained: " + IronSword.getItemName() + "!");
                      Player.addInventoryItem(IronSword);
                      this.setEventCompleted(true);
@@ -1065,7 +1065,7 @@ public class Event extends Item {
                   }
                   if(WeaponType == 2) {
                      Equipment IronBowAndArrows = new Equipment("Iron Bow & Arrows", 2, 200, 0, 2, 0, 0, "P",
-                     "An Iron Bow & Arrows, it isn't of very high quality, but it gets the job done, from a range.  ATTACK +2", 1);
+                     "An Iron Bow & Arrows, it isn't of very high quality, but it gets the job done, from a range.  ATTACK +2", 1, 4);
                      GameSystem.readFast(Player.getPlayerID() + " Gained: " + IronBowAndArrows.getItemName() + "!");
                      Player.addInventoryItem(IronBowAndArrows);
                      this.setEventCompleted(true);
@@ -1074,7 +1074,7 @@ public class Event extends Item {
                   
                   if(WeaponType == 3) {
                      Equipment IronDagger = new Equipment("Iron Dagger", 2, 100, 0, 2, 0, 3, "P",
-                     "A small Iron Dagger, it isn't very high quality, but it might be useful.  ATTACK +2 : LUCK +3", 1);
+                     "A small Iron Dagger, it isn't very high quality, but it might be useful.  ATTACK +2 : LUCK +3", 1, 3);
                      GameSystem.readFast(Player.getPlayerID() + " Gained: " + IronDagger.getItemName() + "!");
                      Player.addInventoryItem(IronDagger);
                      this.setEventCompleted(true);
@@ -1083,7 +1083,7 @@ public class Event extends Item {
                   
                   if(WeaponType == 4) {
                      Equipment IronMace = new Equipment("Iron Mace", 3, 200, 0, 5, -2, 0, "P",
-                     "A heavy Iron Mace, it isn't very high quality, but its weight will definitly add to its power.  ATTACK +5 : DEFENSE -2", 1);
+                     "A heavy Iron Mace, it isn't very high quality, but its weight will definitly add to its power.  ATTACK +5 : DEFENSE -2", 1, 6);
                      GameSystem.readFast(Player.getPlayerID() + " Gained: " + IronMace.getItemName() + "!");
                      Player.addInventoryItem(IronMace);
                      this.setEventCompleted(true);
@@ -1196,7 +1196,7 @@ public class Event extends Item {
                   ArmorType = (int)(Math.random() * (5-1) + 1);                  
                   if(ArmorType == 1) {
                      Equipment IronHelmet = new Equipment("Iron Helmet", 2, 150, 0, 0, 2, 0, "H",
-                     "A solid Iron Helmet, it isn't of very high quality, but it looks sturdy enough.  DEF +3", 1);
+                     "A solid Iron Helmet, it isn't of very high quality, but it looks sturdy enough.  DEF +3", 1, 0);
                      GameSystem.readFast(Player.getPlayerID() + " Gained: " + IronHelmet.getItemName() + "!");
                      Player.addInventoryItem(IronHelmet);
                      this.setEventCompleted(true);
@@ -1204,7 +1204,7 @@ public class Event extends Item {
                   }
                   if(ArmorType == 2) {
                      Equipment IronChainmail = new Equipment("Iron Chainmail", 2, 300, 0, 0, 4, 0, "T",
-                     "A solid suit of Iron Chainmail, it isn't of very high quality, but it looks sturdy enough.  DEFENSE +4", 1);
+                     "A solid suit of Iron Chainmail, it isn't of very high quality, but it looks sturdy enough.  DEFENSE +4", 1, 0);
                      GameSystem.readFast(Player.getPlayerID() + " Gained: " + IronChainmail.getItemName() + "!");
                      Player.addInventoryItem(IronChainmail);
                      this.setEventCompleted(true);
@@ -1213,7 +1213,7 @@ public class Event extends Item {
                   
                   if(ArmorType == 3) {
                      Equipment IronArmguards = new Equipment("Iron Armguards", 2, 150, 0, 0, 2, 0, "P",
-                     "A couple of Iron Armguards, they aren't of very high quality, they look sturdy enough.  DEFENSE +2", 1);
+                     "A couple of Iron Armguards, they aren't of very high quality, they look sturdy enough.  DEFENSE +2", 1, 0);
                      GameSystem.readFast(Player.getPlayerID() + " Gained: " + IronArmguards.getItemName() + "!");
                      Player.addInventoryItem(IronArmguards);
                      this.setEventCompleted(true);
@@ -1222,7 +1222,7 @@ public class Event extends Item {
                   
                   if(ArmorType == 4) {
                      Equipment IronCuisses = new Equipment("Iron Cuisses", 2, 200, 0, 0, 2, 0, "P",
-                     "A couple of Iron Cuisses, they aren't of very high quality, but they look sturdy enough.  DEFENSE +2", 1);
+                     "A couple of Iron Cuisses, they aren't of very high quality, but they look sturdy enough.  DEFENSE +2", 1, 0);
                      GameSystem.readFast(Player.getPlayerID() + " Gained: " + IronCuisses.getItemName() + "!");
                      Player.addInventoryItem(IronCuisses);
                      this.setEventCompleted(true);
@@ -1252,7 +1252,7 @@ public class Event extends Item {
                   ArmorType = (int)(Math.random() * (5-1) + 1);                  
                   if(ArmorType == 1) {
                      Equipment IronHelmet = new Equipment("Iron Helmet", 2, 150, 0, 0, 2, 0, "H",
-                     "A solid Iron Helmet, it isn't of very high quality, but it looks sturdy enough.  DEF +3", 1);
+                     "A solid Iron Helmet, it isn't of very high quality, but it looks sturdy enough.  DEF +3", 1, 0);
                      GameSystem.readFast(Player.getPlayerID() + " Gained: " + IronHelmet.getItemName() + "!");
                      Player.addInventoryItem(IronHelmet);
                      this.setEventCompleted(true);
@@ -1260,7 +1260,7 @@ public class Event extends Item {
                   }
                   if(ArmorType == 2) {
                      Equipment IronChainmail = new Equipment("Iron Chainmail", 2, 300, 0, 0, 4, 0, "T",
-                     "A solid suit of Iron Chainmail, it isn't of very high quality, but it looks sturdy enough.  DEFENSE +4", 1);
+                     "A solid suit of Iron Chainmail, it isn't of very high quality, but it looks sturdy enough.  DEFENSE +4", 1, 0);
                      GameSystem.readFast(Player.getPlayerID() + " Gained: " + IronChainmail.getItemName() + "!");
                      Player.addInventoryItem(IronChainmail);
                      this.setEventCompleted(true);
@@ -1269,7 +1269,7 @@ public class Event extends Item {
                   
                   if(ArmorType == 3) {
                      Equipment IronArmguards = new Equipment("Iron Armguards", 2, 150, 0, 0, 2, 0, "P",
-                     "A couple of Iron Armguards, they aren't of very high quality, they look sturdy enough.  DEFENSE +2", 1);
+                     "A couple of Iron Armguards, they aren't of very high quality, they look sturdy enough.  DEFENSE +2", 1, 0);
                      GameSystem.readFast(Player.getPlayerID() + " Gained: " + IronArmguards.getItemName() + "!");
                      Player.addInventoryItem(IronArmguards);
                      this.setEventCompleted(true);
@@ -1278,7 +1278,7 @@ public class Event extends Item {
                   
                   if(ArmorType == 4) {
                      Equipment IronCuisses = new Equipment("Iron Cuisses", 2, 200, 0, 0, 2, 0, "P",
-                     "A couple of Iron Cuisses, they aren't of very high quality, but they look sturdy enough.  DEFENSE +2", 1);
+                     "A couple of Iron Cuisses, they aren't of very high quality, but they look sturdy enough.  DEFENSE +2", 1, 0);
                      GameSystem.readFast(Player.getPlayerID() + " Gained: " + IronCuisses.getItemName() + "!");
                      Player.addInventoryItem(IronCuisses);
                      this.setEventCompleted(true);
@@ -1331,7 +1331,7 @@ public class Event extends Item {
                   ArmorType = (int)(Math.random() * (5-1) + 1);                  
                   if(ArmorType == 1) {
                      Equipment IronHelmet = new Equipment("Iron Helmet", 2, 150, 0, 0, 2, 0, "H",
-                     "A solid Iron Helmet, it isn't of very high quality, but it looks sturdy enough.  DEF +3", 1);
+                     "A solid Iron Helmet, it isn't of very high quality, but it looks sturdy enough.  DEF +3", 1, 0);
                      GameSystem.readFast(Player.getPlayerID() + " Gained: " + IronHelmet.getItemName() + "!");
                      Player.addInventoryItem(IronHelmet);
                      this.setEventCompleted(true);
@@ -1339,7 +1339,7 @@ public class Event extends Item {
                   }
                   if(ArmorType == 2) {
                      Equipment IronChainmail = new Equipment("Iron Chainmail", 2, 300, 0, 0, 4, 0, "T",
-                     "A solid suit of Iron Chainmail, it isn't of very high quality, but it looks sturdy enough.  DEFENSE +4", 1);
+                     "A solid suit of Iron Chainmail, it isn't of very high quality, but it looks sturdy enough.  DEFENSE +4", 1, 0);
                      GameSystem.readFast(Player.getPlayerID() + " Gained: " + IronChainmail.getItemName() + "!");
                      Player.addInventoryItem(IronChainmail);
                      this.setEventCompleted(true);
@@ -1348,7 +1348,7 @@ public class Event extends Item {
                   
                   if(ArmorType == 3) {
                      Equipment IronArmguards = new Equipment("Iron Armguards", 2, 150, 0, 0, 2, 0, "P",
-                     "A couple of Iron Armguards, they aren't of very high quality, they look sturdy enough.  DEFENSE +2", 1);
+                     "A couple of Iron Armguards, they aren't of very high quality, they look sturdy enough.  DEFENSE +2", 1, 0);
                      GameSystem.readFast(Player.getPlayerID() + " Gained: " + IronArmguards.getItemName() + "!");
                      Player.addInventoryItem(IronArmguards);
                      this.setEventCompleted(true);
@@ -1357,7 +1357,7 @@ public class Event extends Item {
                   
                   if(ArmorType == 4) {
                      Equipment IronCuisses = new Equipment("Iron Cuisses", 2, 200, 0, 0, 2, 0, "P",
-                     "A couple of Iron Cuisses, they aren't of very high quality, but they look sturdy enough.  DEFENSE +2", 1);
+                     "A couple of Iron Cuisses, they aren't of very high quality, but they look sturdy enough.  DEFENSE +2", 1, 0);
                      GameSystem.readFast(Player.getPlayerID() + " Gained: " + IronCuisses.getItemName() + "!");
                      Player.addInventoryItem(IronCuisses);
                      this.setEventCompleted(true);
@@ -1448,7 +1448,7 @@ public class Event extends Item {
                   ArmorType = (int)(Math.random() * (5-1) + 1);                  
                   if(ArmorType == 1) {
                      Equipment IronHelmet = new Equipment("Iron Helmet", 2, 150, 0, 0, 2, 0, "H",
-                     "A solid Iron Helmet, it isn't of very high quality, but it looks sturdy enough.  DEF +3", 1);
+                     "A solid Iron Helmet, it isn't of very high quality, but it looks sturdy enough.  DEF +3", 1, 0);
                      GameSystem.readFast(Player.getPlayerID() + " Gained: " + IronHelmet.getItemName() + "!");
                      Player.addInventoryItem(IronHelmet);
                      this.setEventCompleted(true);
@@ -1456,7 +1456,7 @@ public class Event extends Item {
                   }
                   if(ArmorType == 2) {
                      Equipment IronChainmail = new Equipment("Iron Chainmail", 2, 300, 0, 0, 4, 0, "T",
-                     "A solid suit of Iron Chainmail, it isn't of very high quality, but it looks sturdy enough.  DEFENSE +4", 1);
+                     "A solid suit of Iron Chainmail, it isn't of very high quality, but it looks sturdy enough.  DEFENSE +4", 1, 0);
                      GameSystem.readFast(Player.getPlayerID() + " Gained: " + IronChainmail.getItemName() + "!");
                      Player.addInventoryItem(IronChainmail);
                      this.setEventCompleted(true);
@@ -1465,7 +1465,7 @@ public class Event extends Item {
                   
                   if(ArmorType == 3) {
                      Equipment IronArmguards = new Equipment("Iron Armguards", 2, 150, 0, 0, 2, 0, "P",
-                     "A couple of Iron Armguards, they aren't of very high quality, they look sturdy enough.  DEFENSE +2", 1);
+                     "A couple of Iron Armguards, they aren't of very high quality, they look sturdy enough.  DEFENSE +2", 1, 0);
                      GameSystem.readFast(Player.getPlayerID() + " Gained: " + IronArmguards.getItemName() + "!");
                      Player.addInventoryItem(IronArmguards);
                      this.setEventCompleted(true);
@@ -1474,7 +1474,7 @@ public class Event extends Item {
                   
                   if(ArmorType == 4) {
                      Equipment IronCuisses = new Equipment("Iron Cuisses", 2, 200, 0, 0, 2, 0, "P",
-                     "A couple of Iron Cuisses, they aren't of very high quality, but they look sturdy enough.  DEFENSE +2", 1);
+                     "A couple of Iron Cuisses, they aren't of very high quality, but they look sturdy enough.  DEFENSE +2", 1, 0);
                      GameSystem.readFast(Player.getPlayerID() + " Gained: " + IronCuisses.getItemName() + "!");
                      Player.addInventoryItem(IronCuisses);
                      this.setEventCompleted(true);
@@ -1503,7 +1503,7 @@ public class Event extends Item {
                   ArmorType = (int)(Math.random() * (5-1) + 1);                  
                   if(ArmorType == 1) {
                      Equipment IronHelmet = new Equipment("Iron Helmet", 2, 150, 0, 0, 2, 0, "H",
-                     "A solid Iron Helmet, it isn't of very high quality, but it looks sturdy enough.  DEF +3", 1);
+                     "A solid Iron Helmet, it isn't of very high quality, but it looks sturdy enough.  DEF +3", 1, 0);
                      GameSystem.readFast(Player.getPlayerID() + " Gained: " + IronHelmet.getItemName() + "!");
                      Player.addInventoryItem(IronHelmet);
                      this.setEventCompleted(true);
@@ -1511,7 +1511,7 @@ public class Event extends Item {
                   }
                   if(ArmorType == 2) {
                      Equipment IronChainmail = new Equipment("Iron Chainmail", 2, 300, 0, 0, 4, 0, "T",
-                     "A solid suit of Iron Chainmail, it isn't of very high quality, but it looks sturdy enough.  DEFENSE +4", 1);
+                     "A solid suit of Iron Chainmail, it isn't of very high quality, but it looks sturdy enough.  DEFENSE +4", 1, 0);
                      GameSystem.readFast(Player.getPlayerID() + " Gained: " + IronChainmail.getItemName() + "!");
                      Player.addInventoryItem(IronChainmail);
                      this.setEventCompleted(true);
@@ -1520,7 +1520,7 @@ public class Event extends Item {
                   
                   if(ArmorType == 3) {
                      Equipment IronArmguards = new Equipment("Iron Armguards", 2, 150, 0, 0, 2, 0, "P",
-                     "A couple of Iron Armguards, they aren't of very high quality, they look sturdy enough.  DEFENSE +2", 1);
+                     "A couple of Iron Armguards, they aren't of very high quality, they look sturdy enough.  DEFENSE +2", 1, 0);
                      GameSystem.readFast(Player.getPlayerID() + " Gained: " + IronArmguards.getItemName() + "!");
                      Player.addInventoryItem(IronArmguards);
                      this.setEventCompleted(true);
@@ -1529,7 +1529,7 @@ public class Event extends Item {
                   
                   if(ArmorType == 4) {
                      Equipment IronCuisses = new Equipment("Iron Cuisses", 2, 200, 0, 0, 2, 0, "P",
-                     "A couple of Iron Cuisses, they aren't of very high quality, but they look sturdy enough.  DEFENSE +2", 1);
+                     "A couple of Iron Cuisses, they aren't of very high quality, but they look sturdy enough.  DEFENSE +2", 1, 0);
                      GameSystem.readFast(Player.getPlayerID() + " Gained: " + IronCuisses.getItemName() + "!");
                      Player.addInventoryItem(IronCuisses);
                      this.setEventCompleted(true);
@@ -1577,7 +1577,7 @@ public class Event extends Item {
                   ArmorType = (int)(Math.random() * (5-1) + 1);                  
                   if(ArmorType == 1) {
                      Equipment IronHelmet = new Equipment("Iron Helmet", 2, 150, 0, 0, 2, 0, "H",
-                     "A solid Iron Helmet, it isn't of very high quality, but it looks sturdy enough.  DEF +3", 1);
+                     "A solid Iron Helmet, it isn't of very high quality, but it looks sturdy enough.  DEF +3", 1, 0);
                      GameSystem.readFast(Player.getPlayerID() + " Gained: " + IronHelmet.getItemName() + "!");
                      Player.addInventoryItem(IronHelmet);
                      this.setEventCompleted(true);
@@ -1585,7 +1585,7 @@ public class Event extends Item {
                   }
                   if(ArmorType == 2) {
                      Equipment IronChainmail = new Equipment("Iron Chainmail", 2, 300, 0, 0, 4, 0, "T",
-                     "A solid suit of Iron Chainmail, it isn't of very high quality, but it looks sturdy enough.  DEFENSE +4", 1);
+                     "A solid suit of Iron Chainmail, it isn't of very high quality, but it looks sturdy enough.  DEFENSE +4", 1, 0);
                      GameSystem.readFast(Player.getPlayerID() + " Gained: " + IronChainmail.getItemName() + "!");
                      Player.addInventoryItem(IronChainmail);
                      this.setEventCompleted(true);
@@ -1594,7 +1594,7 @@ public class Event extends Item {
                   
                   if(ArmorType == 3) {
                      Equipment IronArmguards = new Equipment("Iron Armguards", 2, 150, 0, 0, 2, 0, "P",
-                     "A couple of Iron Armguards, they aren't of very high quality, they look sturdy enough.  DEFENSE +2", 1);
+                     "A couple of Iron Armguards, they aren't of very high quality, they look sturdy enough.  DEFENSE +2", 1, 0);
                      GameSystem.readFast(Player.getPlayerID() + " Gained: " + IronArmguards.getItemName() + "!");
                      Player.addInventoryItem(IronArmguards);
                      this.setEventCompleted(true);
@@ -1603,7 +1603,7 @@ public class Event extends Item {
                   
                   if(ArmorType == 4) {
                      Equipment IronCuisses = new Equipment("Iron Cuisses", 2, 200, 0, 0, 2, 0, "P",
-                     "A couple of Iron Cuisses, they aren't of very high quality, but they look sturdy enough.  DEFENSE +2", 1);
+                     "A couple of Iron Cuisses, they aren't of very high quality, but they look sturdy enough.  DEFENSE +2", 1, 0);
                      GameSystem.readFast(Player.getPlayerID() + " Gained: " + IronCuisses.getItemName() + "!");
                      Player.addInventoryItem(IronCuisses);
                      this.setEventCompleted(true);

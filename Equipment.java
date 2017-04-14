@@ -9,6 +9,7 @@ public class Equipment extends Item{
    public int defenseMod;
    public int luckMod;
    public String attachment;
+   public int weaponType; //4-14-2017 Added by Christian Robles to account for the type of weapon.
 
    //Default Constructor
    public Equipment(){
@@ -22,9 +23,12 @@ public class Equipment extends Item{
       this.attachment = "z"; //0-H, 1-T, 2-A, 3-L, 4-P(Weapons - Primary), 5-P(Weapons - Secondary), 6-C, 7-R, 8-B, 9-W
       this.description = "";
       this.rarity = 1;
+      this.weaponType = 0; //0 = Armor; 1 = Sword; 2 = Great Sword; 3 = Dagger; 4 = Bow & Arrows; 5 = Flail; 6 = Mace;
+                           //7 = Spear; 8 = Polearm; 9 = Battle Gloves; 10 = Magic Staff;
    }
    //Specific Value Constructor
-   public Equipment(String itemName, int size, int coinValue, int healthMod, int attackMod, int defenseMod, int luckMod, String attachment, String description, int rarity){
+   //4-14-2017 Christian Robles added newWeaponType int value to Specific Value Constructor.
+   public Equipment(String itemName, int size, int coinValue, int healthMod, int attackMod, int defenseMod, int luckMod, String attachment, String description, int rarity, int newWeaponType){
       this.itemName = itemName;
       this.size = size;
       this.coinValue = coinValue;
@@ -35,9 +39,11 @@ public class Equipment extends Item{
       this.attachment = attachment;
       this.description = description;
       this.rarity = rarity;
+      this.weaponType = newWeaponType;
    }
 
    //Accessors
+   
    public String getItemName(){
       return itemName;
    }
@@ -65,10 +71,20 @@ public class Equipment extends Item{
    public String getItemDescription(){
       return description;
    }
+   
+   //4-14-2017 Christian Robles added accessor for weaponType.
+   public int getWeaponType() {
+      return weaponType;
+   }
 
    //Mutators
    public void setItemName(String newNAME){
       itemName = newNAME;
+   }
+   
+   //4-14-2017 Christian Robles added Mutator for weaponType.
+   public void setWeaponType(int newWeaponType) {
+      weaponType = newWeaponType;
    }
 
 }//end class
