@@ -8,25 +8,26 @@ import java.io.*;
 public class GameEngine
 {
 	
-	int gameWidth = getWorkingWidth();
-	int gameHeight = getWorkingHeight();
-	int gameUnits = gameWidth * gameHeight / 10000;
+	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	double gameWidth = screenSize.getWidth();
+	double gameHeight = screenSize.getHeight();
+	double gameUnits = gameWidth * gameHeight / 10000;
 	
-	public static int getWorkingWidth()
-	{
-		return java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width;
-	}
-	
-	public static int getWorkingHeight()
-	{
-		return java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height;
-	}
-	
+//	public static int getWorkingWidth()
+//	{
+//		return java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width;
+//	}
+//	
+//	public static int getWorkingHeight()
+//	{
+//		return java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height;
+//	}
+//	
 	public class GraphicsPanel extends JPanel
 	{
 		public GraphicsPanel()
 		{
-			setPreferredSize(new Dimension(gameWidth, gameHeight * 2 / 3));
+			setPreferredSize(new Dimension((int)gameWidth, (int)gameHeight * 2 / 3));
 			setBackground(Color.white);
 			
 		}
@@ -44,7 +45,7 @@ public class GameEngine
 	{
 		public ButtonPanel()
 		{
-			setPreferredSize(new Dimension(gameWidth / 4 - (gameWidth/200), gameHeight / 3 - (gameHeight / 35)));
+			setPreferredSize(new Dimension((int)gameWidth / 4 - ((int)gameWidth/200), (int)gameHeight / 3 - ((int)gameHeight / 35)));
 			setBackground(Color.black);
 		}
 	}
@@ -53,7 +54,7 @@ public class GameEngine
 	{
 		public OptionsPanel()
 		{
-			setPreferredSize(new Dimension(gameWidth / 4 - (gameWidth/200), gameHeight / 3 - (gameHeight / 35)));
+			setPreferredSize(new Dimension((int)gameWidth / 4 - ((int)gameWidth/200), (int)gameHeight / 3 - ((int)gameHeight / 35)));
 			setBackground(Color.black);
 		}
 	}
@@ -62,7 +63,7 @@ public class GameEngine
 	{
 		public TextScroll()
 		{
-			setPreferredSize(new Dimension(gameWidth / 2, gameHeight / 3 - (gameHeight / 35)));
+			setPreferredSize(new Dimension((int)gameWidth / 2, (int)gameHeight / 3 - ((int)gameHeight / 35)));
 			setBackground(Color.black);
 		}
 	}
@@ -83,11 +84,14 @@ public class GameEngine
 	
 	public GameEngine()
 	{
+		
 		JFrame gameFrame = new JFrame();
 		JPanel gamePanel = new JPanel();
 		gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		gameFrame.setTitle("TBAD");
-		gameFrame.setPreferredSize(new Dimension(gameWidth, gameHeight));
+		//gameFrame.setPreferredSize(new Dimension(gameWidth, gameHeight));
+		gameFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		gameFrame.setUndecorated(true);
 		FlowLayout bottomLayout = new FlowLayout(FlowLayout.CENTER, 0, 0);
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setLayout(bottomLayout);
