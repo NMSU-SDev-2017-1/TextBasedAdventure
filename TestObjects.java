@@ -39,22 +39,23 @@ public class TestObjects {
                  System.out.println("You continue through the dungeon...");
                  Skeleton testSkeleton = new Skeleton();
                  Minotaur testMinotaur = new Minotaur();
+                 Goblin testGoblin = new Goblin();
                  Random rand = new Random(System.currentTimeMillis());
                  int randomInt = rand.nextInt(10 - 1) + 1;
 	         if(randomInt <= 5){
                     System.out.println("A SKELETON APPEARS!");
-                    testSkeleton.printSkeleton();
+                    testSkeleton.print();
                     Combat.standardCombat(testSkeleton, player);
                  }
-                 else if(randomInt == 10){
+                 else if(randomInt >7 && randomInt <=10){
                     System.out.println("A MIGHTY MINOTAUR APPEARS!");
-                    testMinotaur.printMinotaur();
+                    testMinotaur.print();
                     Combat.standardCombat(testMinotaur, player);
                  }
                  else{
-                    System.out.println("A SKELETON APPEARS!");
-                    testSkeleton.printSkeleton();
-                    Combat.advantageCombat(testSkeleton, player);
+                    System.out.println("A GOBLIN APPEARS!");
+                    testGoblin.print();
+                    Combat.standardCombat(testGoblin, player);
                  }
               }//end playerAction == 1
               else if(playerAction == 2){

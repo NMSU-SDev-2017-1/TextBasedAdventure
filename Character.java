@@ -262,9 +262,12 @@ public class Character{
       defense = baseDefense;
       luck = baseLuck;
       maxHP = baseHealthpoints;
+      int fullHP = 0;
 
-      if(healthpoints > maxHP)
+      if(healthpoints >= maxHP){
          healthpoints = maxHP;
+         fullHP = 1;
+      }
    
       //Check Head Equip
       if(equipment[0] == null)
@@ -335,6 +338,10 @@ public class Character{
          modDEF(equipment[7].getDefenseMod());
          modLUCK(equipment[7].getLuckMod());
       }//end else
+
+      if(fullHP == 1)
+         healthpoints = maxHP;
+
    }//end equipmentMod
 
    //adds item to player inventory
