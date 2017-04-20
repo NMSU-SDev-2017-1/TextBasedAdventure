@@ -11,7 +11,7 @@ public class GameEngine
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	double gameWidth = screenSize.getWidth();
 	double gameHeight = screenSize.getHeight();
-	double gameUnits = gameWidth * gameHeight / 10000;
+	//double gameUnits = gameWidth * gameHeight / 10000;
 	
 //	public static int getWorkingWidth()
 //	{
@@ -78,7 +78,7 @@ public class GameEngine
 			setEditable(false);
 			setLineWrap(true);
 			setWrapStyleWord(true);
-			setFont(new Font(Font.SERIF, Font.BOLD, 16));
+			setFont(new Font(Font.SERIF, Font.BOLD, (int)gameWidth / 100));
 		}
 	}
 	
