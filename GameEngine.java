@@ -13,6 +13,12 @@ public class GameEngine
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	double gameWidth = screenSize.getWidth();
 	double gameHeight = screenSize.getHeight();
+	TextBox box;
+
+	public TextBox getTextBox()
+	{
+		return box;
+	}
 
 	public class GraphicsPanel extends JPanel
 	{
@@ -135,8 +141,11 @@ public class GameEngine
 	
 	public GameEngine()
 	{
+	}
+	
+	public void createAndShowGameUI(Character player1)
+	{
 		
-		Character player1 = new Character("Troy");
 		JFrame gameFrame = new JFrame();
 		JPanel gamePanel = new JPanel();
 		gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -155,7 +164,7 @@ public class GameEngine
 		buttons.add(stats);
 		buttons.add(inventory);
 		buttons.add(equipment);
-		TextBox box = new TextBox();
+		box = new TextBox();
 		TextScroll scroll = new TextScroll();
 		scroll.setViewportView(box);
 		bottomPanel.add(buttons);
@@ -168,13 +177,6 @@ public class GameEngine
 		gamePanel.add(bottomPanel);
 		gameFrame.pack();
 		gameFrame.setVisible(true);
-/* 		try{
-			delayedWrite(box, readFile("test.txt", StandardCharsets.UTF_8), 35);
-		}
-		catch(IOException e) {
-			e.printStackTrace();
-		} */
-		delayedWrite(box, "Hello, world!", 70);
 		
 	}
 	
@@ -205,6 +207,9 @@ public class GameEngine
 	
 	public static void main(String[] args)
 	{
+		Character player = new Character("Test Player");
 		GameEngine test = new GameEngine();
+		test.createAndShowGameUI(player);
+		test.delayedWrite(test.getTextBox(), "Hello, world!", 70);
 	}
 }
