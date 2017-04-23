@@ -92,6 +92,10 @@ public class Character{
       return this.inventory;
    }
    
+   public Item[] getEquipment() {
+	   return equipment;
+   }
+   
    public String getPlayerID(){
 	   return playerID;
    }
