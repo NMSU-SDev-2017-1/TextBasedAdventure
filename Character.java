@@ -89,7 +89,7 @@ public class Character{
    //Edited by Christian Robles
    //Used to retrieve the inventory array
    public Item[] getInventory() {
-      return this.inventory;
+      return inventory;
    }
    
    public Item[] getEquipment() {
@@ -547,10 +547,10 @@ public class Character{
    }//end weaponSwitch      
 
    //toString Method
-   public String toString(){
-       String statLine = "HP: " + healthpoints +"/" + maxHP + ", Attack: " + attack + ", Defense: " + defense + ", Luck: " + luck + ", Coin: " + coins + ", Inventory Size: " + inventory.length;
-       String information = "Player: " + playerID + ", " + statLine;
-       return information;
-   }//end toString
+   //public String toString(){
+       //String statLine = "HP: " + healthpoints +"/" + maxHP + ", Attack: " + attack + ", Defense: " + defense + ", Luck: " + luck + ", Coin: " + coins + ", Inventory Size: " + inventory.length;
+     //  String information = "Player: " + playerID + ", " + statLine;
+     //  return information;
+  // }//end toString
 
 }//end class

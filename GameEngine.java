@@ -101,7 +101,7 @@ public class GameEngine extends Event
 						{
 							if(inventoryList[i] != null)
 							{
-								text += inventoryList[i];
+								text += inventoryList[i].getItemName();
 								text += "\n";
 							}
 						}
@@ -128,7 +128,7 @@ public class GameEngine extends Event
 							}
 							else
 							{
-								text += equipList[i];
+								text += equipList[i].getItemName();
 								text += "\n";
 							}
 						}
@@ -513,6 +513,11 @@ public class GameEngine extends Event
 	public static void main(String[] args)
 	{
 		Character player = new Character("Tobias");
+                Consumable bread = new Consumable("Bread", 1, 5, 2,0,0,0, "Regular Ol' Bread. The 				choice meal of every Navy Seal.", 2);
+                player.addInventoryItem(bread);
+                Equipment skeletonSword = new Equipment("Skeleton Sword", 1, 200, 0, 4, 0, 0, "P", "A 				skeleton sword. Its " + 
+       			  "scuplted bone edge is rather sharp.  ATTACK +4", 1, 1);
+                player.equipment[4] = skeletonSword;
       Maze M = new Maze();
       M = Maze.GenerateBasicMaze();
       GameEngine test = new GameEngine();
