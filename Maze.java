@@ -4,13 +4,14 @@ import java.util.Scanner;
 
 public class Maze extends Character {
    private Node entrance;
-   private Node exit;
+   public Node exit;
    private Node grabPoint;
    private MazeVar MazeVariables;
    private int[] EventTrackerArray;
-private class Node extends Event {
+   public boolean FoundExit;
+public class Node extends Event {
    private int[] roomData;
-   private int direction;
+   public int direction;
    private int X_Axis;
    private int Y_Axis;
    private int BeenInRoom;
@@ -19,10 +20,11 @@ private class Node extends Event {
    private boolean ConstructSouth;
    private boolean ConstructWest;
    private boolean ConstructionExists;
-   private Node north;
-   private Node south;
-   private Node east;
-   private Node west;
+   public boolean CurrentRoom;
+   public Node north;
+   public Node south;
+   public Node east;
+   public Node west;
    private Event RoomEvent;
    
    public Node(int[] newData, Node newNorth, Node newSouth, Node newEast, Node newWest) {
@@ -104,6 +106,22 @@ private class MazeVar extends Item {
    public static Node getExit(Maze M) {
       return M.exit;
    }//End Method getExit
+   
+   public static boolean getFoundExit(Maze M) {
+      return M.FoundExit;
+   }
+   
+   public static void setFoundExit(boolean newFE, Maze M) {
+      M.FoundExit = newFE;
+   }
+   
+   public static boolean getCurrentRoom(Node C) {
+      return C.CurrentRoom;
+   }
+   
+   public static void setCurrentRoom(boolean newCR, Node C) {
+      C.CurrentRoom = newCR;
+   }
    
    public static int getDirection(Node C) {
       if(C == null)
@@ -719,6 +737,37 @@ private class MazeVar extends Item {
       if(x >= getMaxMazeRoom(M.MazeVariables))
          setMaxMazeRoom(M.MazeVariables, x);
    }//End Method TrackMaxRoom
+   
+   public static Node FindCurrentRoom (Node C, Maze M) {
+      int x;
+      x = getRoomNumber(C);
+      
+      if(getCurrentRoom(C) == true)
+         return C;
+      
+      if(C.north != null) {
+         if(x < getRoomNumber(C.north)) {
+            FindCurrentRoom(C.north, M);
+         }
+      }
+      if(C.east != null) {
+         if(x < getRoomNumber(C.east)) {
+            FindCurrentRoom(C.east, M);
+         }
+      }
+      if(C.south != null) {
+         if(x < getRoomNumber(C.south)) {
+            FindCurrentRoom(C.south, M);
+         }
+      }
+      if(C.west != null) {
+         if(x < getRoomNumber(C.west)) {
+            FindCurrentRoom(C.west, M);
+         }
+      }
+      return C;
+      
+   }//End Method FindCurrentRoom
    
    public static void MatchRoom(Node MatchNode, int MatchNumber, Maze M) {
       
@@ -2470,7 +2519,7 @@ private class MazeVar extends Item {
       //Call code for displaying room description
       //*****************************************
       
-      getRoomEvent(C).EventInterpreter(getRoomEventNumber(getRoomEvent(C)), Player);
+      getRoomEvent(C).EventInterpreter(getRoomEventNumber(getRoomEvent(C)), Player, C);
       
       System.out.println("");
       System.out.println("What will you do?");
@@ -2625,7 +2674,7 @@ private class MazeVar extends Item {
             System.out.printf("you can go straight");
       }
       
-      getRoomEvent(C).EventInterpreter(getRoomEventNumber(getRoomEvent(C)), Player);
+      getRoomEvent(C).EventInterpreter(getRoomEventNumber(getRoomEvent(C)), Player, C);
          
       System.out.println();
       System.out.println("The room number is: " + C.roomData[0]);
@@ -2721,7 +2770,7 @@ private class MazeVar extends Item {
    public void TraverseMaze(Node C, Character Player) throws InterruptedException {
       if(getRoomNumber(C) == getRoomNumber(this.exit)) {
          System.out.println("You have reached the end!");
-         return;
+         //return;
       }
       DisplayRoom(C, Player);
       System.out.println();

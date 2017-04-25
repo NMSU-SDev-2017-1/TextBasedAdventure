@@ -51,7 +51,7 @@ public class Event extends Item {
    }//End Method getEventAttempts
    //Event getters end here
    
-   public void EventInterpreter(int EventNumber, Character Player) throws InterruptedException {
+   public void EventInterpreter(int EventNumber, Character Player, Maze.Node C) throws InterruptedException {
       if(EventNumber == 1) {
          this.Event_001_GoldenStatue(this.getEventAttempts(), Player);
       }
@@ -1674,7 +1674,8 @@ public class Event extends Item {
             Thread.sleep(200);
             GameSystem.readFast("You look towards the sound. A Skeleton is marching towards you, its bones rattling with every " + 
                "step it took. Your eyes meet empty sockets and you prepare to fight...");
-            Thread.sleep(300);
+            MrBones.print();
+            Thread.sleep(500);
             Combat.standardCombat(MrBones, Player);
             this.setEventCompleted(true);
             return;
@@ -1684,7 +1685,8 @@ public class Event extends Item {
             Thread.sleep(400);
             GameSystem.readFast("You look towards the sound. A Skeleton is pacing aimlessly back and forth, " + 
                "its bones rattling with every step it took. It doesn't look like it's guarding anything, but you can't be sure.");
-            Thread.sleep(300);
+            MrBones.print();
+            Thread.sleep(500);
             System.out.println("(1)Sneak attack.   (2)Try and sneak past the Skeleton.");
             choice = scan.next();
             Thread.sleep(300);
@@ -1751,13 +1753,250 @@ public class Event extends Item {
 		          return;
 		      }
             GameSystem.read("You enter battle injured.");
-            Thread.sleep(300);
+            MrBones.print();
+            Thread.sleep(500);
             Combat.standardCombat(MrBones, Player);
             this.setEventCompleted(true);
             return;
          }
       }
    }//End Method Event_005_MonsterBattle_Skeleton
+   
+   public void Event_006_FallingRocks(int Visits, Character Player, Maze.Node C) throws InterruptedException {
+      
+      if(this.getEventCompleted() == true) {
+         GameSystem.readFast("You can see a large pile of rocks, the remains of what almost killed you. " +
+            "You take special care to avoid going near it.");
+         return;   
+      }
+      
+      Scanner scan = new Scanner(System.in);
+      String choice;
+      String choice2, lookedChoice;
+      
+      System.out.println();
+      System.out.println("What will you do?");
+      
+      if(C.north != null) {
+         if(C.direction == 1)  
+            System.out.printf("\n(1)You can go straight, ");
+         if(C.direction == 2)
+            System.out.printf("\n(4)You can go left, ");
+         if(C.direction == 3)
+            System.out.printf("\n(3)You can go back, ");
+         if(C.direction == 4)
+            System.out.printf("\n(2)You can go right, ");
+      }
+         
+      if(C.east != null) {
+         if(C.direction == 1)
+            System.out.printf("(2)you can go right, ");
+         if(C.direction == 2)
+            System.out.printf("(1)you can go straight, ");
+         if(C.direction == 3)
+            System.out.printf("(4)you can go left, ");
+         if(C.direction == 4)
+            System.out.printf("(3)you can go back, ");
+      }
+      
+      if(C.south != null) {
+         if(C.direction == 1)
+            System.out.printf("(3)you can go back, ");
+         if(C.direction == 2)
+            System.out.printf("(2)you can go right, ");
+         if(C.direction == 3)
+            System.out.printf("(1)you can go straight, ");
+         if(C.direction == 4)
+            System.out.printf("(4)you can go left, ");
+      }
+
+      if(C.west != null) {
+         if(C.direction == 1)
+            System.out.printf("(4)you can go left,");
+         if(C.direction == 2)
+            System.out.printf("(3)you can go back, ");
+         if(C.direction == 3)
+            System.out.printf("(2)you can go right, ");
+         if(C.direction == 4)
+            System.out.printf("(1)you can go straight, ");
+      }
+      
+      choice = scan.nextLine();
+      
+      Thread.sleep(400);
+      
+      GameSystem.readFast("You take a couple steps, suddenly you hear a loud rumble. The ground shakes, knocking you off balance " + 
+         "and causing you to stumble. As the ground shakes you look up, purely by chance, and you see the ceiling collapse! " + 
+         "Large rocks fall, there isn't much time for you to make a choice.");
+      Thread.sleep(300);
+      GameSystem.readFast("You could take a chance and look around for cover, but you aren't sure if you have time for that. " +
+         "You could brace yourself and hope that the heavy rocks don't land on you. You could jump to safety, but where would it " + 
+         "it be safe to jump? All you can see right now is what is right in front of you, which unfortunately doesn't have cover, " + 
+         "but maybe the rocks won't fall there.");
+      Thread.sleep(400);
+      System.out.println("(1)Look for cover.   (2)Brace yourself.   (3)Dive to your left.");
+      System.out.println("(4)Dive to your right.   (5)Leap back.   (6)Leap forwards.");
+      choice2 = scan.nextLine();
+      Thread.sleep(400);
+      if(choice2.equals("1")) {
+         String choice3;
+         GameSystem.readFast("There isn't much time, you decide to look for cover.");
+         Thread.sleep(400);
+         System.out.println("(1)Look left.   (2)Look right.   (3)Look behind you.");
+         choice3 = scan.nextLine();
+         boolean lookleft, lookright, lookbehind;
+         lookleft = lookright = lookbehind = false;
+         Thread.sleep(400);
+         if(choice3.equals("1")) {
+            GameSystem.readFast("You quickly look to your left. You can see a Large Stone Slab leaning against the wall, " + 
+               "it looks sturdy. The ground leading up to the Slab is uneven and several rocks are jutting from the ground.");
+            lookleft = true;
+         }
+         if(choice3.equals("2")) {
+            GameSystem.readFast("You quickly look to your right. The wall to your right has partially collapsed, leaving " + 
+               "little room to maneuver.");
+            lookright = true;
+         }
+         if(choice3.equals("3")) {
+            GameSystem.readFast("You quickly look behind you. You see the reason you lost your balance, the ground you are " + 
+               "standing on has risen, you don't know how far you will have to fall if you jump back, but it could save you " + 
+               "from the rocks falling right now.");
+            lookbehind = true;
+         }
+         if(!choice3.equals("1") && !choice3.equals("2") && !choice3.equals("3")) {
+            GameSystem.read("You are frozen in fear. Rocks crash down upon you, without even making a sound you are buried.");
+            Defeat.PlayerDefeat();
+		      return;
+         }
+         Thread.sleep(300);
+         System.out.println("(1)Brace yourself.   (2)Dodge to your left.   (3)Dodge to your right.");
+         System.out.println("(4)Leap back.   (5)Leap forwards.");
+         lookedChoice = scan.nextLine();
+         Thread.sleep(400);
+         if(lookedChoice.equals("1")) {
+            GameSystem.readFast("You decide that you didn't like what you saw. You barely have time to readjust your footing and " + 
+               "raise your arms. You hear several large rocks crash on the ground around you.");
+            Thread.sleep(300);
+            GameSystem.read("Then the rocks crashed onto you.");
+            Thread.sleep(300);
+            GameSystem.readFast("The first one to hit was the size of your head - with one arm you bash it away.");
+            GameSystem.readFast("The second one was much larger, you grunt as the weight crashes against you. Your your stance " + 
+               "crumbles as more rocks land on you burying you under their weight.");
+            Thread.sleep(500);
+            int damage;
+            damage = 10 - Player.getDefense();
+            if(damage <= 0)
+               damage = 1;
+            Player.modHP(-damage);
+            if(Player.getHealth() <= 0) {
+               GameSystem.read("............");
+               Thread.sleep(500);
+               Defeat.PlayerDefeat();
+            }
+            else {
+               GameSystem.read("You can barely move, the weight is crushing the air from your lungs. You slowly shift your weight " + 
+                  "to your right foot, and you manage to reposition your left foot.");
+               Thread.sleep(300);
+               GameSystem.read("The rocks are still crushing you, but you manage to take a shallow breath as you prepare to escape. " +
+                  "You use your legs and push upwards. Most of the smaller rocks are pressing against you, and it doesn't look like " +
+                  "you are in danger of them crushing you further, as you push your way out.");
+               Thread.sleep(300);
+               GameSystem.read("With a heave you push the largest rock off of you. As you do, smaller rocks fall down and serve as " + 
+                  "unsteady footholds for you as you slowly crawled out.");
+               Thread.sleep(400);
+               this.setEventCompleted(true);
+               return;
+            }
+         }
+         if(lookedChoice.equals("2")) {
+            if(lookleft == true) {
+               GameSystem.readFast("You decide that you would rather take cover than risk getting burried alive. You quickly " + 
+                  "dash to your left, rocks are already crashing to the ground, but it's too late to change your decision now. " + 
+                  "You move swiftly despite the uneven ground, its a good thing you looked first, tripping would cost you your life.");
+               GameSystem.readFast("At last you reach cover, diving under the stone structure you turn to see what you barely managed" +
+                  " to avoid. Rocks are still falling, a majority of them landing where you were standing mere moments ago. Several " + 
+                  "of them land on the stone covering you, their landing resounds through the cave like thunder. A few more seconds later" +
+                  " and suddenly the thundering stops, dust fills the room along with a chilling silence. You take a careful step out " +
+                  "of your hasty cover and stand up, it looks like you survived by the skin of your teeth.");
+               Thread.sleep(400);
+               this.setEventCompleted(true);
+               return;
+            }
+            else {
+               GameSystem.readFast("You decide to dodge to your left. Quickly you turn your head to face the right direction, " +
+                  "and you are briefly elated that there is a large stone slab that looks perfect for cover. Without the time to " +
+                  "think, you dash towards your salvation");
+               Thread.sleep(300);
+               GameSystem.read("Then you tripped.");
+               Thread.sleep(300);
+               GameSystem.readFast("You tumble to the ground, your vision explodes in a searing light, pain attacks you from " + 
+                  "every direction. Amidst the light and pain you feel sharp jabs into your body, you figue you must be tumbling. " +
+                  "After what felt like an eternity, your vision begins to clear and the pain starts to dull.");
+               Thread.sleep(300);
+               GameSystem.readFast("Your head is throbbing and your entire body feels like lead. You manage to bring a hand to " + 
+                  "your head, you feel a warm wetness.");
+               GameSystem.read("Blood");
+               Thread.sleep(300);
+               GameSystem.readFast("You drag youself up into a sitting position and lean back against the wall. Dust still hangs " +
+                  "heavy in the air, so you doubt you passed out, which is good. The pain has reduced to a dull throbbing, and your " + 
+                  "vision is no longer tunnling either. With effort, you check your body for further injuries. Aside from some " +
+                  "cuts and scratches that cover your body - likely from when you tripped - there isn't anyt injury of concern.");
+               Thread.sleep(300);
+               GameSystem.read("Well, aside from your head.");
+               Thread.sleep(300);
+               GameSystem.readFast("You drag yourself to your feet, the bleeding has stopped, but you still need to get out of here" +
+                  ". Its time to move.");
+               this.setEventCompleted(true);
+               return;
+            }
+         }
+         if(lookedChoice.equals("3")) {
+            if(lookright == true) {
+               GameSystem.readFast("You decide to go right, you don't have time to look around for a better option, and you can " +
+                  "probably press yourself against the wall to avoid the collapsing ceilling. Quickly, you dive towards the wall " +
+                  "and press yourself against the wall. You can hear the rocks crashing to the ground, and you feal a tremor as " +
+                  "a large one lands right behind you. You hold on tighter as the tremors increase in magnitude.");
+               Thread.sleep(300);
+            }
+            else {
+            
+            }
+         }
+         if(lookedChoice.equals("4")) {
+         
+         }
+         if(lookedChoice.equals("5")) {
+         
+         }
+         if(!lookedChoice.equals("1") && !lookedChoice.equals("2") && !lookedChoice.equals("3") && !lookedChoice.equals("4") && !lookedChoice.equals("5")) {
+            GameSystem.read("You lose your balance...");
+            Defeat.PlayerDefeat();
+		      return;
+         }
+      }
+      if(choice2.equals("2")) {
+         
+      }
+      if(choice2.equals("3")) {
+      
+      }
+      if(choice2.equals("4")) {
+      
+      }
+      if(choice2.equals("5")) {
+      
+      }
+      if(choice2.equals("6")) {
+      
+      }
+      if(!choice2.equals("1") && !choice2.equals("2") && !choice2.equals("3") && !choice2.equals("4") && !choice2.equals("5") && !choice2.equals("6")) {
+         GameSystem.read("You are frozen in fear, as the rocks crash down around you, you briefly regret your weakness.");
+         Defeat.PlayerDefeat();
+		   return;
+      }//End Fail Choice
+      
+      
+   }//End Method Event_006_FallingRocks
    
    
 }//End Class Event
