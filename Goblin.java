@@ -6,7 +6,7 @@ import java.util.Random;
 public class Goblin extends Monster
 {
    public Goblin(){
-      super("Goblin", 12, 3, 2, 10);
+      super("Goblin", 12, 13, 2, 10);
       Equipment goblinMace = new Equipment("Goblin Mace", 2, 100, 0, 1, 0, 0, "P", "A poorly constructed mace. It feels as though it was used for " + 
          "purposes beyond its intended use.  ATTACK +1.", 1, 6);
       Equipment goblinDagger = new Equipment("Goblin Dagger", 2, 150, 0, 2, 0, 0, "P", "A dagger held by high-status goblins." + 
@@ -25,10 +25,39 @@ public class Goblin extends Monster
 	
 	public void print()
 	{
-		System.out.println("Create a Goblin, you lazy twat.");
+		System.out.println("|             ,        ,        |");
+		System.out.println("|            //(.-''-.)\\       |");
+		System.out.println("|        |\\ \\/      \\/  /|   |");
+		System.out.println("|        | \\ / =.  .=  \\ / |   |");
+		System.out.println("|       \\( \\   o\\//o   / )/   |");
+		System.out.println("|         \\_, '-//  \\-' ,_/    |");
+		System.out.println("|           /    \\__/   \\      |");
+		System.out.println("|          \\  \\__/\\__/ /      |");
+		System.out.println("|         __\\  \\|--|/ /___    |");
+		System.out.println("|        /`  \\  \\    /   `\\   |");
+		System.out.println("|       /        '----'      \\  |");
+		System.out.println();
+		System.out.println();
+
+
+
+
+      
 
 	}
 }
 /*
+             ,      ,
+            /(.-""-.)\
+        |\  \/      \/  /|
+        | \ / =.  .= \ / |
+        \( \   o\/o   / )/
+         \_, '-/  \-' ,_/
+           /   \__/   \
+           \ \__/\__/ /
+         ___\ \|--|/ /___
+       /`    \      /    `\
+      /       '----'       \
+
 
 */

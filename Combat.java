@@ -39,7 +39,7 @@ public class Combat{
           }	       
 	       else if(engagedAction == 3){
 	          System.out.println();
-		       System.out.println(player.toString());
+		       System.out.println(player.status());
              System.out.println();
 	       }
 	       else if(engagedAction == 4){
@@ -97,7 +97,7 @@ public class Combat{
           }	       
 	       else if(engagedAction == 3){
 	          System.out.println();
-		       System.out.println(player.toString());
+		       System.out.println(player.status());
              System.out.println();
 	       }
 	       else if(engagedAction == 4){
@@ -154,7 +154,7 @@ public class Combat{
           }	       
 	       else if(engagedAction == 3){
 	          System.out.println();
-		       System.out.println(player.toString());
+		       System.out.println(player.status());
              System.out.println();
 	       }
 	       else if(engagedAction == 4){

@@ -35,7 +35,7 @@ public class Defeat{
                GameSystem.readFast("That is not a valid item selection.");
          }//end if
          else{
-	          System.out.println();
+	         System.out.println();
             GameSystem.readFast("You leave your fallen foe.");
             return;
          }

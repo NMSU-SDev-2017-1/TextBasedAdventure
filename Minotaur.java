@@ -6,7 +6,7 @@ import java.util.Random;
 public class Minotaur extends Monster
 {
    public Minotaur(){
-      super("Minotaur", 25, 7, 8, 50);
+      super("Minotaur", 25, 13, 6, 50);
       Equipment minotaurStaff = new Equipment("Minotaur Polearm", 2, 500, 0, 10, 0, 0, "P", "A large minotaur staff. Its imposing size is sure " + 
          "to be matched by its power.  ATTACK +3.", 1, 8);
       Equipment minotaurBow = new Equipment("A Minotaur Bow & Arrows", 2, 450, 0, 4, 0, 0, "P", "A bow made of elderwood. " + 

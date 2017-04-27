@@ -13,7 +13,7 @@ public class TestObjects {
            System.out.println("Please enter your username:");
            String name = scan.nextLine();
            Character player = new Character(name);
-           System.out.println(player.toString());
+           System.out.println(player.status());
            System.out.println();
            System.out.println("Welcome to the Dungeon.");
            System.out.println();
@@ -42,12 +42,12 @@ public class TestObjects {
                  Goblin testGoblin = new Goblin();
                  Random rand = new Random(System.currentTimeMillis());
                  int randomInt = rand.nextInt(10 - 1) + 1;
-	         if(randomInt <= 5){
+	             if(randomInt <= 5){
                     System.out.println("A SKELETON APPEARS!");
                     testSkeleton.print();
                     Combat.standardCombat(testSkeleton, player);
                  }
-                 else if(randomInt >7 && randomInt <=10){
+                 else if(randomInt >8 && randomInt <=10){
                     System.out.println("A MIGHTY MINOTAUR APPEARS!");
                     testMinotaur.print();
                     Combat.standardCombat(testMinotaur, player);
@@ -66,7 +66,7 @@ public class TestObjects {
                  player.getEquipmentList();
               }
               else if(playerAction == 4){
-                 System.out.println(player.toString());
+                 System.out.println(player.status());
               } 
               else
                  System.out.println("That is not a correct input.");
