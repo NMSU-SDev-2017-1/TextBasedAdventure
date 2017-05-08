@@ -6,6 +6,7 @@ import java.nio.file.Paths;
 import java.io.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.concurrent.CountDownLatch;
 
 public class GameEngine extends Event
 {
@@ -15,7 +16,9 @@ public class GameEngine extends Event
 	double gameHeight = screenSize.getHeight();
 	TextBox box;
 	JFrame gameFrame;
-
+	CountDownLatch latch = new CountDownLatch(0);
+	Font font;
+	
 	public TextBox getTextBox()
 	{
 		return box;
@@ -67,7 +70,8 @@ public class GameEngine extends Event
 			setEditable(false);
 			setLineWrap(true);
 			setWrapStyleWord(true);
-			setFont(new Font(Font.SERIF, Font.BOLD, (int)gameWidth / 100));
+			//setFont(new Font(Font.SERIF, Font.BOLD, (int)gameWidth / 100));
+			setFont(font);
 		}
 	}
 	
@@ -80,7 +84,9 @@ public class GameEngine extends Event
 			setBorder(BorderFactory.createLineBorder(Color.white));
 			JLabel nameLabel = new JLabel();
 			nameLabel.setText(name);
-			nameLabel.setFont(new Font(Font.SERIF, Font.BOLD, (int)gameWidth / 50));
+			font = font.deriveFont(Font.BOLD, (int)gameWidth / 50);
+			nameLabel.setFont(font);
+			//nameLabel.setFont(new Font(Font.SERIF, Font.BOLD, (int)gameWidth / 50));
 			nameLabel.setForeground(Color.white);
 			setLayout(new GridBagLayout());
 			add(nameLabel);
@@ -150,7 +156,8 @@ public class GameEngine extends Event
 			setBorder(BorderFactory.createLineBorder(Color.white));
 			JLabel nameLabel = new JLabel();
 			nameLabel.setText(name);
-			nameLabel.setFont(new Font(Font.SERIF, Font.BOLD, (int)gameWidth / 50));
+			font = font.deriveFont(Font.BOLD, (int)gameWidth / 50);
+			nameLabel.setFont(font);
 			nameLabel.setForeground(Color.white);
 			setLayout(new GridBagLayout());
 			add(nameLabel);
@@ -170,23 +177,23 @@ public class GameEngine extends Event
 					}
 					if(name.equals("Go Straight"))
 					{
-                  delayedWrite(box, "You went straight", 70);
 					   TraverseMazeEngine(M, C, player, "Straight", BP, GE);
+					   delayedWrite(box, "You went straight.", 70);
                }
 					if(name.equals("Go Right"))
 					{
-                  delayedWrite(box, "You went right", 70);
 						TraverseMazeEngine(M, C, player, "Right", BP, GE);
+		                delayedWrite(box, "You went right.", 70);
 					}
                if(name.equals("Go Left"))
-					{
-                  delayedWrite(box, "You went left", 70);
+					{                  
 						TraverseMazeEngine(M, C, player, "Left", BP, GE);
+						delayedWrite(box, "You went left.", 70);
 					}
                if(name.equals("Go Back"))
-					{
-                  delayedWrite(box, "You went back", 70);
+					{                  
 						TraverseMazeEngine(M, C, player, "Back", BP, GE);
+						delayedWrite(box, "You went back.", 70);
 					}
 				}
 			}
@@ -207,7 +214,7 @@ public class GameEngine extends Event
             C.north.direction = 1;
             Maze.setCurrentRoom(false, C);
             Maze.setCurrentRoom(true, C.north);
-            delayedWrite(box, "You went straight", 70);
+            //delayedWrite(box, "You went straight", 70);
             TraverseMazeEngine(M, C.north, Player, "X", BP, GE);
          }
          if(Path.equals("Right")) {
@@ -314,6 +321,18 @@ public class GameEngine extends Event
    
 	public GameEngine()
 	{
+		try
+		{
+			font = Font.createFont(Font.TRUETYPE_FONT, new File("Vecna.otf"));
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		font = font.deriveFont(Font.BOLD, (int)gameWidth / 100);
+		UIManager.put("OptionPane.messageFont", font);
+		UIManager.put("OptionPane.buttonFont", font);
+		UIManager.put("OptionPane.font", font);
 	}
 	
 	public void createAndShowGameUI(Character player1, Maze M, GameEngine GE) 
@@ -354,14 +373,24 @@ public class GameEngine extends Event
 		gamePanel.add(bottomPanel);
 		gameFrame.pack();
 		gameFrame.setVisible(true);
+		delayedWrite(box, "What will you do?", 70);
 		
 	}
 	
 	public void delayedWrite(TextBox box, String text, int delayMillis)
 	{
+		try
+		{
+			latch.await();
+		}
+		catch(InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+		latch = new CountDownLatch(1);
 		box.setText("");
 		char[] textArray = text.toCharArray();
-		new Thread(new Runnable() {
+		Thread thread = new Thread(new Runnable() {
 			public void run() {
 		
 				for(int i = 0; i < text.length(); i++)
@@ -376,8 +405,10 @@ public class GameEngine extends Event
 						e.printStackTrace();
 					}
 				}
+				latch.countDown();
 			}
-		}).start();
+		});
+		thread.start();
 	}
 	
 	public String readFile(String path, Charset encoding) throws IOException
@@ -395,7 +426,7 @@ public class GameEngine extends Event
       
       //Maze.getRoomEvent(C).EventInterpreter(Maze.getRoomEventNumber(Maze.getRoomEvent(C)), player1, C);
       
-      this.delayedWrite(box, "What will you do?", 70);
+      //this.delayedWrite(box, "What will you do?", 70);
       buttons.removeAll();
       
       Choices ExamineC = new Choices("Examine Room", player1, gameFrame, C, M, buttons, GE);
