@@ -14,6 +14,7 @@ public class GameEngine extends Event
 	double gameWidth = screenSize.getWidth();
 	double gameHeight = screenSize.getHeight();
 	TextBox box;
+	JFrame gameFrame;
 
 	public TextBox getTextBox()
 	{
@@ -142,7 +143,7 @@ public class GameEngine extends Event
    
    public class Choices extends JPanel
 	{
-		public Choices(final String name, final Character player, final JFrame frame, final Maze.Node C, final Maze M, final GameEngine GE) 
+		public Choices(final String name, final Character player, final JFrame frame, final Maze.Node C, final Maze M, ButtonPanel BP, final GameEngine GE) 
 		{
 			setPreferredSize(new Dimension((int)gameWidth / 4 - ((int)gameWidth/200), (int)(gameHeight / 3 - ((int)gameHeight / 35)) / 3));
 			setBackground(Color.black);
@@ -170,22 +171,22 @@ public class GameEngine extends Event
 					if(name.equals("Go Straight"))
 					{
                   delayedWrite(box, "You went straight", 70);
-					   TraverseMazeEngine(M, C, player, "Straight", GE);
+					   TraverseMazeEngine(M, C, player, "Straight", BP, GE);
                }
 					if(name.equals("Go Right"))
 					{
                   delayedWrite(box, "You went right", 70);
-						TraverseMazeEngine(M, C, player, "Right", GE);
+						TraverseMazeEngine(M, C, player, "Right", BP, GE);
 					}
                if(name.equals("Go Left"))
 					{
                   delayedWrite(box, "You went left", 70);
-						TraverseMazeEngine(M, C, player, "Left", GE);
+						TraverseMazeEngine(M, C, player, "Left", BP, GE);
 					}
                if(name.equals("Go Back"))
 					{
                   delayedWrite(box, "You went back", 70);
-						TraverseMazeEngine(M, C, player, "Back", GE);
+						TraverseMazeEngine(M, C, player, "Back", BP, GE);
 					}
 				}
 			}
@@ -193,46 +194,13 @@ public class GameEngine extends Event
 		}
 	}
    
-   public void TraverseMazeEngine(Maze M, Maze.Node C, Character Player, String Path, GameEngine GE)  {
+   public void TraverseMazeEngine(Maze M, Maze.Node C, Character Player, String Path, ButtonPanel BP, GameEngine GE)  {
       if(Maze.getRoomNumber(C) == Maze.getRoomNumber(M.exit)) {
           Maze.setFoundExit(true, M);
       }
       
-      JFrame gameFrame = new JFrame();
-		JPanel gamePanel = new JPanel();
-		gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		gameFrame.setTitle("TBAD");
-		gameFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		gameFrame.setUndecorated(true);
-		FlowLayout bottomLayout = new FlowLayout(FlowLayout.CENTER, 0, 0);
-		JPanel bottomPanel = new JPanel();
-		bottomPanel.setLayout(bottomLayout);
-		ButtonPanel buttons = new ButtonPanel();
-      ButtonPanel buttons2 = new ButtonPanel();
-		OptionsPanel options = new OptionsPanel();
-		buttons.setLayout(new BoxLayout(buttons, BoxLayout.Y_AXIS));
-      buttons2.setLayout(new BoxLayout(buttons2, BoxLayout.Y_AXIS));
-		Options stats = new Options("Stats", Player, gameFrame);
-		Options inventory = new Options("Inventory", Player, gameFrame);
-		Options equipment = new Options("Equipment", Player, gameFrame);
-		buttons.add(stats);
-		buttons.add(inventory);
-		buttons.add(equipment);
-		box = new TextBox();
-		TextScroll scroll = new TextScroll();
-		scroll.setViewportView(box);
-      DisplayRoomEngine(M, C, Player, gameFrame, box, buttons2, GE);
-		bottomPanel.add(buttons);
-      bottomPanel.add(buttons2);
-		bottomPanel.add(scroll);
-		bottomPanel.add(options);
-		GraphicsPanel graphics = new GraphicsPanel();
-		gamePanel.setLayout(new BoxLayout(gamePanel, BoxLayout.Y_AXIS));
-		gameFrame.add(gamePanel);
-		gamePanel.add(graphics);
-		gamePanel.add(bottomPanel);
-		gameFrame.pack();
-		gameFrame.setVisible(true);
+     BP.repaint();
+      DisplayRoomEngine(M, C, Player, gameFrame, box, BP, GE);
       
       if(C.direction == 1) {
          if(Path.equals("Straight")) {
@@ -240,25 +208,25 @@ public class GameEngine extends Event
             Maze.setCurrentRoom(false, C);
             Maze.setCurrentRoom(true, C.north);
             delayedWrite(box, "You went straight", 70);
-            TraverseMazeEngine(M, C.north, Player, "X", GE);
+            TraverseMazeEngine(M, C.north, Player, "X", BP, GE);
          }
          if(Path.equals("Right")) {
             C.east.direction = 2;
             Maze.setCurrentRoom(false, C);
             Maze.setCurrentRoom(true, C.east);
-            TraverseMazeEngine(M, C.east, Player, "X", GE);
+            TraverseMazeEngine(M, C.east, Player, "X", BP, GE);
          }
          if(Path.equals("Left")) {
             C.west.direction = 4;
             Maze.setCurrentRoom(false, C);
             Maze.setCurrentRoom(true, C.west);
-            TraverseMazeEngine(M, C.west, Player, "X", GE);
+            TraverseMazeEngine(M, C.west, Player, "X", BP, GE);
          }
          if(Path.equals("Back")) {
             C.south.direction = 3;
             Maze.setCurrentRoom(false, C);
             Maze.setCurrentRoom(true, C.south);
-            TraverseMazeEngine(M, C.south, Player, "X", GE);
+            TraverseMazeEngine(M, C.south, Player, "X", BP, GE);
          }  
       }
       
@@ -267,25 +235,25 @@ public class GameEngine extends Event
             C.east.direction = 2;
             Maze.setCurrentRoom(false, C);
             Maze.setCurrentRoom(true, C.east);
-            TraverseMazeEngine(M, C.east, Player, "X", GE);
+            TraverseMazeEngine(M, C.east, Player, "X", BP, GE);
          }
          if(Path.equals("Right")) {
             C.south.direction = 3;
             Maze.setCurrentRoom(false, C);
             Maze.setCurrentRoom(true, C.south);
-            TraverseMazeEngine(M, C.south, Player, "X", GE);
+            TraverseMazeEngine(M, C.south, Player, "X", BP, GE);
          }
          if(Path.equals("Left")) {
             C.north.direction = 1;
             Maze.setCurrentRoom(false, C);
             Maze.setCurrentRoom(true, C.north);
-            TraverseMazeEngine(M, C.north, Player, "X", GE);
+            TraverseMazeEngine(M, C.north, Player, "X", BP, GE);
          }
          if(Path.equals("Back")) {
             C.west.direction = 4;
             Maze.setCurrentRoom(false, C);
             Maze.setCurrentRoom(true, C.west);
-            TraverseMazeEngine(M, C.west, Player, "X", GE);
+            TraverseMazeEngine(M, C.west, Player, "X", BP, GE);
          }  
       }
       
@@ -294,25 +262,25 @@ public class GameEngine extends Event
             C.south.direction = 3;
             Maze.setCurrentRoom(false, C);
             Maze.setCurrentRoom(true, C.south);
-            TraverseMazeEngine(M, C.south, Player, "X", GE);
+            TraverseMazeEngine(M, C.south, Player, "X", BP, GE);
          }
          if(Path.equals("Right")) {
             C.west.direction = 4;
             Maze.setCurrentRoom(false, C);
             Maze.setCurrentRoom(true, C.west);
-            TraverseMazeEngine(M, C.west, Player, "X", GE);
+            TraverseMazeEngine(M, C.west, Player, "X", BP, GE);
          }
          if(Path.equals("Left")) {
             C.east.direction = 2;
             Maze.setCurrentRoom(false, C);
             Maze.setCurrentRoom(true, C.east);
-            TraverseMazeEngine(M, C.east, Player, "X", GE);
+            TraverseMazeEngine(M, C.east, Player, "X", BP, GE);
          }
          if(Path.equals("Back")) {
             C.north.direction = 1;
             Maze.setCurrentRoom(false, C);
             Maze.setCurrentRoom(true, C.north);
-            TraverseMazeEngine(M, C.north, Player, "X", GE);
+            TraverseMazeEngine(M, C.north, Player, "X", BP, GE);
          }  
       }
       
@@ -321,25 +289,25 @@ public class GameEngine extends Event
             C.west.direction = 4;
             Maze.setCurrentRoom(false, C);
             Maze.setCurrentRoom(true, C.west);
-            TraverseMazeEngine(M, C.west, Player, "X", GE);
+            TraverseMazeEngine(M, C.west, Player, "X", BP, GE);
          }
          if(Path.equals("Right")) {
             C.north.direction = 1;
             Maze.setCurrentRoom(false, C);
             Maze.setCurrentRoom(true, C.north);
-            TraverseMazeEngine(M, C.north, Player, "X", GE);
+            TraverseMazeEngine(M, C.north, Player, "X", BP, GE);
          }
          if(Path.equals("Left")) {
             C.south.direction = 3;
             Maze.setCurrentRoom(false, C);
             Maze.setCurrentRoom(true, C.south);
-            TraverseMazeEngine(M, C.south, Player, "X", GE);
+            TraverseMazeEngine(M, C.south, Player, "X", BP, GE);
          }
          if(Path.equals("Back")) {
             C.east.direction = 2;
             Maze.setCurrentRoom(false, C);
             Maze.setCurrentRoom(true, C.east);
-            TraverseMazeEngine(M, C.east, Player, "X", GE);
+            TraverseMazeEngine(M, C.east, Player, "X", BP, GE);
          }  
       }     
    }//End method TraverseMazeEngine
@@ -351,7 +319,7 @@ public class GameEngine extends Event
 	public void createAndShowGameUI(Character player1, Maze M, GameEngine GE) 
 	{
 		
-		JFrame gameFrame = new JFrame();
+		gameFrame = new JFrame();
 		JPanel gamePanel = new JPanel();
 		gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		gameFrame.setTitle("TBAD");
@@ -378,7 +346,7 @@ public class GameEngine extends Event
 		bottomPanel.add(buttons);
       bottomPanel.add(buttons2);
 		bottomPanel.add(scroll);
-		bottomPanel.add(options);
+		//bottomPanel.add(options);
 		GraphicsPanel graphics = new GraphicsPanel();
 		gamePanel.setLayout(new BoxLayout(gamePanel, BoxLayout.Y_AXIS));
 		gameFrame.add(gamePanel);
@@ -391,19 +359,25 @@ public class GameEngine extends Event
 	
 	public void delayedWrite(TextBox box, String text, int delayMillis)
 	{
+		box.setText("");
 		char[] textArray = text.toCharArray();
-		for(int i = 0; i < text.length(); i++)
-		{
-			box.append(String.valueOf(textArray[i]));
-			try
-			{
-				Thread.sleep(delayMillis);
+		new Thread(new Runnable() {
+			public void run() {
+		
+				for(int i = 0; i < text.length(); i++)
+				{
+					box.append(String.valueOf(textArray[i]));
+					try
+					{
+						Thread.sleep(delayMillis);
+					}
+					catch(InterruptedException e)
+					{
+						e.printStackTrace();
+					}
+				}
 			}
-			catch(InterruptedException e)
-			{
-				e.printStackTrace();
-			}
-		}
+		}).start();
 	}
 	
 	public String readFile(String path, Charset encoding) throws IOException
@@ -422,25 +396,26 @@ public class GameEngine extends Event
       //Maze.getRoomEvent(C).EventInterpreter(Maze.getRoomEventNumber(Maze.getRoomEvent(C)), player1, C);
       
       this.delayedWrite(box, "What will you do?", 70);
+      buttons.removeAll();
       
-      Choices ExamineC = new Choices("Examine Room", player1, gameFrame, C, M, GE);
+      Choices ExamineC = new Choices("Examine Room", player1, gameFrame, C, M, buttons, GE);
       buttons.add(ExamineC);
       
       if(C.north != null) {
          if(C.direction == 1) {  
-            Choices straightC = new Choices("Go Straight", player1, gameFrame, C, M, GE);
+            Choices straightC = new Choices("Go Straight", player1, gameFrame, C, M, buttons, GE);
             buttons.add(straightC);
          }
          if(C.direction == 4) {
-            Choices rightC = new Choices("Go Right", player1, gameFrame, C, M, GE);
+            Choices rightC = new Choices("Go Right", player1, gameFrame, C, M, buttons, GE);
             buttons.add(rightC);
          }
          if(C.direction == 2) {
-            Choices leftC = new Choices("Go Left", player1, gameFrame, C, M, GE);
+            Choices leftC = new Choices("Go Left", player1, gameFrame, C, M, buttons, GE);
             buttons.add(leftC);
          }
          if(C.direction == 3) {
-            Choices backC = new Choices("Go Back", player1, gameFrame, C, M, GE);
+            Choices backC = new Choices("Go Back", player1, gameFrame, C, M, buttons, GE);
             buttons.add(backC);
          }
          
@@ -448,65 +423,67 @@ public class GameEngine extends Event
          
       if(C.east != null) {
          if(C.direction == 2) {
-            Choices straightC = new Choices("Go Straight", player1, gameFrame, C, M, GE);
+            Choices straightC = new Choices("Go Straight", player1, gameFrame, C, M, buttons, GE);
             buttons.add(straightC);
          }
          if(C.direction == 1) {
-            Choices rightC = new Choices("Go Right", player1, gameFrame, C, M, GE);
+            Choices rightC = new Choices("Go Right", player1, gameFrame, C, M, buttons, GE);
             buttons.add(rightC);
          }
          if(C.direction == 3) {
-            Choices leftC = new Choices("Go Left", player1, gameFrame, C, M, GE);
+            Choices leftC = new Choices("Go Left", player1, gameFrame, C, M, buttons, GE);
             buttons.add(leftC);
          }
          if(C.direction == 4) {
-            Choices backC = new Choices("Go Back", player1, gameFrame, C, M, GE);
+            Choices backC = new Choices("Go Back", player1, gameFrame, C, M, buttons, GE);
             buttons.add(backC);
          }
       }
       
       if(C.south != null) {
          if(C.direction == 3){
-            Choices straightC = new Choices("Go Straight", player1, gameFrame, C, M, GE);
+            Choices straightC = new Choices("Go Straight", player1, gameFrame, C, M, buttons, GE);
             buttons.add(straightC);
          }
          if(C.direction == 2){
-            Choices rightC = new Choices("Go Right", player1, gameFrame, C, M, GE);
+            Choices rightC = new Choices("Go Right", player1, gameFrame, C, M, buttons, GE);
             buttons.add(rightC);
          }
          if(C.direction == 4){
-            Choices leftC = new Choices("Go Left", player1, gameFrame, C, M, GE);
+            Choices leftC = new Choices("Go Left", player1, gameFrame, C, M, buttons, GE);
             buttons.add(leftC);
          }
          if(C.direction == 1){
-            Choices backC = new Choices("Go Back", player1, gameFrame, C, M, GE);
+            Choices backC = new Choices("Go Back", player1, gameFrame, C, M, buttons, GE);
             buttons.add(backC);
          }
       }
 
       if(C.west != null) {
          if(C.direction == 4) {
-            Choices straightC = new Choices("Go Straight", player1, gameFrame, C, M, GE);
+            Choices straightC = new Choices("Go Straight", player1, gameFrame, C, M, buttons, GE);
             buttons.add(straightC);
          }
          if(C.direction == 3) {
-            Choices rightC = new Choices("Go Right", player1, gameFrame, C, M, GE);
+            Choices rightC = new Choices("Go Right", player1, gameFrame, C, M, buttons, GE);
             buttons.add(rightC);
          }
          if(C.direction == 1) {
-            Choices leftC = new Choices("Go Left", player1, gameFrame, C, M, GE);
+            Choices leftC = new Choices("Go Left", player1, gameFrame, C, M, buttons, GE);
             buttons.add(leftC);
          }
          if(C.direction == 2) {
-            Choices backC = new Choices("Go Back", player1, gameFrame, C, M, GE);
+            Choices backC = new Choices("Go Back", player1, gameFrame, C, M, buttons, GE);
             buttons.add(backC);
          }
       }
       
       if(Maze.getRoomEvent(C).getEventOn() == true) {
-         Choices CheckC = new Choices("Examine Room", player1, gameFrame, C, M, GE);
+         Choices CheckC = new Choices("Examine Room", player1, gameFrame, C, M, buttons, GE);
          buttons.add(CheckC);
       }
+      buttons.revalidate();
+      buttons.repaint();
          
    }//End method DisplayRoomEngine
    
