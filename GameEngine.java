@@ -158,11 +158,7 @@ public class GameEngine extends Event
    
    public class Choices extends JPanel
 	{
-<<<<<<< HEAD
 		public Choices(final String name, final Character player, final JFrame frame, final Maze.Node C, final Maze M, ButtonPanel BP) 
-=======
-		public Choices(final String name, final Character player, final JFrame frame, final Maze.Node C, final Maze M, final ButtonPanel BP, final GameEngine GE) 
->>>>>>> e451ccfa7248460a534dc72a75176b7226155f33
 		{
 			setPreferredSize(new Dimension((int)gameWidth / 4 - ((int)gameWidth/200), (int)(gameHeight / 3 - ((int)gameHeight / 35)) / 3));
 			setBackground(Color.black);
@@ -508,13 +504,6 @@ public class GameEngine extends Event
 		gameFrame.pack();
 		gameFrame.setVisible(true);
 		delayedWrite(box, "What will you do?", 70);
-<<<<<<< HEAD
-=======
-		Skeleton testSkeleton = new Skeleton();
-		Minotaur testMin = new Minotaur();
-		combatUI(player1, testSkeleton, buttons2, box);
-      eventUI(player1, buttons2, box);
->>>>>>> e451ccfa7248460a534dc72a75176b7226155f33
 	}
 	
 	public void combatUI(Character player, Monster enemy, ButtonPanel buttons, TextBox box)
