@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.text.DefaultCaret;
+
 import java.awt.*;
 import java.nio.charset.*;
 import java.nio.file.Files;
@@ -18,12 +20,14 @@ public class GameEngine extends Event
 	JFrame gameFrame;
 	CountDownLatch latch = new CountDownLatch(0);
 	Font font;
+	boolean inCombat = false;
+	Maze.Node currentLocation;
 	
 	public TextBox getTextBox()
 	{
 		return box;
 	}
-
+	
 	public class GraphicsPanel extends JPanel
 	{
 		public GraphicsPanel()
@@ -70,6 +74,8 @@ public class GameEngine extends Event
 			setEditable(false);
 			setLineWrap(true);
 			setWrapStyleWord(true);
+			DefaultCaret caret = (DefaultCaret)getCaret();
+			caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 			//setFont(new Font(Font.SERIF, Font.BOLD, (int)gameWidth / 100));
 			setFont(font);
 		}
@@ -201,11 +207,62 @@ public class GameEngine extends Event
 		}
 	}
    
+   public class CombatOptions extends JPanel
+   {
+	   public CombatOptions(String name, Character player, Monster enemy, TextBox box)
+	   {
+		    setPreferredSize(new Dimension((int)gameWidth / 4 - ((int)gameWidth/200), (int)(gameHeight / 3 - ((int)gameHeight / 35)) / 3));
+			setBackground(Color.black);
+			setBorder(BorderFactory.createLineBorder(Color.white));
+			JLabel nameLabel = new JLabel();
+			nameLabel.setText(name);
+			font = font.deriveFont(Font.BOLD, (int)gameWidth / 50);
+			nameLabel.setFont(font);
+			nameLabel.setForeground(Color.white);
+			setLayout(new GridBagLayout());
+			add(nameLabel);
+			addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e) {
+					System.out.println(name + " clicked.");
+					if(name.equals("Attack") && enemy.getHp() > 0 && player.getHealth() > 0)
+					{
+						try
+						{
+							int dmgOut = Combat.MonsterDamage(enemy, player);
+							delayedWrite(box, "You attack the " + enemy.getName() + " for " + dmgOut + " damage!", 5);
+							if(enemy.getHp() <= 0)
+							{
+								delayedWrite(box, "You have slain the " + enemy.getName() + "!", 70);
+								inCombat = false;
+							}
+							else
+							{
+								int dmgIn = Combat.PlayerDamage(enemy, player);
+								delayedWrite(box, "The " + enemy.getName() + " attacks you for " + dmgIn + " damage!", 5);
+								if(player.getHealth() <= 0)
+								{
+									delayedWrite(box, "YOU HAVE DIED.", 70);
+									inCombat = false;
+								}
+							}
+						}
+						catch(InterruptedException ex)
+						{
+							ex.printStackTrace();
+						}
+						
+					}
+				}
+			});
+	   }
+   }
+   
    public void TraverseMazeEngine(Maze M, Maze.Node C, Character Player, String Path, ButtonPanel BP, GameEngine GE)  {
       if(Maze.getRoomNumber(C) == Maze.getRoomNumber(M.exit)) {
           Maze.setFoundExit(true, M);
       }
       
+      currentLocation = C;
      BP.repaint();
       DisplayRoomEngine(M, C, Player, gameFrame, box, BP, GE);
       
@@ -348,7 +405,7 @@ public class GameEngine extends Event
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setLayout(bottomLayout);
 		ButtonPanel buttons = new ButtonPanel();
-      ButtonPanel buttons2 = new ButtonPanel();
+        ButtonPanel buttons2 = new ButtonPanel();
 		OptionsPanel options = new OptionsPanel();
 		buttons.setLayout(new BoxLayout(buttons, BoxLayout.Y_AXIS));
       buttons2.setLayout(new BoxLayout(buttons2, BoxLayout.Y_AXIS));
@@ -374,8 +431,23 @@ public class GameEngine extends Event
 		gameFrame.pack();
 		gameFrame.setVisible(true);
 		delayedWrite(box, "What will you do?", 70);
-		
+		Skeleton testSkeleton = new Skeleton();
+		Minotaur testMin = new Minotaur();
+		combatUI(player1, testSkeleton, buttons2, box);
 	}
+	
+	public void combatUI(Character player, Monster enemy, ButtonPanel buttons, TextBox box)
+	{
+		inCombat = true;
+		delayedWrite(box, "A " + enemy.getName() + " appears!", 70);
+		buttons.removeAll();
+		CombatOptions atk = new CombatOptions("Attack", player, enemy, box);
+		buttons.add(atk);
+		buttons.revalidate();
+		buttons.repaint();
+	}
+	
+	//public void traverseUI(Maze M, Maze.Node C, Character player)
 	
 	public void delayedWrite(TextBox box, String text, int delayMillis)
 	{
@@ -388,7 +460,6 @@ public class GameEngine extends Event
 			e.printStackTrace();
 		}
 		latch = new CountDownLatch(1);
-		box.setText("");
 		char[] textArray = text.toCharArray();
 		Thread thread = new Thread(new Runnable() {
 			public void run() {
@@ -405,7 +476,10 @@ public class GameEngine extends Event
 						e.printStackTrace();
 					}
 				}
+				box.append("\n");
 				latch.countDown();
+				box.revalidate();
+				box.repaint();
 			}
 		});
 		thread.start();
@@ -529,6 +603,7 @@ public class GameEngine extends Event
       Maze M = new Maze();
       M = Maze.GenerateBasicMaze();
       GameEngine test = new GameEngine();
-      test.createAndShowGameUI(player, M, test);     
+      while(!test.inCombat)
+    	  test.createAndShowGameUI(player, M, test);
 	}
 }

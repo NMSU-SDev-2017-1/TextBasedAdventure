@@ -174,40 +174,42 @@ public class Combat{
 	    }//end while (Combat
    }//end advantageMonsterCombat
    
-   public static void PlayerDamage(Monster Mon, Character Player) throws InterruptedException {
+   public static int PlayerDamage(Monster Mon, Character Player) throws InterruptedException {
       int damage;
       damage = Mon.getAttack() - Player.getDefense();
       if(damage <= 0) {
-         GameSystem.read("You take no damage.");
+        // GameSystem.read("You take no damage.");
       }
       else {
-         GameSystem.read("You take " + damage + " damage.");
+         //GameSystem.read("You take " + damage + " damage.");
          Player.modHP(-damage);
       }
+	  return damage;
    }//End method PlayerDamage
    
    public static void CriticalPlayerDamage(Monster Mon, Character Player) throws InterruptedException {
       int crit;
       crit = Mon.getAttack()+(Mon.getAttack()/2) - Player.getDefense();
       if(crit <= 0) {
-         GameSystem.read("You took no damage.");
+         //GameSystem.read("You took no damage.");
       }
       else {
-         GameSystem.read("You took " + crit + " critical damage!");
+         //GameSystem.read("You took " + crit + " critical damage!");
          Player.modHP(-crit);
       }
    }//End method CriticalPlayerDamage
    
-   public static void MonsterDamage(Monster Mon, Character Player) throws InterruptedException {
+   public static int MonsterDamage(Monster Mon, Character Player) throws InterruptedException {
       int damage;
       damage = Player.getAttack() - Mon.getDefense();
       if(damage <= 0) {
-         GameSystem.read("You dealt no damage.");
+         //GameSystem.read("You dealt no damage.");
       }
       else {
-         GameSystem.read(Mon.getName() + " took " + damage + " damage.");
+         //GameSystem.read(Mon.getName() + " took " + damage + " damage.");
          Mon.modMonsterHP(-damage);
       }
+	  return damage;
    }//End method MonsterDamage
    
    public static void CriticalMonsterDamage(Monster Mon, Character Player) throws InterruptedException {
