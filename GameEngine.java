@@ -155,7 +155,7 @@ public class GameEngine extends Event
    
    public class Choices extends JPanel
 	{
-		public Choices(final String name, final Character player, final JFrame frame, final Maze.Node C, final Maze M, ButtonPanel BP, final GameEngine GE) 
+		public Choices(final String name, final Character player, final JFrame frame, final Maze.Node C, final Maze M, final ButtonPanel BP, final GameEngine GE) 
 		{
 			setPreferredSize(new Dimension((int)gameWidth / 4 - ((int)gameWidth/200), (int)(gameHeight / 3 - ((int)gameHeight / 35)) / 3));
 			setBackground(Color.black);
@@ -207,9 +207,38 @@ public class GameEngine extends Event
 		}
 	}
    
+   public class EventOptions extends JPanel
+   {
+	   public EventOptions(final String name, final Character player, final TextBox box)
+	   {
+		    setPreferredSize(new Dimension((int)gameWidth / 4 - ((int)gameWidth/200), (int)(gameHeight / 3 - ((int)gameHeight / 35)) / 3));
+			setBackground(Color.black);
+			setBorder(BorderFactory.createLineBorder(Color.white));
+			JLabel nameLabel = new JLabel();
+			nameLabel.setText(name);
+			font = font.deriveFont(Font.BOLD, (int)gameWidth / 50);
+			nameLabel.setFont(font);
+			nameLabel.setForeground(Color.white);
+			setLayout(new GridBagLayout());
+			add(nameLabel);
+			addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e) {
+					System.out.println(name + " clicked.");
+					if(name.equals("Examine"))
+					{
+					
+							delayedWrite(box, "Succesful Event!", 5);
+						
+						
+					}
+				}
+			});
+	   }
+   }
+   
    public class CombatOptions extends JPanel
    {
-	   public CombatOptions(String name, Character player, Monster enemy, TextBox box)
+	   public CombatOptions(final String name, final Character player, final Monster enemy, final TextBox box)
 	   {
 		    setPreferredSize(new Dimension((int)gameWidth / 4 - ((int)gameWidth/200), (int)(gameHeight / 3 - ((int)gameHeight / 35)) / 3));
 			setBackground(Color.black);
@@ -434,6 +463,7 @@ public class GameEngine extends Event
 		Skeleton testSkeleton = new Skeleton();
 		Minotaur testMin = new Minotaur();
 		combatUI(player1, testSkeleton, buttons2, box);
+      eventUI(player1, buttons2, box);
 	}
 	
 	public void combatUI(Character player, Monster enemy, ButtonPanel buttons, TextBox box)
@@ -446,10 +476,20 @@ public class GameEngine extends Event
 		buttons.revalidate();
 		buttons.repaint();
 	}
+   public void eventUI(Character player, ButtonPanel buttons, TextBox box)
+	{
+		inCombat = true;
+		delayedWrite(box, "An event appears!", 70);
+		buttons.removeAll();
+		EventOptions evt = new EventOptions("Examine", player, box);
+		buttons.add(evt);
+		buttons.revalidate();
+		buttons.repaint();
+	}
 	
 	//public void traverseUI(Maze M, Maze.Node C, Character player)
 	
-	public void delayedWrite(TextBox box, String text, int delayMillis)
+	public void delayedWrite(final TextBox box, final String text, final int delayMillis)
 	{
 		try
 		{
@@ -460,7 +500,7 @@ public class GameEngine extends Event
 			e.printStackTrace();
 		}
 		latch = new CountDownLatch(1);
-		char[] textArray = text.toCharArray();
+		final char[] textArray = text.toCharArray();
 		Thread thread = new Thread(new Runnable() {
 			public void run() {
 		
