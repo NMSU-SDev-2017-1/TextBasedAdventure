@@ -26,6 +26,7 @@ public class Node extends Event {
    public Node east;
    public Node west;
    private Event RoomEvent;
+   public Monster monster;
    
    public Node(int[] newData, Node newNorth, Node newSouth, Node newEast, Node newWest) {
       roomData = newData;
@@ -42,6 +43,7 @@ public class Node extends Event {
       ConstructWest = false;
       BeenInRoom = 0;
       RoomEvent = new Event();
+      monster = null;
    }//End Node constructor
    
 }//End private class
@@ -82,6 +84,13 @@ private class MazeVar extends Item {
    public static int[] getEventTrackerArray(Maze M) {
       return M.EventTrackerArray;
    }//End Method getEventTrackerArray
+   
+   public static boolean MonsterInRoom(Node C) {
+      if(C.monster == null)
+         return false;
+      else
+         return true;
+   }//End Method MonsterInRoom
    
    public static int getMazeEnvironment(MazeVar MV) {
       return MV.MazeEnvironment;
@@ -265,6 +274,10 @@ private class MazeVar extends Item {
       entrance = new Node(newData, null, null, null, null);
    }
    
+   public static void addMonster(Monster m, Node C) {
+      C.monster = m;
+   }
+   
    public void addNorthernCorridor(int[] newData, Node C) {
       C.north = new Node(newData, null, C, null, null);
    }
@@ -374,11 +387,14 @@ private class MazeVar extends Item {
       SpacialCoordinateModifierX(Position, 0);
       SpacialCoordinateModifierY(Position, -2);
       
+      
       TrackMaxRoom(StartPoint, Tutorial);
       Tutorial.addSouthernCorridor(setRoomData(getMaxMazeRoom(getMazeVar(Tutorial))+1), Position);//Added room 3
       Position = moveSouth(Position);
       SpacialCoordinateModifierX(Position, 0);
       SpacialCoordinateModifierY(Position, -3);
+      Skeleton MrBones = new Skeleton();
+      addMonster(MrBones, Position);
       
       TrackMaxRoom(StartPoint, Tutorial);
       Tutorial.addSouthernCorridor(setRoomData(getMaxMazeRoom(getMazeVar(Tutorial))+1), Position);//Added room 4
@@ -3507,7 +3523,7 @@ private class MazeVar extends Item {
             FillMaze(Start.west, M);
          }
       }//End west check
-   }//End Method CloneMaze
+   }//End Method FillMaze
    
    public static boolean EventExists(Maze M, int Enumber) {
       for(int i = 0; i < getEventTrackerArray(M).length; i++) {

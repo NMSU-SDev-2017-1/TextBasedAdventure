@@ -23,7 +23,9 @@ public class Monster
    //a 10% chance of inventory size 1, 70% for 2, 10% for 3, 7% for 4, 3% for 5
    int[] inventoryWeights = {10, 70, 10, 7, 3};
 	public int randomInventorySize = RandomNumberGeneration.getRandomWeighted(1, 5, inventoryWeights);
-	
+	public boolean defeat;
+      //Added to determine if monster is defeated or not in GameEngine
+   
 	//Constructor
 	public Monster(String name, int hp, int attack, int defense, int coinDropValue )
 	{
@@ -33,7 +35,7 @@ public class Monster
       this.defense = defense;
       this.inventory = new Item[randomInventorySize];
       this.coinDropValue = coinDropValue;
-
+      this.defeat = false;
 	}
 	//Modifiers || Edited by Christian Robles.
    public void modMonsterHP(int newHP){       
@@ -88,6 +90,9 @@ public class Monster
 		this.hp = hp;
 	}
 
+   public void setDefeat(boolean d) {
+      this.defeat = d;
+   }
 
 	//Added w/ inventory & equipment
 	public String getInventoryList(){
