@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import java.io.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.util.concurrent.CountDownLatch;
 import javax.imageio.ImageIO;
 
@@ -28,7 +29,6 @@ public class GameEngine extends Event
 	ButtonPanel buttons2;
 	int score = 0;
 	
-	
 	public TextBox getTextBox()
 	{
 		return box;
@@ -38,15 +38,18 @@ public class GameEngine extends Event
 	{
 		public GraphicsPanel()
 		{
-			setPreferredSize(new Dimension((int)gameWidth, (int)gameHeight * 2 / 3));
-			setBackground(Color.white);
+			
+				setPreferredSize(new Dimension((int)gameWidth, (int)gameHeight * 2 / 3));
+				setBackground(Color.white);
+				ImageIcon image = new ImageIcon("img/testBack.jpg");
+				JLabel imageLabel = new JLabel(image);
+				add(imageLabel);
+				imageLabel.setBounds(0, 0, (int)gameWidth, ((int)gameHeight * (2/3)));
+				imageLabel.setVisible(true);
+				setLayout(new FlowLayout());
+		
 		}
-		public void paintComponent(Graphics g)
-		{
-			super.paintComponent(g);
-			//Image backgroundImage = ImageIO.read(new File("img/2017-04-24_09_05_48[711].jpg"));
-			//g.drawImage(backgroundImage, 0, 0, this);
-		}
+		
 	}
 	
 	public class ButtonPanel extends JPanel
@@ -268,6 +271,7 @@ public class GameEngine extends Event
 					{
 						try
 						{
+							player.equipmentMod();
 							int dmgOut = Combat.MonsterDamage(enemy, player);
 							delayedWrite(box, "You attack the " + enemy.getName() + " for " + dmgOut + " damage!", 5);
 							if(enemy.getHp() <= 0)
@@ -280,6 +284,7 @@ public class GameEngine extends Event
 							}
 							else
 							{
+								player.equipmentMod();
 								int dmgIn = Combat.PlayerDamage(enemy, player);
 								delayedWrite(box, "The " + enemy.getName() + " attacks you for " + dmgIn + " damage!", 5);
 								if(player.getHealth() <= 0)
@@ -348,6 +353,7 @@ public class GameEngine extends Event
 	   currentLocation = C;
 	   if(Maze.MonsterInRoom(currentLocation) && currentLocation.monster.defeat == false)
 	   {
+		   
 		   combatUI(Player, currentLocation.monster, buttons2, box);
 	   }
 	   else
@@ -723,9 +729,12 @@ public class GameEngine extends Event
 		Character player = new Character("Tobias");
                 Consumable bread = new Consumable("Bread", 1, 5, 2,0,0,0, "Regular Ol' Bread. The 				choice meal of every Navy Seal.", 2);
                 player.addInventoryItem(bread);
-                Equipment skeletonSword = new Equipment("Skeleton Sword", 1, 200, 0, 4, 0, 0, "P", "A 				skeleton sword. Its " + 
-       			  "scuplted bone edge is rather sharp.  ATTACK +4", 1, 1);
+                Equipment skeletonSword = new Equipment("Skeleton Sword", 1, 200, 0, 2, 0, 0, "P", "A 				skeleton sword. Its " + 
+       			  "scuplted bone edge is rather sharp.  ATTACK +2", 1, 1);
                 player.equipment[4] = skeletonSword;
+                Equipment herosBow = new Equipment("Hero's Bow", 1, 200, 0, 4, 0, 0, "P", "The hero's bow. Its " + 
+             			  "constructed of unknown materials.  ATTACK +4", 1, 1);
+                player.equipment[5] = herosBow;
       GameEngine test = new GameEngine();
       test.M = new Maze();
       test.M = Maze.GenerateBasicMaze();

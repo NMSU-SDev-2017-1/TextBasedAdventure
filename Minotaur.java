@@ -6,10 +6,10 @@ import java.util.Random;
 public class Minotaur extends Monster
 {
    public Minotaur(){
-      super("Minotaur", 50, 25, 15, 1000);
-      Equipment minotaurStaff = new Equipment("Minotaur Polearm", 2, 500, 0, 10, 0, 0, "P", "A large minotaur staff. Its imposing size is sure " + 
+      super("Dark Diety", 50, 25, 15, 1000);
+      Equipment minotaurStaff = new Equipment("Dark Polearm", 2, 500, 0, 10, 0, 0, "P", "A large evil staff. Its imposing size is sure " + 
          "to be matched by its power.  ATTACK +3.", 1, 8);
-      Equipment minotaurBow = new Equipment("A Minotaur Bow & Arrows", 2, 450, 0, 4, 0, 0, "P", "A bow made of elderwood. " + 
+      Equipment minotaurBow = new Equipment("A Dark Bow & Arrows", 2, 450, 0, 4, 0, 0, "P", "A bow made of elderwood. " + 
          "It is both flexible and sturdy at the same time.  ATTACK +4", 1, 4);
       Consumable bread = new Consumable("Bread", 1, 5, 2,0,0,0, "Regular Ol' Bread. The choice meal of every Navy Seal.", 2);
       Consumable bread2 = new Consumable("Strange Bread", 1, 5, 2,0,0,0, "Regular Ol' Bread, but slightly different. The choice meal of every Navy Seal.", 2);

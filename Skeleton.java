@@ -6,7 +6,7 @@ import java.util.Random;
 public class Skeleton extends Monster
 {
    public Skeleton(){
-      super("Skeleton", 10, 11, 2, 5);
+      super("Skeleton", 20, 11, 2, 5);
       Equipment skeletonSword = new Equipment("Skeleton Sword", 1, 200, 0, 4, 0, 0, "P", "A skeleton sword. Its " + 
          "scuplted bone edge is rather sharp.  ATTACK +4", 1, 1);
       Equipment skeletonBow = new Equipment("Skeleton Flail", 1, 200, 1, 3, 1, 0, "P", "A flail made of bones...  HEALTH +1 " + 
