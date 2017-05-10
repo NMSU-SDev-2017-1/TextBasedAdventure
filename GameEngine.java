@@ -9,6 +9,7 @@ import java.io.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.concurrent.CountDownLatch;
+import javax.imageio.ImageIO;
 
 public class GameEngine extends Event
 {
@@ -25,6 +26,8 @@ public class GameEngine extends Event
 	Maze M;
 	ButtonPanel buttons;
 	ButtonPanel buttons2;
+	int score = 0;
+	
 	
 	public TextBox getTextBox()
 	{
@@ -37,7 +40,12 @@ public class GameEngine extends Event
 		{
 			setPreferredSize(new Dimension((int)gameWidth, (int)gameHeight * 2 / 3));
 			setBackground(Color.white);
-			
+		}
+		public void paintComponent(Graphics g)
+		{
+			super.paintComponent(g);
+			//Image backgroundImage = ImageIO.read(new File("img/2017-04-24_09_05_48[711].jpg"));
+			//g.drawImage(backgroundImage, 0, 0, this);
 		}
 	}
 	
@@ -267,6 +275,7 @@ public class GameEngine extends Event
 								delayedWrite(box, "You have slain the " + enemy.getName() + "!", 70);
 								currentLocation.monster.defeat = true;
 								inCombat = false;
+								player.modCoins(enemy.coinDropValue);
 								lootUI(player, enemy);
 							}
 							else
@@ -277,7 +286,12 @@ public class GameEngine extends Event
 								{
 									delayedWrite(box, "YOU HAVE DIED.", 70);
 									inCombat = false;
-									traverseUI(M, player);
+									score += player.getCoins();
+									String scoreStr = Integer.toString(score);
+									buttons2.removeAll();
+									buttons2.revalidate();
+									buttons2.repaint();
+									delayedWrite(box, "Your score is: " + scoreStr + ".", 70);
 								}
 							}
 						}
