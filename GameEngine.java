@@ -44,7 +44,7 @@ public class GameEngine extends Event
 		{
 			
 			setPreferredSize(new Dimension((int)gameWidth, (int)gameHeight * 2 / 3));
-			setBackground(Color.white);
+			setBackground(Color.black);
 			imageStr = "img/testBack.jpg";
 			//setLayout(new FlowLayout());
 			image = new ImageIcon(imageStr);
@@ -518,6 +518,7 @@ public class GameEngine extends Event
 		gameFrame.setUndecorated(true);
 		FlowLayout bottomLayout = new FlowLayout(FlowLayout.CENTER, 0, 0);
 		JPanel bottomPanel = new JPanel();
+		bottomPanel.setBackground(Color.black);
 		bottomPanel.setLayout(bottomLayout);
 		buttons = new ButtonPanel();
         buttons2 = new ButtonPanel();
