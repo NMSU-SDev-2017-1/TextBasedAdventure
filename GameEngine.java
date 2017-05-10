@@ -28,6 +28,10 @@ public class GameEngine extends Event
 	ButtonPanel buttons;
 	ButtonPanel buttons2;
 	int score = 0;
+	ImageIcon image;
+	JLabel imageLabel;
+	GraphicsPanel graphics;
+	String imageStr;
 	
 	public TextBox getTextBox()
 	{
@@ -39,17 +43,28 @@ public class GameEngine extends Event
 		public GraphicsPanel()
 		{
 			
-				setPreferredSize(new Dimension((int)gameWidth, (int)gameHeight * 2 / 3));
-				setBackground(Color.white);
-				ImageIcon image = new ImageIcon("img/testBack.jpg");
-				JLabel imageLabel = new JLabel(image);
-				add(imageLabel);
-				imageLabel.setBounds(0, 0, (int)gameWidth, ((int)gameHeight * (2/3)));
-				imageLabel.setVisible(true);
-				setLayout(new FlowLayout());
+			setPreferredSize(new Dimension((int)gameWidth, (int)gameHeight * 2 / 3));
+			setBackground(Color.white);
+			imageStr = "img/testBack.jpg";
+			//setLayout(new FlowLayout());
+			image = new ImageIcon(imageStr);
+			imageLabel = new JLabel(image);
+			add(imageLabel);
+			imageLabel.setBounds(0, 0, (int)gameWidth, ((int)gameHeight * (2/3)));
+			imageLabel.setVisible(true);
 		
 		}
 		
+		/* public void paintComponent(Graphics g)
+		{
+			//getContentPane().removeAll();
+			super.paintComponent(g);
+			image = new ImageIcon(imageStr);
+			imageLabel = new JLabel(image);
+			add(imageLabel);
+			imageLabel.setBounds(0, 0, (int)gameWidth, ((int)gameHeight * (2/3)));
+			imageLabel.setVisible(true);
+		} */
 	}
 	
 	public class ButtonPanel extends JPanel
@@ -524,7 +539,7 @@ public class GameEngine extends Event
       bottomPanel.add(buttons2);
 		bottomPanel.add(scroll);
 		//bottomPanel.add(options);
-		GraphicsPanel graphics = new GraphicsPanel();
+		graphics = new GraphicsPanel();
 		gamePanel.setLayout(new BoxLayout(gamePanel, BoxLayout.Y_AXIS));
 		gameFrame.add(gamePanel);
 		gamePanel.add(graphics);
@@ -536,6 +551,13 @@ public class GameEngine extends Event
 	
 	public void combatUI(Character player, Monster enemy, ButtonPanel buttons, TextBox box)
 	{
+		imageStr = "img/testBackSkeleton.jpg";
+		image = new ImageIcon(imageStr);
+		imageLabel = new JLabel(image);
+		graphics.removeAll();
+		graphics.add(imageLabel);
+		graphics.revalidate();
+		graphics.repaint();
 		inCombat = true;
 		delayedWrite(box, "A " + enemy.getName() + " appears!", 70);
 		buttons.removeAll();
@@ -564,6 +586,13 @@ public class GameEngine extends Event
 	
 	public void lootUI(Character player, Monster enemy)
 	{
+		imageStr = "img/testBack.jpg";
+		image = new ImageIcon(imageStr);
+		imageLabel = new JLabel(image);
+		graphics.removeAll();
+		graphics.add(imageLabel);
+		graphics.revalidate();
+		graphics.repaint();
 		buttons2.removeAll();
 		LootOptions title = new LootOptions("Loot", player, box, null, 0, enemy);
 		buttons2.add(title);
