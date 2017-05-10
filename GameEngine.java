@@ -265,6 +265,7 @@ public class GameEngine extends Event
 							if(enemy.getHp() <= 0)
 							{
 								delayedWrite(box, "You have slain the " + enemy.getName() + "!", 70);
+								currentLocation.monster.defeat = true;
 								inCombat = false;
 								lootUI(player, enemy);
 							}
@@ -319,7 +320,7 @@ public class GameEngine extends Event
 						enemy.inventory[index] = null;
 						lootUI(player, enemy);
 					}
-					if(name == "Return" || buttons2.getComponents().length == 1)
+					if(name == "Return" || buttons2.getComponents().length == 2)
 					{
 						traverseUI(M, player);
 					}
@@ -331,120 +332,127 @@ public class GameEngine extends Event
    
    public void TraverseMazeEngine(Maze M, Maze.Node C, Character Player, String Path, ButtonPanel BP)  {
 	   currentLocation = C;
-      if(Maze.getRoomNumber(C) == Maze.getRoomNumber(M.exit)) {
-          Maze.setFoundExit(true, M);
-      }
-      
-     BP.repaint();
-      DisplayRoomEngine(M, C, Player, gameFrame, box, BP);
-      
-      if(C.direction == 1) {
-         if(Path.equals("Straight")) {
-            C.north.direction = 1;
-            Maze.setCurrentRoom(false, C);
-            Maze.setCurrentRoom(true, C.north);
-            //delayedWrite(box, "You went straight", 70);
-            TraverseMazeEngine(M, C.north, Player, "X", BP);
-         }
-         if(Path.equals("Right")) {
-            C.east.direction = 2;
-            Maze.setCurrentRoom(false, C);
-            Maze.setCurrentRoom(true, C.east);
-            TraverseMazeEngine(M, C.east, Player, "X", BP);
-         }
-         if(Path.equals("Left")) {
-            C.west.direction = 4;
-            Maze.setCurrentRoom(false, C);
-            Maze.setCurrentRoom(true, C.west);
-            TraverseMazeEngine(M, C.west, Player, "X", BP);
-         }
-         if(Path.equals("Back")) {
-            C.south.direction = 3;
-            Maze.setCurrentRoom(false, C);
-            Maze.setCurrentRoom(true, C.south);
-            TraverseMazeEngine(M, C.south, Player, "X", BP);
-         }  
-      }
-      
-      if(C.direction == 2) {
-         if(Path.equals("Straight")) {
-            C.east.direction = 2;
-            Maze.setCurrentRoom(false, C);
-            Maze.setCurrentRoom(true, C.east);
-            TraverseMazeEngine(M, C.east, Player, "X", BP);
-         }
-         if(Path.equals("Right")) {
-            C.south.direction = 3;
-            Maze.setCurrentRoom(false, C);
-            Maze.setCurrentRoom(true, C.south);
-            TraverseMazeEngine(M, C.south, Player, "X", BP);
-         }
-         if(Path.equals("Left")) {
-            C.north.direction = 1;
-            Maze.setCurrentRoom(false, C);
-            Maze.setCurrentRoom(true, C.north);
-            TraverseMazeEngine(M, C.north, Player, "X", BP);
-         }
-         if(Path.equals("Back")) {
-            C.west.direction = 4;
-            Maze.setCurrentRoom(false, C);
-            Maze.setCurrentRoom(true, C.west);
-            TraverseMazeEngine(M, C.west, Player, "X", BP);
-         }  
-      }
-      
-      if(C.direction == 3) {
-         if(Path.equals("Straight")) {
-            C.south.direction = 3;
-            Maze.setCurrentRoom(false, C);
-            Maze.setCurrentRoom(true, C.south);
-            TraverseMazeEngine(M, C.south, Player, "X", BP);
-         }
-         if(Path.equals("Right")) {
-            C.west.direction = 4;
-            Maze.setCurrentRoom(false, C);
-            Maze.setCurrentRoom(true, C.west);
-            TraverseMazeEngine(M, C.west, Player, "X", BP);
-         }
-         if(Path.equals("Left")) {
-            C.east.direction = 2;
-            Maze.setCurrentRoom(false, C);
-            Maze.setCurrentRoom(true, C.east);
-            TraverseMazeEngine(M, C.east, Player, "X", BP);
-         }
-         if(Path.equals("Back")) {
-            C.north.direction = 1;
-            Maze.setCurrentRoom(false, C);
-            Maze.setCurrentRoom(true, C.north);
-            TraverseMazeEngine(M, C.north, Player, "X", BP);
-         }  
-      }
-      
-      if(C.direction == 4) {
-         if(Path.equals("Straight")) {
-            C.west.direction = 4;
-            Maze.setCurrentRoom(false, C);
-            Maze.setCurrentRoom(true, C.west);
-            TraverseMazeEngine(M, C.west, Player, "X", BP);
-         }
-         if(Path.equals("Right")) {
-            C.north.direction = 1;
-            Maze.setCurrentRoom(false, C);
-            Maze.setCurrentRoom(true, C.north);
-            TraverseMazeEngine(M, C.north, Player, "X", BP);
-         }
-         if(Path.equals("Left")) {
-            C.south.direction = 3;
-            Maze.setCurrentRoom(false, C);
-            Maze.setCurrentRoom(true, C.south);
-            TraverseMazeEngine(M, C.south, Player, "X", BP);
-         }
-         if(Path.equals("Back")) {
-            C.east.direction = 2;
-            Maze.setCurrentRoom(false, C);
-            Maze.setCurrentRoom(true, C.east);
-            TraverseMazeEngine(M, C.east, Player, "X", BP);
-         }  
+	   if(Maze.MonsterInRoom(currentLocation) && currentLocation.monster.defeat == false)
+	   {
+		   combatUI(Player, currentLocation.monster, buttons2, box);
+	   }
+	   else
+	   {
+	      if(Maze.getRoomNumber(C) == Maze.getRoomNumber(M.exit)) {
+	          Maze.setFoundExit(true, M);
+	      }
+	      
+	     BP.repaint();
+	      DisplayRoomEngine(M, C, Player, gameFrame, box, BP);
+	      
+	      if(C.direction == 1) {
+	         if(Path.equals("Straight")) {
+	            C.north.direction = 1;
+	            Maze.setCurrentRoom(false, C);
+	            Maze.setCurrentRoom(true, C.north);
+	            //delayedWrite(box, "You went straight", 70);
+	            TraverseMazeEngine(M, C.north, Player, "X", BP);
+	         }
+	         if(Path.equals("Right")) {
+	            C.east.direction = 2;
+	            Maze.setCurrentRoom(false, C);
+	            Maze.setCurrentRoom(true, C.east);
+	            TraverseMazeEngine(M, C.east, Player, "X", BP);
+	         }
+	         if(Path.equals("Left")) {
+	            C.west.direction = 4;
+	            Maze.setCurrentRoom(false, C);
+	            Maze.setCurrentRoom(true, C.west);
+	            TraverseMazeEngine(M, C.west, Player, "X", BP);
+	         }
+	         if(Path.equals("Back")) {
+	            C.south.direction = 3;
+	            Maze.setCurrentRoom(false, C);
+	            Maze.setCurrentRoom(true, C.south);
+	            TraverseMazeEngine(M, C.south, Player, "X", BP);
+	         }  
+	      }
+	      
+	      if(C.direction == 2) {
+	         if(Path.equals("Straight")) {
+	            C.east.direction = 2;
+	            Maze.setCurrentRoom(false, C);
+	            Maze.setCurrentRoom(true, C.east);
+	            TraverseMazeEngine(M, C.east, Player, "X", BP);
+	         }
+	         if(Path.equals("Right")) {
+	            C.south.direction = 3;
+	            Maze.setCurrentRoom(false, C);
+	            Maze.setCurrentRoom(true, C.south);
+	            TraverseMazeEngine(M, C.south, Player, "X", BP);
+	         }
+	         if(Path.equals("Left")) {
+	            C.north.direction = 1;
+	            Maze.setCurrentRoom(false, C);
+	            Maze.setCurrentRoom(true, C.north);
+	            TraverseMazeEngine(M, C.north, Player, "X", BP);
+	         }
+	         if(Path.equals("Back")) {
+	            C.west.direction = 4;
+	            Maze.setCurrentRoom(false, C);
+	            Maze.setCurrentRoom(true, C.west);
+	            TraverseMazeEngine(M, C.west, Player, "X", BP);
+	         }  
+	      }
+	      
+	      if(C.direction == 3) {
+	         if(Path.equals("Straight")) {
+	            C.south.direction = 3;
+	            Maze.setCurrentRoom(false, C);
+	            Maze.setCurrentRoom(true, C.south);
+	            TraverseMazeEngine(M, C.south, Player, "X", BP);
+	         }
+	         if(Path.equals("Right")) {
+	            C.west.direction = 4;
+	            Maze.setCurrentRoom(false, C);
+	            Maze.setCurrentRoom(true, C.west);
+	            TraverseMazeEngine(M, C.west, Player, "X", BP);
+	         }
+	         if(Path.equals("Left")) {
+	            C.east.direction = 2;
+	            Maze.setCurrentRoom(false, C);
+	            Maze.setCurrentRoom(true, C.east);
+	            TraverseMazeEngine(M, C.east, Player, "X", BP);
+	         }
+	         if(Path.equals("Back")) {
+	            C.north.direction = 1;
+	            Maze.setCurrentRoom(false, C);
+	            Maze.setCurrentRoom(true, C.north);
+	            TraverseMazeEngine(M, C.north, Player, "X", BP);
+	         }  
+	      }
+	      
+	      if(C.direction == 4) {
+	         if(Path.equals("Straight")) {
+	            C.west.direction = 4;
+	            Maze.setCurrentRoom(false, C);
+	            Maze.setCurrentRoom(true, C.west);
+	            TraverseMazeEngine(M, C.west, Player, "X", BP);
+	         }
+	         if(Path.equals("Right")) {
+	            C.north.direction = 1;
+	            Maze.setCurrentRoom(false, C);
+	            Maze.setCurrentRoom(true, C.north);
+	            TraverseMazeEngine(M, C.north, Player, "X", BP);
+	         }
+	         if(Path.equals("Left")) {
+	            C.south.direction = 3;
+	            Maze.setCurrentRoom(false, C);
+	            Maze.setCurrentRoom(true, C.south);
+	            TraverseMazeEngine(M, C.south, Player, "X", BP);
+	         }
+	         if(Path.equals("Back")) {
+	            C.east.direction = 2;
+	            Maze.setCurrentRoom(false, C);
+	            Maze.setCurrentRoom(true, C.east);
+	            TraverseMazeEngine(M, C.east, Player, "X", BP);
+	         }  
+	      }
       }     
    }//End method TraverseMazeEngine
    
@@ -537,6 +545,8 @@ public class GameEngine extends Event
 	public void lootUI(Character player, Monster enemy)
 	{
 		buttons2.removeAll();
+		LootOptions title = new LootOptions("Loot", player, box, null, 0, enemy);
+		buttons2.add(title);
 		for(int i = 0; i < enemy.inventory.length; i++)
 		{
 			if(enemy.inventory[i] != null)
@@ -709,6 +719,7 @@ public class GameEngine extends Event
       test.createAndShowGameUI(player, test.M);
       Skeleton testSkeleton = new Skeleton();
 	  Minotaur testMin = new Minotaur();
-	  test.combatUI(player, testSkeleton, test.buttons2, test.box);
+	  //if(Maze.MonsterInRoom(test.currentLocation))
+		 // test.combatUI(player, test.currentLocation.monster, test.buttons2, test.box);
 	}
 }

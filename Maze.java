@@ -620,6 +620,9 @@ private class MazeVar extends Item {
       Position = moveSouth(Position);
       SpacialCoordinateModifierX(Position, 7);
       SpacialCoordinateModifierY(Position, -7);
+      Minotaur MrBull = new Minotaur();
+      addMonster(MrBull, Position);
+      
       
       TrackMaxRoom(StartPoint, Tutorial);
       Tutorial.exit = Position;
