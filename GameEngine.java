@@ -312,6 +312,7 @@ public class GameEngine extends Event
 									buttons2.revalidate();
 									buttons2.repaint();
 									delayedWrite(box, "Your score is: " + scoreStr + ".", 70);
+									delayedWrite(box, "Better luck next time, mortal.", 70);
 								}
 							}
 						}
@@ -552,7 +553,12 @@ public class GameEngine extends Event
 	
 	public void combatUI(Character player, Monster enemy, ButtonPanel buttons, TextBox box)
 	{
-		imageStr = "img/testBackSkeleton.jpg";
+		if(enemy.getName() == "Skeleton")
+		   imageStr = "img/testBackSkeleton.jpg";
+		else if(enemy.getName() == "Skeleton Knight")
+		   imageStr = "img/testBackSkeletonKnight.jpg";
+		else
+		   imageStr ="img/testBackLynch.jpg";
 		image = new ImageIcon(imageStr);
 		imageLabel = new JLabel(image);
 		graphics.removeAll();

@@ -495,9 +495,11 @@ private class MazeVar extends Item {
       
       TrackMaxRoom(StartPoint, Tutorial);
       Tutorial.addEasternCorridor(setRoomData(getMaxMazeRoom(getMazeVar(Tutorial))+1), Position);//Added room 19
-      Position = moveEast(Position);
+      Position = moveEast(Position);/////
       SpacialCoordinateModifierX(Position, 5);
       SpacialCoordinateModifierY(Position, -2);
+      SkeletonKnight SenorBones = new SkeletonKnight();
+      addMonster(SenorBones, Position);
       
       TrackMaxRoom(StartPoint, Tutorial);
       Tutorial.addSouthernCorridor(setRoomData(getMaxMazeRoom(getMazeVar(Tutorial))+1), Position);//Added room 20
