@@ -20,7 +20,7 @@ public class Goblin extends Monster
 	  possibleLoot.add(bread, 50);
 	  possibleLoot.add(bread2, 2);
 	  createInventory();
-      
+     this.killValue = 10; 
    }
 	
 	public void print()

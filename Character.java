@@ -22,7 +22,7 @@ public class Character{
    public int luck;
    public int healthpoints;
    public int coins;
-
+   public int killScore;
 
    public Item inventory[];
    public Item equipment[];
@@ -44,6 +44,7 @@ public class Character{
       this.inventory = new Item[10];
       this.equipment = new Item[10];
       this.coins = 0;
+      this.killScore = 0;
    }
 
    
@@ -64,6 +65,7 @@ public class Character{
       this.inventory = new Item[10];
       this.equipment = new Item[10];
       this.coins = 0;
+      this.killScore = 0;
    }
    //Specific Value Constructor
    public Character(String playerID, int attack, int defense, int luck, int healthpoints, int inventorySize){
@@ -82,6 +84,7 @@ public class Character{
       this.inventory = new Item[inventorySize];
       this.equipment = new Item[10];
       this.coins = 0;
+      this.killScore = 0;
    }
 
    //Accessors

@@ -25,6 +25,7 @@ public class Monster
 	public int randomInventorySize = RandomNumberGeneration.getRandomWeighted(1, 5, inventoryWeights);
 	public boolean defeat;
       //Added to determine if monster is defeated or not in GameEngine
+   public int killValue;
    
 	//Constructor
 	public Monster(String name, int hp, int attack, int defense, int coinDropValue )
@@ -36,6 +37,7 @@ public class Monster
       this.inventory = new Item[randomInventorySize];
       this.coinDropValue = coinDropValue;
       this.defeat = false;
+      this.killValue = 0;
 	}
 	//Modifiers || Edited by Christian Robles.
    public void modMonsterHP(int newHP){       

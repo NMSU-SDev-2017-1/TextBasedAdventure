@@ -132,7 +132,7 @@ public class GameEngine extends Event
 					if(name.equals("Stats"))
 					{  
                   
-						String text = "Name: " + player.getPlayerID() + "\n HP: " + player.getHealth() + "\n Attack: " + player.getAttack() + "\n Defense: " + player.getDefense();                  
+						String text = "Name: " + player.getPlayerID() + "\n HP: " + player.getHealth() + "\n Attack: " + player.getAttack() + "\n Defense: " + player.getDefense() + "\n Luck: " + player.getLuck();                  
                   JOptionPane.showMessageDialog(frame, text, "Stats", JOptionPane.PLAIN_MESSAGE);
 					}
 					if(name.equals("Inventory"))
@@ -176,6 +176,11 @@ public class GameEngine extends Event
 						}
 						JOptionPane.showMessageDialog(frame, text, "Equipment", JOptionPane.PLAIN_MESSAGE);
 					}
+               if(name.equals("Quit"))
+					{
+						System.exit(0);
+					}
+
 				}
 			}
          );
@@ -184,7 +189,7 @@ public class GameEngine extends Event
    
    public class Choices extends JPanel
 	{
-		public Choices(final String name, final Character player, final JFrame frame, final Maze.Node C, final Maze M, ButtonPanel BP) 
+		public Choices(final String name, final Character player, final JFrame frame, final Maze.Node C, final Maze M, final ButtonPanel BP) 
 		{
 			setPreferredSize(new Dimension((int)gameWidth / 4 - ((int)gameWidth/200), (int)(gameHeight / 3 - ((int)gameHeight / 35)) / 3));
 			setBackground(Color.black);
@@ -212,23 +217,23 @@ public class GameEngine extends Event
 					}
 					if(name.equals("Go Straight"))
 					{
+                  delayedWrite(box, "You went straight.", 70);
 					   TraverseMazeEngine(M, C, player, "Straight", BP);
-					   delayedWrite(box, "You went straight.", 70);
                }
 					if(name.equals("Go Right"))
 					{
+                  delayedWrite(box, "You went right.", 70);
 						TraverseMazeEngine(M, C, player, "Right", BP);
-		                delayedWrite(box, "You went right.", 70);
 					}
                if(name.equals("Go Left"))
-					{                  
+					{    
+                  delayedWrite(box, "You went left.", 70);               
 						TraverseMazeEngine(M, C, player, "Left", BP);
-						delayedWrite(box, "You went left.", 70);
 					}
                if(name.equals("Go Back"))
 					{                  
+                  delayedWrite(box, "You went back.", 70);
 						TraverseMazeEngine(M, C, player, "Back", BP);
-						delayedWrite(box, "You went back.", 70);
 					}
 				}
 			}
@@ -295,6 +300,9 @@ public class GameEngine extends Event
 								currentLocation.monster.defeat = true;
 								inCombat = false;
 								player.modCoins(enemy.coinDropValue);
+                        int temp;
+                        temp = player.killScore;
+                        player.killScore = temp + enemy.killValue;
 								lootUI(player, enemy);
 							}
 							else
@@ -306,7 +314,7 @@ public class GameEngine extends Event
 								{
 									delayedWrite(box, "YOU HAVE DIED.", 70);
 									inCombat = false;
-									score += player.getCoins();
+									score = player.getCoins() + player.killScore;
 									String scoreStr = Integer.toString(score);
 									buttons2.removeAll();
 									buttons2.revalidate();
@@ -334,7 +342,7 @@ public class GameEngine extends Event
    
    public class LootOptions extends JPanel
    {
-	   public LootOptions(String name, Character player, TextBox box, Item loot, int index, Monster enemy)
+	   public LootOptions(final String name, final Character player, final TextBox box, final Item loot, final int index, final Monster enemy)
 	   {
 		   setPreferredSize(new Dimension((int)gameWidth / 4 - ((int)gameWidth/200), (int)(gameHeight / 3 - ((int)gameHeight / 35)) / 3));
 			setBackground(Color.black);
@@ -529,9 +537,11 @@ public class GameEngine extends Event
 		Options stats = new Options("Stats", player1, gameFrame);
 		Options inventory = new Options("Inventory", player1, gameFrame);
 		Options equipment = new Options("Equipment", player1, gameFrame);
+      Options exit = new Options("Quit", player1, gameFrame);
 		buttons.add(stats);
 		buttons.add(inventory);
 		buttons.add(equipment);
+      buttons.add(exit);
 		box = new TextBox();
 		TextScroll scroll = new TextScroll();
 		scroll.setViewportView(box);
