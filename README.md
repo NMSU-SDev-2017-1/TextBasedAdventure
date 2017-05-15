@@ -18,7 +18,7 @@ Clone repository into a file of your choosing.  Follow operating commands, detai
 
 Operating
 ----------------------------------------------------------------------------------------------------------------------------------------
-All programs are present on the face of the repository. With the addition of Maze Block instructions, Lore instructions, and the projects font style vecna.otf.  To run the game, run the command displayed in brackets [ant run] with your terminal (if using Linux) or run GameEngine.java directly with an automated java compiler (such as J-grasp or eclipse) after compiling all java files.
+All programs are present on the face of the repository. With the addition of Maze Block instructions, Lore instructions, and the projects font style vecna.otf.  To run the game, run the command displayed in brackets [ant run] with your terminal (if using Linux) or run GameEngine.java directly with an automated java compiler (such as J-grasp or eclipse) after compiling all java files. Once ant has been called once, an executable JAR file named AvariceAndArtifice.jar will be created in this directory. The game can then be launched from there.
 
 For the sake of efficiency, it is recommended that you run the project through a Linux terminal with the appropriate ant commands displayed below:
 
