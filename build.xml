@@ -1,20 +1,13 @@
 <project default="all">
-	<target name="all" depends="compile, run"/>
+	<target name="all" depends="compile, jar"/>
 	<target name="compile">
-		<javac srcdir="." />
+		<javac srcdir="." includeantruntime="false"/>
 	</target>
 	<target name="jar" depends="compile">
-		<jar basedir="." destfile="DemoTwo.jar" excludes="DemoTwo.jar">
+		<jar basedir="." destfile="AvariceAndArtifice.jar" excludes="AvariceAndArtifice.jar">
 			<manifest>
-				<attribute name="Main-Class" value="DemoTwo"/>
+				<attribute name="Main-Class" value="GameEngine"/>
 			</manifest>
 		</jar>
-	</target>
-	<target name="run">
-		<java classname="DemoTwo">
-			<classpath>
-				<pathelement location="."/>
-			</classpath>
-		</java>
 	</target>
 </project>
