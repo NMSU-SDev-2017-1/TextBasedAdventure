@@ -1,5 +1,5 @@
 <project default="all">
-	<target name="all" depends="compile, jar"/>
+	<target name="all" depends="compile, jar, run"/>
 	<target name="compile">
 		<javac srcdir="." includeantruntime="false"/>
 	</target>
@@ -9,5 +9,17 @@
 				<attribute name="Main-Class" value="GameEngine"/>
 			</manifest>
 		</jar>
+	</target>
+	<target name="run" depends="compile">
+		<java fork="true" classname="GameEngine">
+			<classpath>
+				<path location="AvariceAndArtifice.jar"/>
+			</classpath>
+		</java>
+	</target>
+	<target name="clean">
+		<delete>
+			<fileset dir="." includes="*.class"/>
+		</delete>
 	</target>
 </project>
